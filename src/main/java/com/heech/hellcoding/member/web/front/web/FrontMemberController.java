@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "")
+@RequestMapping(value = "/front/member")
 public class FrontMemberController {
+
 
 
 }
