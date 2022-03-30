@@ -11,9 +11,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ItemRepositoryTest {
+class MemoryItemRepositoryTest {
 
-    ItemRepository itemRepository = new MemoryItemRepository();
+    MemoryItemRepository itemRepository = new MemoryItemRepository();
 
     @AfterEach
     void afterEach() {
