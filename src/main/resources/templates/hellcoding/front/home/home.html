@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"> <link th:href="@{/hellcoding/lib/bootstrap5/css/bootstrap.min.css}"
-                                 href="/hellcoding/lib/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <link th:href="@{/hellcoding/lib/bootstrap5/css/bootstrap.min.css}"
+          href="/hellcoding/lib/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container" style="max-width: 600px">
@@ -12,7 +13,7 @@
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg" type="button"
-                    th:onclick="|location.href='@{/members/add}'|">
+                    th:onclick="|location.href='@{/front/member/add}'|">
                 회원 가입
             </button>
         </div>
