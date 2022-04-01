@@ -17,5 +17,4 @@ public interface ItemRepository {
 
     List<Item> findAll();
 
-    void clearStore();
 }

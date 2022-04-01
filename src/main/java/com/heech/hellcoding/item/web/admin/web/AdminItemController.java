@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/hellcoding/admin/item")
+@RequestMapping(value = "/admin/item")
 public class AdminItemController {
 
     @GetMapping()

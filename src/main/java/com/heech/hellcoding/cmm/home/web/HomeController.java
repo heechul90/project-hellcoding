@@ -1,4 +1,4 @@
-package com.heech.hellcoding.front.home.web;
+package com.heech.hellcoding.cmm.home.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
