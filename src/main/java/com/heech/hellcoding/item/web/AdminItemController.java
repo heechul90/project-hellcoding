@@ -1,18 +1,20 @@
-package com.heech.hellcoding.cmm.home.web;
+package com.heech.hellcoding.item.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class HomeController {
+@RequestMapping(value = "/admin/item")
+public class AdminItemController {
 
-    @GetMapping(value = "/")
-    public String home(Model model) {
-        return "front/home/home";
+    @GetMapping()
+    public String item(Model model) {
+        return "admin/item/item";
     }
 }

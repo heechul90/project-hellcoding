@@ -27,7 +27,7 @@ public class LoginController {
 
     @GetMapping(value = "/login")
     public String login(@ModelAttribute("loginForm") LoginForm form) {
-        return "hellcoding/front/user/sign/loginForm";
+        return "front/user/sign/loginForm";
     }
 
     @PostMapping(value = "/login")
@@ -35,7 +35,7 @@ public class LoginController {
                         @RequestParam(defaultValue = "/") String redirectUrl,
                         HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "hellcoding/front/user/sign/loginForm";
+            return "front/user/sign/loginForm";
         }
 
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
@@ -43,7 +43,7 @@ public class LoginController {
         if (loginMember == null) {
             log.info("bindingResult={}", bindingResult);
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "hellcoding/front/user/sign/loginForm";
+            return "front/user/sign/loginForm";
         }
 
         //로그인 성공처리
