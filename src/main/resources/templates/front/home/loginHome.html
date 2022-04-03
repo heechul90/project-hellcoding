@@ -14,12 +14,12 @@
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg" type="button"
-                    th:onclick="|location.href='@{/items}'|">
+                    th:onclick="|location.href='@{/admin/item}'|">
                 상품 관리
             </button>
         </div>
         <div class="col">
-            <form th:action="@{/logout}" method="post">
+            <form th:action="@{/user/sign/logout}" method="post">
                 <button class="w-100 btn btn-dark btn-lg"
                         onclick="location.href='items.html'" type="submit">
                     로그아웃

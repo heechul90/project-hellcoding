@@ -20,18 +20,29 @@ public class FrontMemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 회원가입 폼
+     * @param member
+     * @return
+     */
     @GetMapping(value = "/add")
     public String addForm(@ModelAttribute("member") Member member) {
         return "front/member/addMemberForm";
     }
 
+    /**
+     * 회원가입
+     * @param member
+     * @param bindingResult
+     * @return
+     */
     @PostMapping(value = "/add")
     public String save(@Validated @ModelAttribute("member") Member member, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "front/member/addMemberForm";
         }
-        memberService.save(member);
+        Member savedMember = memberService.save(member);
         return "redirect:/";
     }
 

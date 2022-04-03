@@ -1,15 +1,13 @@
 package com.heech.hellcoding.item.repository;
 
-import com.heech.hellcoding.item.domain.Item;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.member.item.domain.Item;
+import com.heech.hellcoding.member.item.repository.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryItemRepositoryTest {
 
