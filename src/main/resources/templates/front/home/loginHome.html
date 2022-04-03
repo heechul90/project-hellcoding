@@ -5,6 +5,7 @@
     <link href="/lib/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
         <h2>홈 화면</h2>
@@ -13,20 +14,20 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg" type="button"
-                    th:onclick="|location.href='@{/admin/item/list}'|">
+            <button class="w-100 btn btn-secondary btn-lg" type="button" th:onclick="|location.href='@{/admin/items}'|">
                 상품 관리
             </button>
         </div>
         <div class="col">
             <form th:action="@{/user/sign/logout}" method="post">
-                <button class="w-100 btn btn-dark btn-lg"
-                        onclick="location.href='items.html'" type="submit">
+                <button class="w-100 btn btn-dark btn-lg" type="submit" th:text="#{button.logout}">
                     로그아웃
                 </button>
-            </form> </div>
+            </form>
+        </div>
     </div>
     <hr class="my-4">
 </div> <!-- /container -->
+
 </body>
 </html>

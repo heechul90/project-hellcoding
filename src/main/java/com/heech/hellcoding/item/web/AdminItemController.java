@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/admin/item")
+@RequestMapping(value = "/admin/items")
 public class AdminItemController {
 
     private final ItemService itemService;
@@ -29,7 +29,7 @@ public class AdminItemController {
      * @param model
      * @return
      */
-    @GetMapping(value = "/list")
+    @GetMapping()
     public String itemList(Model model) {
         List<Item> itemList = itemService.findAll();
         model.addAttribute("itemList", itemList);
@@ -42,7 +42,7 @@ public class AdminItemController {
      * @param model
      * @return
      */
-    @GetMapping(value = "/list/{itemId}")
+    @GetMapping(value = "/{itemId}")
     public String itemDetail(@PathVariable long itemId, Model model) {
         Optional<Item> item = itemService.findById(itemId);
         model.addAttribute("item", item.get());
