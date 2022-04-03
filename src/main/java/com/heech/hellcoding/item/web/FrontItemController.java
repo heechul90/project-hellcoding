@@ -1,6 +1,8 @@
 package com.heech.hellcoding.item.web;
 
+import com.heech.hellcoding.item.domain.DeliveryCode;
 import com.heech.hellcoding.item.domain.Item;
+import com.heech.hellcoding.item.domain.ItemType;
 import com.heech.hellcoding.item.service.ItemService;
 import com.heech.hellcoding.item.web.form.AddItemForm;
 import com.heech.hellcoding.item.web.form.EditItemForm;
@@ -13,8 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -23,6 +24,40 @@ import java.util.Optional;
 public class FrontItemController {
 
     private final ItemService itemService;
+
+    /**
+     * 지역 목록
+     */
+    @ModelAttribute(name = "regionList")
+    public Map<String, String> regionList() {
+        Map<String, String> regionList = new LinkedHashMap<>();
+        regionList.put("SEOUL", "서울");
+        regionList.put("BUSAN", "부산");
+        regionList.put("JEJU", "제주");
+        regionList.put("DAEJEON", "대전");
+        regionList.put("SEJONG", "세종");
+        return regionList;
+    }
+
+    /**
+     * Item 종류
+     */
+    @ModelAttribute(name = "itemTypeList")
+    public ItemType[] itemTypeList() {
+        return ItemType.values();
+    }
+
+    /**
+     * 배송 속도
+     */
+    @ModelAttribute(name = "deliveryCodeList")
+    public List<DeliveryCode> deliveryCodeList() {
+        List<DeliveryCode> deliveryCodeList = new ArrayList<>();
+        deliveryCodeList.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodeList.add(new DeliveryCode("NORMAL", "일반 배송"));
+        deliveryCodeList.add(new DeliveryCode("SLOW", "느린 배송"));
+        return deliveryCodeList;
+    }
 
     /**
      * 상품 목록
@@ -49,7 +84,7 @@ public class FrontItemController {
      */
     @GetMapping(value = "/add")
     public String addItemForm(Model model) {
-        model.addAttribute("item", new AddItemForm());
+        model.addAttribute("item", new Item());
         return "front/item/addItemForm";
     }
 
@@ -73,7 +108,13 @@ public class FrontItemController {
             return "front/item/addItemForm";
         }
 
-        Item savedItem = itemService.save(new Item(form.getItemName(), form.getPrice(), form.getQuantity()));
+        Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setRegionList(form.getRegionList());
+        item.setItemType(form.getItemType());
+        item.setDeliveryCode(form.getDeliveryCode());
+
+        Item savedItem = itemService.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/front/item/{itemId}";
@@ -111,7 +152,13 @@ public class FrontItemController {
             return "front/item/editItemForm";
         }
 
-        itemService.update(itemId, new Item(form.getItemName(), form.getPrice(), form.getQuantity()));
+        Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setRegionList(form.getRegionList());
+        item.setItemType(form.getItemType());
+        item.setDeliveryCode(form.getDeliveryCode());
+
+        itemService.update(itemId, item);
         return "redirect:/front/item/{itemId}";
     }
 
