@@ -3,6 +3,8 @@ package com.heech.hellcoding.item.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class Item {
@@ -11,6 +13,11 @@ public class Item {
     private String itemName;
     private Integer price;
     private Integer quantity;
+
+    private Boolean open; //판매 여부
+    private List<String> regionList; //등록지역
+    private ItemType itemType; //상품 종류
+    private String deliveryCode; //배송 방식
 
     public Item() {
     }
