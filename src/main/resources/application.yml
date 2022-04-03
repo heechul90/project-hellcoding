@@ -3,6 +3,14 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+  error:
+    path: /commonn/error
+    include-exception: false
+    include-stacktrace: never
+    include-binding-errors: never
+    whitelabel:
+      enabled: true
+
 spring:
   datasource:
     url:
