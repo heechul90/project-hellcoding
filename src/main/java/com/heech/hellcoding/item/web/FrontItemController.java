@@ -12,49 +12,49 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/admin/items")
-public class AdminItemController {
+@RequestMapping(value = "/front/item")
+public class FrontItemController {
 
     private final ItemService itemService;
 
     /**
      * 상품 목록
-     * @param model
-     * @return
      */
-    @GetMapping()
+    @GetMapping(value = "/list")
     public String itemList(Model model) {
         List<Item> itemList = itemService.findAll();
         model.addAttribute("itemList", itemList);
-        return "admin/item/itemList";
+        return "front/item/itemList";
     }
 
     /**
      * 상품 상세
-     * @param itemId
-     * @param model
-     * @return
      */
     @GetMapping(value = "/{itemId}")
     public String itemDetail(@PathVariable long itemId, Model model) {
         Optional<Item> item = itemService.findById(itemId);
         model.addAttribute("item", item.get());
-        return "admin/item/itemDetail";
+        return "front/item/itemDetail";
     }
 
+    /**
+     * Item 등록 폼
+     */
     @GetMapping(value = "/add")
     public String addItemForm(Model model) {
         model.addAttribute("item", new ItemSaveForm());
-        return "admin/item/addItemForm";
+        return "front/item/addItemForm";
     }
 
+    /**
+     * Item 등록
+     */
     @PostMapping(value = "/add")
     public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult,
                           RedirectAttributes redirectAttributes) {
@@ -68,23 +68,31 @@ public class AdminItemController {
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult={}", bindingResult);
-            return "admin/item/addItemForm";
+            return "front/item/addItemForm";
         }
 
         Item savedItem = itemService.save(new Item(form.getItemName(), form.getPrice(), form.getQuantity()));
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/admin/item/list/{itemId}";
+        return "redirect:/front/item/{itemId}";
     }
 
+    /**
+     * Item 수정 폼
+     * @param model
+     * @return
+     */
     @GetMapping(value = "/{itemId}/edit")
     public String editItemForm(Model model) {
-        return "admin/item/editItemForm";
+        return "front/item/editItemForm";
     }
 
+    /**
+     * Item 수정
+     */
     @PostMapping(value = "/{itemId}/edit")
     public String editItem(Model model) {
-        return "";
+        return "redirect:/front/item/{itemId}/edit}";
     }
 
 }
