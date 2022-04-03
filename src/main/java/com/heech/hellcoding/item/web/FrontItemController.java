@@ -2,7 +2,8 @@ package com.heech.hellcoding.item.web;
 
 import com.heech.hellcoding.item.domain.Item;
 import com.heech.hellcoding.item.service.ItemService;
-import com.heech.hellcoding.item.web.form.ItemSaveForm;
+import com.heech.hellcoding.item.web.form.AddItemForm;
+import com.heech.hellcoding.item.web.form.EditItemForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class FrontItemController {
      */
     @GetMapping(value = "/add")
     public String addItemForm(Model model) {
-        model.addAttribute("item", new ItemSaveForm());
+        model.addAttribute("item", new AddItemForm());
         return "front/item/addItemForm";
     }
 
@@ -56,8 +57,9 @@ public class FrontItemController {
      * Item 등록
      */
     @PostMapping(value = "/add")
-    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult,
+    public String addItem(@Validated @ModelAttribute("item") AddItemForm form, BindingResult bindingResult,
                           RedirectAttributes redirectAttributes) {
+
         //특정 필드 예외가 아닌 전체 예외
         if (form.getPrice() != null && form.getQuantity() != null) {
             int resultPrice = form.getPrice() * form.getQuantity();
@@ -83,7 +85,8 @@ public class FrontItemController {
      * @return
      */
     @GetMapping(value = "/{itemId}/edit")
-    public String editItemForm(Model model) {
+    public String editItemForm(@PathVariable("itemId") Long itemId, Model model) {
+        model.addAttribute("item", itemService.findById(itemId).get());
         return "front/item/editItemForm";
     }
 
@@ -91,8 +94,25 @@ public class FrontItemController {
      * Item 수정
      */
     @PostMapping(value = "/{itemId}/edit")
-    public String editItem(Model model) {
-        return "redirect:/front/item/{itemId}/edit}";
+    public String editItem(@Validated @ModelAttribute("item") EditItemForm form, BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes,
+                           @PathVariable("itemId") Long itemId) {
+
+        //특정 필드 예외가 아닌 전체 예외
+        if (form.getPrice() != null && form.getQuantity() != null) {
+            int resultPrice = form.getPrice() * form.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
+            return "front/item/editItemForm";
+        }
+
+        itemService.update(itemId, new Item(form.getItemName(), form.getPrice(), form.getQuantity()));
+        return "redirect:/front/item/{itemId}";
     }
 
 }

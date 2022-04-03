@@ -12,7 +12,6 @@
 <body>
 
 <div class="container">
-
     <div class="py-5 text-center">
         <h2 th:text="#{page.item.detail}">상품 상세</h2>
     </div>
@@ -41,17 +40,21 @@
 
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/admin/items/{itemId}/edit(itemId=${item.id})}'|"
-                    type="button" th:text="#{page.updateItem}">상품 수정</button>
+            <button class="w-100 btn btn-primary btn-lg" type="button"
+                    th:onclick="|location.href='@{/front/item/{itemId}/edit(itemId=${item.id})}'|"
+                    th:text="#{page.updateItem}">
+                상품 수정
+            </button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg"
-                    th:onclick="|location.href='@{/items}'|"
-                    type="button" th:text="#{button.cancel}">목록으로</button>
+            <button class="w-100 btn btn-secondary btn-lg" type="button"
+                    th:onclick="|location.href='@{/front/item/list}'|"
+                    th:text="#{button.cancel}">
+                목록으로
+            </button>
         </div>
     </div>
-
 </div> <!-- /container -->
+
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.heech.hellcoding.item.web.form;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -10,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class ItemUpdateForm {
+public class EditItemForm {
 
     @NotNull
     private Long id;

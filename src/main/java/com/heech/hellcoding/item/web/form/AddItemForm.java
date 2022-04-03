@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class ItemSaveForm {
+public class AddItemForm {
 
     @NotBlank
     private String itemName;
