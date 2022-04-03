@@ -1,6 +1,6 @@
-package com.heech.hellcoding.member.item.service;
+package com.heech.hellcoding.item.service;
 
-import com.heech.hellcoding.member.item.repository.ItemRepository;
+import com.heech.hellcoding.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
