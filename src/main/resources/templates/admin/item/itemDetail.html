@@ -14,11 +14,11 @@
 <div class="container">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{page.item}">상품 상세</h2>
+        <h2 th:text="#{page.item.detail}">상품 상세</h2>
     </div>
 
     <!-- 추가 -->
-    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+    <h2 th:if="${param.status}" th:text="'저장 완료'" class="text-danger"></h2>
 
     <div>
         <label for="itemId" th:text="#{label.item.id}">상품 ID</label>
