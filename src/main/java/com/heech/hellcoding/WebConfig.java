@@ -1,8 +1,10 @@
 package com.heech.hellcoding;
 
 import com.heech.hellcoding.cmm.annotation.LoginMemberArgumentResolver;
+import com.heech.hellcoding.interceptor.LoginChenckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -13,5 +15,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new LoginMemberArgumentResolver());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginChenckInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "/front/member/add", "/user/sign/**", "/*.ico", "/lib/**", "/error");
     }
 }
