@@ -1,4 +1,4 @@
-package com.heech.hellcoding.cmm.annotation;
+package com.heech.hellcoding.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

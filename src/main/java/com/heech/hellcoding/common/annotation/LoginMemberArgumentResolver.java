@@ -1,4 +1,4 @@
-package com.heech.hellcoding.cmm.annotation;
+package com.heech.hellcoding.common.annotation;
 
 import com.heech.hellcoding.member.domain.Member;
 import com.heech.hellcoding.session.SessionConst;

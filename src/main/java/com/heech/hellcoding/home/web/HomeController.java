@@ -1,16 +1,14 @@
-package com.heech.hellcoding.cmm.home.web;
+package com.heech.hellcoding.home.web;
 
-import com.heech.hellcoding.cmm.annotation.Login;
+import com.heech.hellcoding.common.annotation.Login;
 import com.heech.hellcoding.member.domain.Member;
 import com.heech.hellcoding.member.repository.MemberRepository;
-import com.heech.hellcoding.session.SessionConst;
 import com.heech.hellcoding.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Slf4j
 @Controller

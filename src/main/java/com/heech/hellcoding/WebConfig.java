@@ -1,6 +1,6 @@
 package com.heech.hellcoding;
 
-import com.heech.hellcoding.cmm.annotation.LoginMemberArgumentResolver;
+import com.heech.hellcoding.common.annotation.LoginMemberArgumentResolver;
 import com.heech.hellcoding.interceptor.LoginChenckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
