@@ -15,7 +15,7 @@ public class LogTraceAspect {
 
     private final LogTrace logTrace;
 
-    @Around("execution(* com.heech.hellcoding.item.service..*(..))")
+    @Around("execution(* com.heech.hellcoding.item..*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         TraceStatus status = null;
         try {

@@ -38,7 +38,7 @@ public class ThreadLocalLogTrace implements LogTrace{
         long resultTimeMs = stopTimeMs - status.getStartTimeMs();
         TraceId traceId = status.getTraceId();
         if (e == null) {
-            log.info("[{}] [][] time={}ms", traceId.getId(), addSpace(COMPLETE_PREFIX, traceId.getLevel()), status.getMessage(), resultTimeMs);
+            log.info("[{}] {}{} time={}ms", traceId.getId(), addSpace(COMPLETE_PREFIX, traceId.getLevel()), status.getMessage(), resultTimeMs);
         } else {
             log.info("[{}] {}{} time={}ms ex={}", traceId.getId(), addSpace(EX_PREFIX, traceId.getLevel()), status.getMessage(), resultTimeMs, e.toString());
         }
@@ -66,7 +66,7 @@ public class ThreadLocalLogTrace implements LogTrace{
     private static String addSpace(String prefix, int level) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < level; i++) {
-            sb.append((i == level - 1) ? "|" + prefix : "|    ");
+            sb.append( (i == level - 1) ? "|" + prefix : "|   ");
         }
         return sb.toString();
     }
