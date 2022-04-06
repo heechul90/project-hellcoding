@@ -15,7 +15,7 @@
         <h2 th:text="#{page.addItem}">상품 등록</h2>
     </div>
 
-    <form th:action="@{/front/item/add}" th:object="${item}" method="post">
+    <form th:action="@{/front/items/add}" th:object="${item}" method="post">
 
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
@@ -84,7 +84,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg" type="button"
-                        th:onclick="|location.href='@{/front/item/list}'|"
+                        th:onclick="|location.href='@{/front/items}'|"
                         th:text="#{button.cancel}">
                     취소
                 </button>

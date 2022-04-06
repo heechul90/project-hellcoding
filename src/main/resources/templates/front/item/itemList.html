@@ -8,12 +8,12 @@
 
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2 th:text="#{page.item.list}">상품 목록</h2>
+        <h2 th:text="#{page.items}">상품 목록</h2>
     </div>
 
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary float-end" type="button" th:onclick="|location.href='@{/front/item/add}'|" th:text="#{page.addItem}">
+            <button class="btn btn-primary float-end" type="button" th:onclick="|location.href='@{/front/items/add}'|" th:text="#{page.addItem}">
                 상품 등록
             </button>
         </div>
@@ -32,8 +32,8 @@
             </thead>
             <tbody>
             <tr th:each="item : ${itemList}">
-                <td><a th:href="@{/front/item/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a></td>
-                <td><a th:href="@{|/front/item/${item.id}|}" th:text="${item.itemName}">상품명</a></td>
+                <td><a th:href="@{/front/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a></td>
+                <td><a th:href="@{|/front/items/${item.id}|}" th:text="${item.itemName}">상품명</a></td>
                 <td th:text="${item.price}">10000</td>
                 <td th:text="${item.quantity}">10</td>
             </tr>

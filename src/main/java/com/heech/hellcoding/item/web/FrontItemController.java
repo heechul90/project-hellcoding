@@ -20,7 +20,7 @@ import java.util.*;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/front/item")
+@RequestMapping(value = "/front/items")
 public class FrontItemController {
 
     private final ItemService itemService;
@@ -62,21 +62,11 @@ public class FrontItemController {
     /**
      * 상품 목록
      */
-    @GetMapping(value = "/list")
+    @GetMapping()
     public String itemList(Model model) {
         List<Item> itemList = itemService.findAll();
         model.addAttribute("itemList", itemList);
         return "front/item/itemList";
-    }
-
-    /**
-     * 상품 상세
-     */
-    @GetMapping(value = "/{itemId}")
-    public String itemDetail(@PathVariable long itemId, Model model) {
-        Optional<Item> item = itemService.findById(itemId);
-        model.addAttribute("item", item.get());
-        return "front/item/itemDetail";
     }
 
     /**
@@ -117,11 +107,22 @@ public class FrontItemController {
         Item savedItem = itemService.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/front/item/{itemId}";
+        return "redirect:/front/items/{itemId}";
+    }
+
+    /**
+     * 상품 상세
+     */
+    @GetMapping(value = "/{itemId}")
+    public String itemDetail(@PathVariable long itemId, Model model) {
+        Optional<Item> item = itemService.findById(itemId);
+        model.addAttribute("item", item.get());
+        return "front/item/itemDetail";
     }
 
     /**
      * Item 수정 폼
+     *
      * @param model
      * @return
      */
@@ -159,7 +160,14 @@ public class FrontItemController {
         item.setDeliveryCode(form.getDeliveryCode());
 
         itemService.update(itemId, item);
-        return "redirect:/front/item/{itemId}";
+        return "redirect:/front/items/{itemId}";
     }
 
+    /**
+     * Item 삭제
+     */
+    @PostMapping(value = "/{itemId}/delete")
+    public String deleteItem(@PathVariable("itemId") Long itemId) {
+        return "redirect:/front/items";
+    }
 }
