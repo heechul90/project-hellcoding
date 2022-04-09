@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
 <head>
-    <meta charset="utf-8">
-    <link href="/lib/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
+    <title>상품목록</title>
+    <th:block layout:fragment="style">
+
+    </th:block>
 </head>
 <body>
 
@@ -44,6 +47,10 @@
         </div>
     </div>
 </section>
+
+<th:block layout:fragment="script">
+
+</th:block>
 
 </body>
 </html>

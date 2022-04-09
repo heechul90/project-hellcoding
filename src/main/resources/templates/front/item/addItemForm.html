@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
 <head>
-    <meta charset="utf-8">
-    <link href="/lib/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {max-width: 560px;}
-        .field-error {border-color: #dc3545; color: #dc3545;}
-    </style>
+    <title>상품등록</title>
+    <th:block layout:fragment="style">
+        <style>
+            .container {max-width: 560px;}
+            .field-error {border-color: #dc3545; color: #dc3545;}
+        </style>
+    </th:block>
 </head>
 <body>
 
@@ -95,6 +97,10 @@
         </form>
     </div>
 </section>
+
+<th:block layout:fragment="script">
+
+</th:block>
 
 </body>
 </html>

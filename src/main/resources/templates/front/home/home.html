@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
 <head>
-    <title>홈 타이틀</title>
+    <title>홈</title>
+    <th:block layout:fragment="style">
+
+    </th:block>
 </head>
 <body>
 
@@ -26,6 +30,10 @@
         <hr class="my-4">
     </div> <!-- /container -->
 </section>
+
+<th:block layout:fragment="script">
+
+</th:block>
 
 </body>
 </html>

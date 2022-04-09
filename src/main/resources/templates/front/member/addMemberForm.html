@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+
 <head>
-    <meta charset="utf-8">
-    <title>로그인 타이틀</title>
+    <title>회원가입</title>
     <th:block layout:fragment="style">
-        <link th:href="@{/front/member/css/addMemberForm.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/front/member/css/addMemberForm.css}"/>
     </th:block>
 </head>
 <body>
@@ -54,6 +55,10 @@
         </form>
     </div>
 </section>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/front/member/js/addMemberForm.js}"></script>
+</th:block>
 
 </body>
 </html>

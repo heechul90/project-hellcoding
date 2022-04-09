@@ -6,34 +6,37 @@
     <meta charset="utf-8">
     <title th:replace="${title}">레이아웃 타이틀</title>
 
-    <!--css START-->
-    <link th:href="@{/lib/bootstrap5/css/bootstrap.min.css}" rel="stylesheet">
-    <!--<link th:href="@{/css/test.css}">-->
-    <link th:href="@{/front/member/css/addMemberForm.css}"/>
+    <!--css 공통 START-->
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+    <!--css 공통 END-->
     <th:block layout:fragment="style"></th:block>
-    <!--css END-->
 
 </head>
 <body>
 
-    <!--layoutHeader-->
+    <!--layoutHeader START-->
     <th:block th:replace="front/layout/layoutHeader :: headerFragment"></th:block>
+    <!--layoutHeader END-->
 
-    <h1>레이아웃 H1</h1>
 
-
-    <!--Content-->
+    <!--Main Content START-->
     <div th:replace="${content}">
         <p>레이아웃 콘텐츠</p>
     </div>
+    <!--Main Content END-->
 
 
-
-    <!--layoutFooter-->
+    <!--layoutFooter START-->
     <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
+    <!--layoutFooter END-->
 
-    <!--자바스크립트 공통 START-->
-    <!--자바스크립트 공통 END-->
+
+    <javascript>
+        <!--자바스크립트 공통 START-->
+        <script th:href="@{/lib/bootstrap5/js/bootstrap.js}"></script>
+        <!--자바스크립트 공통 END-->
+        <th:block layout:fragment="script"></th:block>
+    </javascript>
 
 </body>
 </html>
