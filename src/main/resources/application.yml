@@ -4,7 +4,7 @@ server:
     session:
       tracking-modes: cookie
   error:
-    path: /commonn/error
+    path: /common/error
     include-exception: false
     include-stacktrace: never
     include-binding-errors: never
@@ -14,3 +14,7 @@ server:
 spring:
   datasource:
     url:
+
+  thymeleaf:
+    cache: false
+    template-resolver-order: 0

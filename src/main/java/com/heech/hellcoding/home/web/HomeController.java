@@ -35,4 +35,9 @@ public class HomeController {
         model.addAttribute("member", loginMember);
         return "front/home/loginHome";
     }
+
+    @GetMapping(value = "/index")
+    public String index() {
+        return "front/home/index";
+    }
 }

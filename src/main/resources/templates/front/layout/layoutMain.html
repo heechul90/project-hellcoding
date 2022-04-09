@@ -1,15 +1,39 @@
 <!DOCTYPE html>
-<html th:fragment="layout(title, content)" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:fragment="layout(title, content)">
 <head>
+    <meta charset="utf-8">
     <title th:replace="${title}">레이아웃 타이틀</title>
+
+    <!--css START-->
+    <link th:href="@{/lib/bootstrap5/css/bootstrap.min.css}" rel="stylesheet">
+    <!--<link th:href="@{/css/test.css}">-->
+    <link th:href="@{/front/member/css/addMemberForm.css}"/>
+    <th:block layout:fragment="style"></th:block>
+    <!--css END-->
+
 </head>
 <body>
-<h1>레이아웃 H1</h1>
-<div th:place="${content}">
-    <p>레이아웃 콘텐트</p>
-</div>
-<footer>
-    레이아웃 푸터
-</footer>
+
+    <!--layoutHeader-->
+    <th:block th:replace="front/layout/layoutHeader :: headerFragment"></th:block>
+
+    <h1>레이아웃 H1</h1>
+
+
+    <!--Content-->
+    <div th:replace="${content}">
+        <p>레이아웃 콘텐츠</p>
+    </div>
+
+
+
+    <!--layoutFooter-->
+    <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
+
+    <!--자바스크립트 공통 START-->
+    <!--자바스크립트 공통 END-->
+
 </body>
 </html>

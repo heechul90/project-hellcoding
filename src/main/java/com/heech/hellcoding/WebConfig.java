@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginChenckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/front/member/add", "/user/sign/**", "/*.ico", "/lib/**", "/error");
+                .excludePathPatterns("/", "/front/member/add", "/user/sign/**", "/*.ico", "/lib/**", "/common/error",
+                        "/front/member/css/**", "/js/**");
     }
 }
