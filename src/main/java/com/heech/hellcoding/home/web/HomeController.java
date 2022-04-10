@@ -36,8 +36,4 @@ public class HomeController {
         return "front/home/loginHome";
     }
 
-    @GetMapping(value = "/index")
-    public String index() {
-        return "front/home/index";
-    }
 }

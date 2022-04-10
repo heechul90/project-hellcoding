@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>샘플 타이틀</title>
+    <th:block layout:fragment="style">
+        <!--시에스에스-->
+    </th:block>
+</head>
+<body>
+
+<section>
+    <!--메인-->
+</section>
+
+<th:block layout:fragment="script">
+    <!--자바스크립트-->
+</th:block>
+
+</body>
+</html>

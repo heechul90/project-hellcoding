@@ -7,6 +7,7 @@
     <title th:replace="${title}">레이아웃 타이틀</title>
 
     <!--css 공통 START-->
+    <link rel="stylesheet" type="text/css" th:href="@{/front/cmm/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
     <!--css 공통 END-->
     <th:block layout:fragment="style"></th:block>
@@ -19,21 +20,25 @@
     <!--layoutHeader END-->
 
 
-    <!--Main Content START-->
-    <div th:replace="${content}">
-        <p>레이아웃 콘텐츠</p>
+    <div class="body-wrapper">
+        <!--Main Content START-->
+        <div th:replace="${content}">
+            <p>레이아웃 콘텐츠</p>
+        </div>
+        <!--Main Content END-->
+
+
+        <!--layoutFooter START-->
+        <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
+        <!--layoutFooter END-->
     </div>
-    <!--Main Content END-->
-
-
-    <!--layoutFooter START-->
-    <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
-    <!--layoutFooter END-->
 
 
     <javascript>
         <!--자바스크립트 공통 START-->
-        <script th:href="@{/lib/bootstrap5/js/bootstrap.js}"></script>
+        <script th:href="@{/front/cmm/js/common.js}"></script>
+        <script th:href="@{/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
+        <script th:href="@{/lib/bootstrap5/js/bootstrap.min.js}"></script>
         <!--자바스크립트 공통 END-->
         <th:block layout:fragment="script"></th:block>
     </javascript>
