@@ -13,14 +13,14 @@
     <th:block layout:fragment="style"></th:block>
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <!--layoutHeader START-->
     <th:block th:replace="front/layout/layoutHeader :: headerFragment"></th:block>
     <!--layoutHeader END-->
 
 
-    <div class="body-wrapper">
+    <div class="content-wrapper">
         <!--Main Content START-->
         <div th:replace="${main}">
             <p>레이아웃 콘텐츠</p>
