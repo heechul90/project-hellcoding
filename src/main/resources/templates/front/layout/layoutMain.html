@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:fragment="layout(title, content)">
+      th:fragment="layout(title, main)">
 <head>
     <meta charset="utf-8">
     <title th:replace="${title}">레이아웃 타이틀</title>
@@ -22,16 +22,16 @@
 
     <div class="body-wrapper">
         <!--Main Content START-->
-        <div th:replace="${content}">
+        <div th:replace="${main}">
             <p>레이아웃 콘텐츠</p>
         </div>
         <!--Main Content END-->
-
-
-        <!--layoutFooter START-->
-        <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
-        <!--layoutFooter END-->
     </div>
+
+
+    <!--layoutFooter START-->
+    <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
+    <!--layoutFooter END-->
 
 
     <javascript>

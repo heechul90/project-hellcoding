@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
 <head>
     <title>상품목록</title>
     <th:block layout:fragment="style">
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<section class="main">
+<main>
     <div class="container" style="max-width: 600px">
         <div class="py-5 text-center">
             <h2 th:text="#{page.items}">상품 목록</h2>
@@ -46,7 +46,7 @@
             </table>
         </div>
     </div>
-</section>
+</main>
 
 <th:block layout:fragment="script">
 

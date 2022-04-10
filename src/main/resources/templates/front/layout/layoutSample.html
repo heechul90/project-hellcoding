@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
 <head>
     <title>샘플 타이틀</title>
     <th:block layout:fragment="style">
@@ -10,9 +10,9 @@
 </head>
 <body>
 
-<section>
+<main>
     <!--메인-->
-</section>
+</main>
 
 <th:block layout:fragment="script">
     <!--자바스크립트-->

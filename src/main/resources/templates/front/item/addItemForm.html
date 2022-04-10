@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
 <head>
     <title>상품등록</title>
     <th:block layout:fragment="style">
@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<section class="main">
+<main>
     <div class="container">
         <div class="py-5 text-center">
             <h2 th:text="#{page.addItem}">상품 등록</h2>
@@ -96,7 +96,7 @@
             </div>
         </form>
     </div>
-</section>
+</main>
 
 <th:block layout:fragment="script">
 

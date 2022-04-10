@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::section})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
 
 <head>
     <title>회원가입</title>
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<section class="main">
+<main>
     <div class="container">
         <div class="py-5 text-center">
             <h2>회원 가입</h2>
@@ -54,7 +54,7 @@
             </div>
         </form>
     </div>
-</section>
+</main>
 
 <th:block layout:fragment="script">
     <script th:src="@{/front/member/js/addMemberForm.js}"></script>
