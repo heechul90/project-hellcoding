@@ -17,7 +17,7 @@ class SessionManagerTest {
     void sessionTest() {
         //세션생성
         MockHttpServletResponse response = new MockHttpServletResponse();
-        Member member = new Member();
+        Member member = new Member("loginId", "loginName", "loginPassword");
         sessionManager.createSession(member, response);
 
         //요청에 응답 쿠키 저장

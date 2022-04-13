@@ -23,10 +23,7 @@ class MemoryMemberRepositoryTest {
     @Test
     void save() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
 
         //when
         Member savedMember = repository.save(member);
@@ -39,10 +36,7 @@ class MemoryMemberRepositoryTest {
     @Test
     void findById() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
         Member savedMember = repository.save(member);
 
         //when
@@ -55,10 +49,7 @@ class MemoryMemberRepositoryTest {
     @Test
     void findByLoginId() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
         Member savedMember = repository.save(member);
 
         //when
@@ -71,10 +62,7 @@ class MemoryMemberRepositoryTest {
     @Test
     void findByName() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
         Member savedMember = repository.save(member);
 
         //when
@@ -87,15 +75,8 @@ class MemoryMemberRepositoryTest {
     @Test
     void findAll() {
         //given
-        Member memberA = new Member();
-        memberA.setLoginId("memberA");
-        memberA.setName("memberA");
-        memberA.setPassword("memberA");
-
-        Member memberB = new Member();
-        memberB.setLoginId("memberB");
-        memberB.setName("memberB");
-        memberB.setPassword("memberB");
+        Member memberA = new Member("memberA", "memberA", "memberA");
+        Member memberB = new Member("memberB", "memberB", "memberB");
 
         repository.save(memberA);
         repository.save(memberB);

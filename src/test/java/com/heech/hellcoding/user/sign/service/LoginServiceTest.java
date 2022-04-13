@@ -32,10 +32,7 @@ class LoginServiceTest {
     @Test
     void loginSuccess() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
 
         Member savedMember = repository.save(member);
 
@@ -49,10 +46,7 @@ class LoginServiceTest {
     @Test
     void loginFali() {
         //given
-        Member member = new Member();
-        member.setLoginId("springId");
-        member.setName("springName");
-        member.setPassword("springPassword");
+        Member member = new Member("springId", "springName", "springPassword");
 
         Member savedMember = repository.save(member);
 
