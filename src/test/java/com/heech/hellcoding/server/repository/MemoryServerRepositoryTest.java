@@ -33,6 +33,15 @@ class MemoryServerRepositoryTest {
 
     @Test
     void findById() {
+        //given
+        Server server = new Server("serverA", "127.0.0.1", "ubuntu", "intel", "nvidia");
+        Server savedServer = serverRepository.save(server);
+
+        //when
+        Server findServer = serverRepository.findById(savedServer.getId()).get();
+
+        //then
+        assertThat(findServer).isEqualTo(server);
     }
 
     @Test
