@@ -5,6 +5,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,6 +48,15 @@ class MemoryServerRepositoryTest {
 
     @Test
     void findByName() {
+        //given
+        Server server = new Server("serverA", "127.0.0.1", "ubuntu", "intel", "nvidia");
+        Server savedServer = serverRepository.save(server);
+
+        //when
+        Optional<Server> findServer = serverRepository.findByName(savedServer.getServerName());
+
+        //then
+        assertThat(findServer.get()).isEqualTo(server);
     }
 
     @Test
