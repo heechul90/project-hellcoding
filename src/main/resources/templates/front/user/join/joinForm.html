@@ -6,39 +6,106 @@
 <head>
     <title>회원가입</title>
     <th:block layout:fragment="style">
-        <!--<link rel="stylesheet" type="text/css" th:href="@{/front/member/css/addMemberForm.css}"/>-->
+        <link rel="stylesheet" type="text/css" th:href="@{/front/user/join/css/joinForm.css}"/>
     </th:block>
 </head>
 <body>
 
 <main>
     <div class="container">
-        <div class="py-5 text-center">
-            <h2>회원 가입</h2>
-        </div>
-        <h4 class="mb-3">회원 정보 입력</h4>
-        <form th:action="@{/user/join}" th:object="${member}" method="post">
-
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-                   th:text="${err}">전체 오류 메시지</p>
+        <div class="mb-5">
+            <div class="py-5 text-center">
+                <h2>회원 가입</h2>
             </div>
+        </div>
+        <div>
+            <h4 class="mb-3">회원 정보 입력</h4>
+            <hr class="my-4">
 
-            <div>
-                <label for="loginId">로그인 ID</label>
-                <input type="text" id="loginId" th:field="*{loginId}" class="form-control" th:errorclass="field-error">
-                <div class="field-error" th:errors="*{loginId}"/></div>
-            <div>
-                <div>
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" th:field="*{password}" class="form-control" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{password}"></div>
+            <form th:action="@{/user/join}" th:object="${joinForm}" method="post">
+
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                       th:text="${err}">전체 오류 메시지</p>
                 </div>
-                <div>
-                    <label for="name">이름</label>
-                    <input type="text" id="name" th:field="*{name}" class="form-control" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{name}"></div>
+
+                <div class="row mb-1">
+                    <label for="loginId" class="col-sm-2 col-form-label col-form-label-sm">로그인 ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" th:field="*{loginId}" class="form-control form-control-sm" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{loginId}"/>
+                    </div>
                 </div>
+
+                <div class="row mb-10">
+                    <label for="password" class="col-sm-2 col-form-label col-form-label-sm">비밀번호</label>
+                    <div class="col-sm-10">
+                        <input type="password" th:field="*{password}" class="form-control form-control-sm" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{password}"/>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <label for="name" class="col-sm-2 col-form-label col-form-label-sm">이름</label>
+                    <div class="col-sm-10">
+                        <input type="text" th:field="*{name}" class="form-control form-control-sm" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{name}"/>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <label for="email" class="col-sm-2 col-form-label col-form-label-sm">이메일</label>
+                    <div class="col-sm-10">
+                        <input type="text" th:field="*{email}" class="form-control form-control-sm" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{email}"/>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <label for="birthDate" class="col-sm-2 col-form-label col-form-label-sm">생년월일</label>
+                    <div class="col-sm-10">
+                        <input type="text" th:field="*{birthDate}" class="form-control form-control-sm" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{birthDate}"/>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <label for="genderCode" class="col-sm-2 col-form-label col-form-label-sm">성별</label>
+                    <div class="col-sm-10">
+                        <select th:field="*{genderCode}" class="form-select form-select-sm" th:errorclass="field-error">
+                            <option th:value="M" th:text="남"/>
+                            <option th:value="F" th:text="여"/>
+                        </select>
+                        <div class="field-error" th:errors="*{genderCode}"/>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                    <label for="mobileNumber" class="col-sm-2 col-form-label col-form-label-sm">휴대폰번호</label>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <select th:field="*{mobileNumberFirst}" class="form-select form-select-sm" th:errorclass="field-error">
+                                    <option th:value="'010'" th:text="'010'"/>
+                                    <option th:value="'011'" th:text="'011'"/>
+                                    <option th:value="'016'" th:text="'016'"/>
+                                    <option th:value="'018'" th:text="'018'"/>
+                                    <option th:value="'019'" th:text="'019'"/>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" th:field="*{mobileNumberMiddle}" class="form-control form-control-sm" th:errorclass="field-error"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" th:field="*{mobileNumberLast}" class="form-control form-control-sm" th:errorclass="field-error"/>
+                            </div>
+                            <div class="field-error" th:errors="*{mobileNumberFirst}"/>
+                            <div class="field-error" th:errors="*{mobileNumberMiddle}"/>
+                            <div class="field-error" th:errors="*{mobileNumberLast}"/>
+                        </div>
+                    </div>
+                </div>
+
                 <hr class="my-4">
                 <div class="row">
                     <div class="col">
@@ -46,18 +113,17 @@
                     </div>
                     <div class="col">
                         <button class="w-100 btn btn-secondary btn-lg"
-                                onclick="location.href='items.html'"
                                 th:onclick="|location.href='@{/}'|"
                                 type="button">취소</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </main>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/front/member/js/addMemberForm.js}"></script>
+    <script th:src="@{/front/user/join/js/joinForm.js}"></script>
 </th:block>
 
 </body>

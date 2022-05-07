@@ -15,14 +15,19 @@ import javax.annotation.PostConstruct;
 public class TestDataInit {
 
     private final ItemRepository itemRepository;
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     public void init() {
         itemRepository.save(new Item("itemA", 10000, 10));
         itemRepository.save(new Item("itemB", 20000, 20));
 
-        memberRepository.save(new Member("spring", "스프링", "1234"));
+        Member member = new Member(
+                "admin",
+                "관리자",
+                "1234"
+        );
+        memberRepository.save(member);
     }
 
 }

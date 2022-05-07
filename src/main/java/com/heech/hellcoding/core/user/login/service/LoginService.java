@@ -10,8 +10,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
+    /**
+     * 로그인
+     * @param loginId
+     * @param password
+     * @return
+     */
     public Member login(String loginId, String password) {
         return memberRepository.findByLoginId(loginId)
                 .filter(member -> member.getPassword().equals(password))

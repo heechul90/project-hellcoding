@@ -2,11 +2,13 @@ package com.heech.hellcoding.front.user.join.form;
 
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
+@Setter
 public class JoinForm {
 
     /** 로그인ID */
@@ -22,18 +24,21 @@ public class JoinForm {
     @NotEmpty
     @Email
     private String email;
+    /** 생년월일 */
+    @NotEmpty
+    private String birthDate;
     /** 생년월일 년 */
-    @NotEmpty
-    private String birthYear;
+//    @NotEmpty
+//    private String birthYear;
     /** 생년월일 월 */
-    @NotEmpty
-    private String birthMonth;
+//    @NotEmpty
+//    private String birthMonth;
     /** 생년월일 일 */
-    @NotEmpty
-    private String birthDay;
+//    @NotEmpty
+//    private String birthDay;
     /** 성별 */
     @NotEmpty
-    private GenderCode genderCode; //F, M
+    private String genderCode; //F, M
     /** 휴대폰번호 첫자리 */
     @NotEmpty
     private String mobileNumberFirst;

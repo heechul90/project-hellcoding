@@ -47,14 +47,15 @@ public class LoginController {
                         @RequestParam(defaultValue = "/") String redirectUrl,
                         HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
+            log.info("bindingResult={}", bindingResult);
             return "front/user/login/loginForm";
         }
 
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
 
         if (loginMember == null) {
+            bindingResult.reject("loginFail");
             log.info("bindingResult={}", bindingResult);
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "front/user/login/loginForm";
         }
 
