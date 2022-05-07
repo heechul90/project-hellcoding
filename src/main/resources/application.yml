@@ -36,27 +36,3 @@ server:
 logging:
   level:
     org.hibernate.SQL: debug
-
-spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/hellcoding_db?allowPublicKeyRetrieval=true&useSSL=false
-    username: hellcoding_user
-    password: hellcoding_pass1!
-    driver-class-name: org.mariadb.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-
-  thymeleaf:
-    cache: false
-    template-resolver-order: 0
-
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
