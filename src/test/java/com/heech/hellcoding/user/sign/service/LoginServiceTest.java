@@ -1,16 +1,14 @@
 package com.heech.hellcoding.user.sign.service;
 
-import com.heech.hellcoding.member.domain.Member;
-import com.heech.hellcoding.member.repository.MemberRepository;
-import com.heech.hellcoding.member.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.core.user.sign.service.LoginService;
+import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.member.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class LoginServiceTest {

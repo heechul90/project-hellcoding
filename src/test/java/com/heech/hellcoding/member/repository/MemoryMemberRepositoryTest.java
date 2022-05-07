@@ -1,7 +1,7 @@
 package com.heech.hellcoding.member.repository;
 
-import com.heech.hellcoding.member.domain.Member;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.core.member.repository.MemoryMemberRepository;
+import com.heech.hellcoding.core.member.domain.Member;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryMemberRepositoryTest {
 

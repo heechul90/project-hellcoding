@@ -1,13 +1,12 @@
 package com.heech.hellcoding.session;
 
-import com.heech.hellcoding.member.domain.Member;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.core.session.SessionManager;
+import com.heech.hellcoding.core.member.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class SessionManagerTest {
 
