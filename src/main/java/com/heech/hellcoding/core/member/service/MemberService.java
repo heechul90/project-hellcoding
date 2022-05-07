@@ -15,13 +15,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public Member save(Member member) {
         return memberRepository.save(member);
     }
 
-    public Member findById(Long id) {
+    public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId);
     }
 
-    public Optional<Member> findByName(String name) {
+    public List<Member> findByName(String name) {
         return memberRepository.findByName(name);
     }
 

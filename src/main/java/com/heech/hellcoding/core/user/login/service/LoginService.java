@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.user.sign.service;
+package com.heech.hellcoding.core.user.login.service;
 
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;

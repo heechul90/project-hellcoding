@@ -1,10 +1,10 @@
-package com.heech.hellcoding.front.user.sign.web;
+package com.heech.hellcoding.front.user.login.web;
 
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.session.SessionConst;
 import com.heech.hellcoding.core.session.SessionManager;
-import com.heech.hellcoding.core.user.sign.service.LoginService;
-import com.heech.hellcoding.front.user.sign.form.LoginForm;
+import com.heech.hellcoding.core.user.login.service.LoginService;
+import com.heech.hellcoding.front.user.login.form.LoginForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/user/sign")
+@RequestMapping(value = "/user")
 public class LoginController {
 
     private final LoginService loginService;
@@ -31,7 +31,7 @@ public class LoginController {
      */
     @GetMapping(value = "/login")
     public String login(@ModelAttribute("loginForm") LoginForm form) {
-        return "front/user/sign/loginForm";
+        return "front/user/login/loginForm";
     }
 
     /**
@@ -47,7 +47,7 @@ public class LoginController {
                         @RequestParam(defaultValue = "/") String redirectUrl,
                         HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "front/user/sign/loginForm";
+            return "front/user/login/loginForm";
         }
 
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
@@ -55,7 +55,7 @@ public class LoginController {
         if (loginMember == null) {
             log.info("bindingResult={}", bindingResult);
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "front/user/sign/loginForm";
+            return "front/user/login/loginForm";
         }
 
         //로그인 성공처리

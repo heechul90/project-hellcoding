@@ -1,4 +1,4 @@
-package com.heech.hellcoding.front.user.sign.form;
+package com.heech.hellcoding.front.user.login.form;
 
 import lombok.Getter;
 import lombok.Setter;

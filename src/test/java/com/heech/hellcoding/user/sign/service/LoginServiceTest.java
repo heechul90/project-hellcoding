@@ -1,6 +1,6 @@
 package com.heech.hellcoding.user.sign.service;
 
-import com.heech.hellcoding.core.user.sign.service.LoginService;
+import com.heech.hellcoding.core.user.login.service.LoginService;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;

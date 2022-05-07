@@ -1,4 +1,4 @@
-package com.heech.hellcoding.admin.member.web;
+package com.heech.hellcoding.front.user.join.web;
 
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.service.MemberService;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/front/member")
-public class FrontMemberController {
+@RequestMapping(value = "/user/join")
+public class JoinController {
 
     private final MemberService memberService;
 
@@ -27,7 +27,7 @@ public class FrontMemberController {
      */
     @GetMapping(value = "/add")
     public String addForm(@ModelAttribute("member") Member member) {
-        return "front/member/addMemberForm";
+        return "joinForm";
     }
 
     /**
@@ -40,7 +40,7 @@ public class FrontMemberController {
     public String save(@Validated @ModelAttribute("member") Member member, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "front/member/addMemberForm";
+            return "joinForm";
         }
         Member savedMember = memberService.save(member);
         return "redirect:/";

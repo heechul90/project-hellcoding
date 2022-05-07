@@ -32,7 +32,7 @@ public class Member {
     private String email;
     /** 생년월일 */
     @Column(length = 8)
-    private String birthday;
+    private String birthDate;
     /** 성별 */
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "char")
@@ -54,12 +54,12 @@ public class Member {
         this.password = password;
     }
 
-    public Member(String loginId, String password, String name, String email, String birthday, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
+    public Member(String loginId, String password, String name, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
-        this.birthday = birthday;
+        this.birthDate = birthDate;
         this.genderCode = genderCode;
         this.mobile = mobile;
         this.address = address;

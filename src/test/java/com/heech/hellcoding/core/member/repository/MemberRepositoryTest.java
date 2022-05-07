@@ -31,7 +31,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         //when
@@ -58,7 +58,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         memberRepository.save(member1);
@@ -79,7 +79,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         memberRepository.save(member1);
@@ -100,7 +100,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         memberRepository.save(member1);
@@ -122,7 +122,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         memberRepository.save(member1);
@@ -144,7 +144,7 @@ class MemberRepositoryTest {
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId1", "1234", "member2", "coding1234@coding.com", "19900101",
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
 
         memberRepository.save(member1);
@@ -158,6 +158,25 @@ class MemberRepositoryTest {
         assertThat(resultList.size()).isEqualTo(1);
     }
 
+    @Test
+    void findByLoginId() {
+        //given
+        Mobile mobile = new Mobile("010", "4250", "4296");
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
 
+        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
+                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
+        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
+                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        //when
+        Member findMember = memberRepository.findByLoginId("loginId2").get();
+
+        //then
+        assertThat(findMember.getName()).isEqualTo("member2");
+    }
 
 }
