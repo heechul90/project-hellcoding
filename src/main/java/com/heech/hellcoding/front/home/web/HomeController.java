@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemberRepository memberRepository;
-    private final SessionManager sessionManager;
-
     /**
      * 홈 화면
      * @param loginMember

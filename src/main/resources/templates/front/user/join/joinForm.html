@@ -6,7 +6,7 @@
 <head>
     <title>회원가입</title>
     <th:block layout:fragment="style">
-        <link rel="stylesheet" type="text/css" th:href="@{/front/member/css/addMemberForm.css}"/>
+        <!--<link rel="stylesheet" type="text/css" th:href="@{/front/member/css/addMemberForm.css}"/>-->
     </th:block>
 </head>
 <body>
@@ -17,7 +17,7 @@
             <h2>회원 가입</h2>
         </div>
         <h4 class="mb-3">회원 정보 입력</h4>
-        <form action="" th:action="@{/front/member/add}" th:object="${member}" method="post">
+        <form th:action="@{/user/join}" th:object="${member}" method="post">
 
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="field-error" th:each="err : ${#fields.globalErrors()}"

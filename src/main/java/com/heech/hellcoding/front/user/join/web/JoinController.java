@@ -25,9 +25,9 @@ public class JoinController {
      * @param member
      * @return
      */
-    @GetMapping(value = "/add")
+    @GetMapping
     public String addForm(@ModelAttribute("member") Member member) {
-        return "joinForm";
+        return "front/user/join/joinForm";
     }
 
     /**
@@ -36,16 +36,14 @@ public class JoinController {
      * @param bindingResult
      * @return
      */
-    @PostMapping(value = "/add")
+    @PostMapping
     public String save(@Validated @ModelAttribute("member") Member member, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "joinForm";
+            return "front/user/join/joinForm";
         }
         Member savedMember = memberService.save(member);
         return "redirect:/";
     }
-
-
 
 }
