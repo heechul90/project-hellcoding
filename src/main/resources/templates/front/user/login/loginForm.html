@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+
 <head>
     <title>로그인</title>
-    <th:block layout:fragment="style">
-        <link rel="stylesheet" type="text/css" th:href="@{/front/user/login/css/loginForm.css}">
-    </th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/front/user/login/css/loginForm.css}">
 </head>
 <body>
 
@@ -47,9 +46,7 @@
     </div>
 </main>
 
-<th:block layout:fragment="script">
-
-</th:block>
+<script th:src="@{/front/user/login/js/loginForm.js}"></script>
 
 </body>
 </html>

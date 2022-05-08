@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
-<head>
-    <title>홈</title>
-    <th:block layout:fragment="style">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
 
-    </th:block>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/front/home/css/home.css}"/>
 </head>
 <body>
 
@@ -35,9 +34,7 @@
     </div>
 </main>
 
-<th:block layout:fragment="script">
-
-</th:block>
+<script th:src="@{/front/home/js/home.js}"></script>
 
 </body>
 </html>

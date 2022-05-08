@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">EUM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap">
+    <link rel="stylesheet" th:href="@{/resources/lib/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/admin/tmplat/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/admin/common/css/default.css}">
+    <th:block layout:fragment="style"></th:block>
+</head>
+<body class="sidebar-mini">
+<div class="wrapper">
+    <th:block th:replace="eum/admin/layout/adminHeader :: headerFragment"></th:block>
+
+    <div class="content-wrapper">
+        <div class="content">
+            <th:block layout:fragment="content"></th:block>
+        </div>
+    </div>
+    <!-- <th:block th:replace="eum/admin/layout/adminFooter :: footerFragment"></th:block> -->
+</div>
+
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>
