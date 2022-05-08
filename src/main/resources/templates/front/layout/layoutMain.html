@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:fragment="layout(title, main)">
+      th:fragment="layout(title, main, links, scripts)">
 <head>
     <meta charset="utf-8">
     <title th:replace="${title}">레이아웃 타이틀</title>
@@ -10,8 +10,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/front/cmm/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
     <!--css 공통 END-->
-    <th:block layout:fragment="style"></th:block>
-    <link rel="stylesheet" type="text/css" th:href="@{/front/user/join/css/joinForm.css}"/>
+    <th:block th:replace="${links}"/>
 
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -42,7 +41,7 @@
         <script th:href="@{/lib/bootstrap5/js/bootstrap.min.js}"></script>
         <script th:href="@{/front/cmm/js/common.js}"></script>
         <!--자바스크립트 공통 END-->
-        <th:block layout:fragment="script"></th:block>
+        <th:block th:replace="${scripts}"/>
     </javascript>
 
 </body>

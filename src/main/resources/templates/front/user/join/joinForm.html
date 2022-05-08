@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main})}">
+      th:replace="~{/front/layout/layoutMain :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
 
 <head>
     <title>회원가입</title>
-    <th:block layout:fragment="style">
-        <link rel="stylesheet" type="text/css" th:href="@{/front/user/join/css/joinForm.css}"/>
-    </th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/front/user/join/css/joinForm.css}"/>
 </head>
 <body>
 
@@ -122,9 +120,7 @@
     </div>
 </main>
 
-<th:block layout:fragment="script">
-    <script th:src="@{/front/user/join/js/joinForm.js}"></script>
-</th:block>
+<script th:src="@{/front/user/join/js/joinForm.js}"></script>
 
 </body>
 </html>
