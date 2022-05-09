@@ -7,8 +7,8 @@
     <title th:replace="${title}">레이아웃 타이틀</title>
 
     <!--css 공통 START-->
-    <link rel="stylesheet" type="text/css" th:href="@{/front/cmm/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/front/cmm/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/lib/bootstrap5/css/bootstrap.min.css}">
     <!--css 공통 END-->
     <th:block th:replace="${links}"/>
 
@@ -17,7 +17,7 @@
 
 
     <!--layoutHeader START-->
-    <th:block th:replace="front/layout/layoutHeader :: headerFragment"></th:block>
+    <th:block th:replace="resources/front/layout/layoutHeader :: headerFragment"></th:block>
     <!--layoutHeader END-->
 
 
@@ -31,15 +31,15 @@
 
 
     <!--layoutFooter START-->
-    <th:block th:replace="front/layout/layoutFooter :: footerFragment"></th:block>
+    <th:block th:replace="resources/front/layout/layoutFooter :: footerFragment"></th:block>
     <!--layoutFooter END-->
 
 
     <javascript>
         <!--자바스크립트 공통 START-->
-        <script th:href="@{/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
-        <script th:href="@{/lib/bootstrap5/js/bootstrap.min.js}"></script>
-        <script th:href="@{/front/cmm/js/common.js}"></script>
+        <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
+        <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.min.js}"></script>
+        <script th:href="@{/resources/front/cmm/js/common.js}"></script>
         <!--자바스크립트 공통 END-->
         <th:block th:replace="${scripts}"/>
     </javascript>
