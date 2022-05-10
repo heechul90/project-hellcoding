@@ -7,8 +7,8 @@
     <title th:replace="${title}">레이아웃 타이틀</title>
 
     <!--css 공통 START-->
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/front/co/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/resources/lib/bootstrap5/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/front/common/css/common.css}">
     <!--css 공통 END-->
     <th:block th:replace="${links}"/>
 
@@ -39,7 +39,7 @@
         <!--자바스크립트 공통 START-->
         <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
         <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.min.js}"></script>
-        <script th:href="@{/resources/front/cmm/js/common.js}"></script>
+        <script th:href="@{/resources/front/common/js/common.js}"></script>
         <!--자바스크립트 공통 END-->
         <th:block th:replace="${scripts}"/>
     </javascript>
