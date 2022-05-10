@@ -56,7 +56,7 @@ public class JoinController {
                 form.getPassword(),
                 form.getName(),
                 form.getEmail(),
-                form.getBirthDate(),
+                form.getBirthYear() + form.getBirthMonth() + form.getBirthDay(),
                 "M".equals(form.getGenderCode()) ? GenderCode.M : GenderCode.F,
                 new Mobile(form.getMobileNumberFirst(), form.getMobileNumberMiddle(), form.getMobileNumberLast()),
                 new Address(form.getZipcode(), form.getAddress(), form.getDetailAddress()),
