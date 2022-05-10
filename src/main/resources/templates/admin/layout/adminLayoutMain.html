@@ -3,10 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="utf-8">
-    <title>레이아웃 타이틀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">EUM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap">
 
     <!--css 공통 START-->
-    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/lib/bootstrap5/css/bootstrap.min.css}">
     <!--css 공통 END-->
     <th:block layout:fragment="style"></th:block>
 
@@ -29,9 +31,8 @@
 
     <javascript>
         <!--자바스크립트 공통 START-->
-        <script th:href="@{/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
-        <script th:href="@{/lib/bootstrap5/js/bootstrap.min.js}"></script>
-        <script th:href="@{/front/cmm/js/common.js}"></script>
+        <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
+        <script th:href="@{/resources/lib/bootstrap5/js/bootstrap.min.js}"></script>
         <!--자바스크립트 공통 END-->
         <th:block layout:fragment="script"></th:block>
     </javascript>

@@ -15,9 +15,9 @@ public class AdminHomeController {
     @GetMapping(value = "/admin")
     public String adminHome(@Login Member loginMember) throws Exception {
         //세션에 회원 데이터가 없으면 home
-        if (loginMember == null) {
+        /*if (loginMember == null) {
             return "front/home/home";
-        }
+        }*/
         return "admin/home/adminHome";
     }
 }

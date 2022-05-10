@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorator="admin/layout/adminLayoutMain" >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/adminLayoutMain}">
 <head>
-    <title>Admin Index</title>
+    <title>Admin Home</title>
 </head>
 <body>
+<h1 th:text="test">Hello</h1>
 <th:block layout:fragment="content">
     Admin page
     <br/>
-    <p>The year is <span th:text="2020">1492</span>
+    <p>The year is <span th:text="2022">1990</span>
 </th:block>
 
 </body>
