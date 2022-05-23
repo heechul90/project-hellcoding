@@ -9,13 +9,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@SequenceGenerator(
+        name = "member_seq_generator",
+        sequenceName = "member_seq",
+        initialValue = 1, allocationSize = 100
+)
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     /** 멤버고유ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator")
     @Column(name = "member_id")
     private Long id;
     /** 로그인ID */
@@ -71,6 +75,5 @@ public class Member {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
-
 
 }

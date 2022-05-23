@@ -2,7 +2,6 @@ package com.heech.hellcoding.core.member.service;
 
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
-import com.heech.hellcoding.core.member.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
