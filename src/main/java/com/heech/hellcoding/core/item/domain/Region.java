@@ -1,12 +1,12 @@
 package com.heech.hellcoding.core.item.domain;
 
-public enum DeliveryCode {
+public enum Region {
 
-    FAST("빠른배송"), NORMAL("일반배송"), SLOW("느린배송");
+    SEOUL("서울"), BUSAN("부산"), JEJU("제주"), DAEJEON("대전"), SEJONG("세종");
 
     private final String description;
 
-    DeliveryCode(String description) {
+    Region(String description) {
         this.description = description;
     }
 

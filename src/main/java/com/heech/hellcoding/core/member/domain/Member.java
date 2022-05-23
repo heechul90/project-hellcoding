@@ -22,33 +22,43 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator")
     @Column(name = "member_id")
     private Long id;
+
+    /** 이름 */
+    @Column(name = "member_name", length = 30)
+    private String name;
+
     /** 로그인ID */
     @Column(length = 80)
     private String loginId;
+
     /** 비밀번호 */
     @Column(length = 80)
     private String password;
-    /** 이름 */
-    @Column(length = 30)
-    private String name;
+
     /** 이메일 */
     @Column(length = 60)
     private String email;
+
     /** 생년월일 */
     @Column(length = 8)
     private String birthDate;
+
     /** 성별 */
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "char")
     private GenderCode genderCode; //F, M
+
     /** 휴대폰번호 */
     @Embedded
     private Mobile mobile;
+
     /** 주소 */
     @Embedded
     private Address address;
+
     /** 가입일 */
     private LocalDateTime signupDate;
+
     /** 접속일 */
     private LocalDateTime signinDate;
 

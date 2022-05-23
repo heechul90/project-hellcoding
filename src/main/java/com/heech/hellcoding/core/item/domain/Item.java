@@ -1,30 +1,53 @@
 package com.heech.hellcoding.core.item.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@SequenceGenerator(
+        name = "item_seq_generator",
+        sequenceName = "item_seq",
+        initialValue = 1, allocationSize = 100
+)
 @Getter
-@Setter
+@NoArgsConstructor
 public class Item {
 
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_generator")
+    @Column(name = "item_id")
     private Long id;
-    private String itemName;
-    private Integer price;
-    private Integer quantity;
+
+    @Column(name = "item_name")
+    private String name;
+
+    private int price;
+    private int quantity;
 
     private Boolean open; //판매 여부
-    private List<String> regionList; //등록지역
+    private Region region; //등록지역
     private ItemType itemType; //상품 종류
-    private String deliveryCode; //배송 방식
+    private DeliveryCode deliveryCode; //배송 방식
 
-    public Item() {
-    }
+    //=== 생성메서드 ===//
 
-    public Item(String itemName, Integer price, Integer quantity) {
-        this.itemName = itemName;
+
+    public Item(String name, int price, int quantity) {
+        this.name = name;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public Item(String name, int price, int quantity, Boolean open, Region region, ItemType itemType, DeliveryCode deliveryCode) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.open = open;
+        this.region = region;
+        this.itemType = itemType;
+        this.deliveryCode = deliveryCode;
     }
 }

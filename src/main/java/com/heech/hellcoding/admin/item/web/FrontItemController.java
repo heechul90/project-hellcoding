@@ -50,14 +50,14 @@ public class FrontItemController {
     /**
      * 배송 속도
      */
-    @ModelAttribute(name = "deliveryCodeList")
+    /*@ModelAttribute(name = "deliveryCodeList")
     public List<DeliveryCode> deliveryCodeList() {
         List<DeliveryCode> deliveryCodeList = new ArrayList<>();
         deliveryCodeList.add(new DeliveryCode("FAST", "빠른 배송"));
         deliveryCodeList.add(new DeliveryCode("NORMAL", "일반 배송"));
         deliveryCodeList.add(new DeliveryCode("SLOW", "느린 배송"));
         return deliveryCodeList;
-    }
+    }*/
 
     /**
      * 상품 목록
@@ -99,10 +99,10 @@ public class FrontItemController {
         }
 
         Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
-        item.setOpen(form.getOpen());
-        item.setRegionList(form.getRegionList());
-        item.setItemType(form.getItemType());
-        item.setDeliveryCode(form.getDeliveryCode());
+        //item.setOpen(form.getOpen());
+        //item.setRegionList(form.getRegionList());
+        //item.setItemType(form.getItemType());
+        //item.setDeliveryCode(form.getDeliveryCode());
 
         Item savedItem = itemService.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
@@ -154,10 +154,10 @@ public class FrontItemController {
         }
 
         Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
-        item.setOpen(form.getOpen());
-        item.setRegionList(form.getRegionList());
-        item.setItemType(form.getItemType());
-        item.setDeliveryCode(form.getDeliveryCode());
+        //item.setOpen(form.getOpen());
+        //item.setRegionList(form.getRegionList());
+        //item.setItemType(form.getItemType());
+        //item.setDeliveryCode(form.getDeliveryCode());
 
         itemService.update(itemId, item);
         return "redirect:/front/items/{itemId}";
