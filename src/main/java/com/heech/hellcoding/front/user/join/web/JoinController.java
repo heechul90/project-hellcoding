@@ -1,10 +1,9 @@
 package com.heech.hellcoding.front.user.join.web;
 
-import com.heech.hellcoding.core.member.domain.Address;
+import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
-import com.heech.hellcoding.core.member.service.MemberService;
 import com.heech.hellcoding.core.user.join.service.JoinService;
 import com.heech.hellcoding.front.user.join.form.JoinForm;
 import lombok.RequiredArgsConstructor;

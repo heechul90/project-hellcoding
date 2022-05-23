@@ -1,9 +1,9 @@
 package com.heech.hellcoding.core.member.domain;
 
+import com.heech.hellcoding.core.common.entity.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

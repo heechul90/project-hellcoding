@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.member.domain;
+package com.heech.hellcoding.core.common.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
