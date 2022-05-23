@@ -28,13 +28,17 @@ public class Item {
     private int quantity;
 
     private Boolean open; //판매 여부
+
+    @Enumerated(EnumType.STRING)
     private Region region; //등록지역
+
+    @Enumerated(EnumType.STRING)
     private ItemType itemType; //상품 종류
+
+    @Enumerated(EnumType.STRING)
     private DeliveryCode deliveryCode; //배송 방식
 
     //=== 생성메서드 ===//
-
-
     public Item(String name, int price, int quantity) {
         this.name = name;
         this.price = price;
