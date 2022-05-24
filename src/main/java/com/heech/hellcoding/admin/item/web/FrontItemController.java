@@ -1,9 +1,8 @@
 package com.heech.hellcoding.admin.item.web;
 
-import com.heech.hellcoding.core.item.domain.DeliveryCode;
-import com.heech.hellcoding.core.item.domain.Item;
-import com.heech.hellcoding.core.item.domain.ItemType;
-import com.heech.hellcoding.core.item.service.ItemService;
+import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.temp.domain.ItemType;
+import com.heech.hellcoding.core.shop.item.service.ItemService;
 import com.heech.hellcoding.admin.item.form.AddItemForm;
 import com.heech.hellcoding.admin.item.form.EditItemForm;
 import lombok.RequiredArgsConstructor;

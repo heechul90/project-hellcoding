@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.delivery.domain;
+package com.heech.hellcoding.core.shop.delivery.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
 import lombok.Getter;
@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(
+/*@SequenceGenerator(
         name = "delivery_seq_generator",
-        sequenceName = "delivery_seq",
+        sequenceName = "seq",
         initialValue = 1, allocationSize = 100
-)
+)*/
 @Getter
 @NoArgsConstructor
 public class Delivery {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "delivery_seq_generator")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delivery_id")
     private Long id;
 

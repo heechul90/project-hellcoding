@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.item.repository;
+package com.heech.hellcoding.core.shop.item.repository;
 
-import com.heech.hellcoding.core.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.domain.Item;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -18,8 +18,7 @@ public class MemoryItemRepository implements ItemRepository {
      */
     @Override
     public Item save(Item item) {
-        item.setId(++sequence);
-        store.put(item.getId(), item);
+        store.put(++sequence, item);
         return item;
     }
 
@@ -41,7 +40,7 @@ public class MemoryItemRepository implements ItemRepository {
     @Override
     public Optional<Item> findByName(String name) {
         return store.values().stream()
-                .filter(item -> item.getItemName().equals(name))
+                .filter(item -> item.getName().equals(name))
                 .findAny();
     }
 
@@ -53,13 +52,7 @@ public class MemoryItemRepository implements ItemRepository {
     @Override
     public void update(Long id, Item item) {
         Item findItem = findById(id).get();
-        findItem.setItemName(item.getItemName());
-        findItem.setPrice(item.getPrice());
-        findItem.setQuantity(item.getQuantity());
-        findItem.setOpen(item.getOpen());
-        findItem.setRegionList(item.getRegionList());
-        findItem.setItemType(item.getItemType());
-        findItem.setDeliveryCode(item.getDeliveryCode());
+        findItem.changeItem(findItem.getName(), findItem.getPrice(), findItem.getQuantity());
     }
 
     /**

@@ -1,7 +1,7 @@
-package com.heech.hellcoding.core.item.service;
+package com.heech.hellcoding.core.shop.item.service;
 
-import com.heech.hellcoding.core.item.domain.Item;
-import com.heech.hellcoding.core.item.repository.ItemRepository;
+import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

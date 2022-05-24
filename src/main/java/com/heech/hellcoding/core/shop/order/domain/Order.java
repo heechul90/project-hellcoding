@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.order.domain;
+package com.heech.hellcoding.core.shop.order.domain;
 
-import com.heech.hellcoding.core.delivery.domain.Delivery;
+import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

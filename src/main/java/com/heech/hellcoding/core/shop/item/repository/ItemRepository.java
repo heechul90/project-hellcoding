@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.item.repository;
+package com.heech.hellcoding.core.shop.item.repository;
 
-import com.heech.hellcoding.core.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.domain.Item;
 
 import java.util.List;
 import java.util.Optional;

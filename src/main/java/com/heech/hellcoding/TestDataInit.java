@@ -1,7 +1,7 @@
 package com.heech.hellcoding;
 
-import com.heech.hellcoding.core.item.domain.Item;
-import com.heech.hellcoding.core.item.repository.ItemRepository;
+import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

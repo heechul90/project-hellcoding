@@ -1,6 +1,6 @@
 package com.heech.hellcoding.admin.item.form;
 
-import com.heech.hellcoding.core.item.domain.ItemType;
+import com.heech.hellcoding.core.temp.domain.ItemType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;

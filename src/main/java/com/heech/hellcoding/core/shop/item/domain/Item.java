@@ -1,18 +1,18 @@
-package com.heech.hellcoding.core.item.domain;
+package com.heech.hellcoding.core.shop.item.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @SequenceGenerator(
         name = "item_seq_generator",
-        sequenceName = "item_seq",
+        sequenceName = "seq",
         initialValue = 1, allocationSize = 100
 )
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 @Getter
 @NoArgsConstructor
 public class Item {
@@ -29,6 +29,13 @@ public class Item {
 
     //=== 생성메서드 ===//
     public Item(String name, int price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    //=== 변경메서드 ===//
+    public void changeItem(String name, int price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;

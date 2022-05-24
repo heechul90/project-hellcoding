@@ -1,7 +1,7 @@
 package com.heech.hellcoding.item.repository;
 
-import com.heech.hellcoding.core.item.domain.Item;
-import com.heech.hellcoding.core.item.repository.MemoryItemRepository;
+import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.repository.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
