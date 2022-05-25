@@ -19,6 +19,7 @@ class MemberTest {
     void createMember() {
         //given
 
+
         //when
 
         //then

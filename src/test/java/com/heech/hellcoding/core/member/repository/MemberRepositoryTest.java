@@ -7,10 +7,12 @@ import com.heech.hellcoding.core.member.domain.Mobile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -26,7 +28,7 @@ class MemberRepositoryTest {
     void save() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
 
         Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
                 GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
@@ -38,8 +40,8 @@ class MemberRepositoryTest {
         memberRepository.save(member2);
 
         //then
-        Member findMember1 = memberRepository.findById(member1.getId()).get();
-        Member findMember2 = memberRepository.findById(member2.getId()).get();
+        Member findMember1 = memberRepository.findById(member1.getId()).orElse(null);
+        Member findMember2 = memberRepository.findById(member2.getId()).orElse(null);
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
         assertThat(findMember1.getName()).isEqualTo("member1");
@@ -64,7 +66,7 @@ class MemberRepositoryTest {
         memberRepository.save(member2);
 
         //when
-        Member findMember = memberRepository.findById(member1.getId()).get();
+        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
 
         //then
         assertThat(findMember).isEqualTo(member1);
@@ -131,7 +133,7 @@ class MemberRepositoryTest {
         member1.changePassword("4321");
 
         //then
-        Member findMember = memberRepository.findById(member1.getId()).get();
+        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
         assertThat(findMember.getPassword()).isEqualTo("4321");
     }
 
@@ -153,8 +155,8 @@ class MemberRepositoryTest {
         memberRepository.delete(member1);
 
         //then
-        List<Member> resultList = memberRepository.findAll();
-        assertThat(resultList.size()).isEqualTo(1);
+        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
+        assertThat(findMember).isNull();
     }
 
     @Test
@@ -172,7 +174,7 @@ class MemberRepositoryTest {
         memberRepository.save(member2);
 
         //when
-        Member findMember = memberRepository.findByLoginId("loginId2").get();
+        Member findMember = memberRepository.findByLoginId("loginId2").orElse(null);
 
         //then
         assertThat(findMember.getName()).isEqualTo("member2");

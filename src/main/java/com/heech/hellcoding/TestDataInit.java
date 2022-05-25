@@ -20,9 +20,10 @@ public class TestDataInit {
 
     @PostConstruct
     public void init() {
+        /*
         itemRepository.save(new Book("이희철하나", UUID.randomUUID().toString().toUpperCase()));
         itemRepository.save(new Book("이희철둘", UUID.randomUUID().toString().toUpperCase()));
-
+        */
         Member member = new Member(
                 "admin",
                 "관리자",
