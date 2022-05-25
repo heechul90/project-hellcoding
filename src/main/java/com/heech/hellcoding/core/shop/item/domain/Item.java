@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DiscriminatorColumn
 @Getter
 @NoArgsConstructor
-public class Item {
+public abstract class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
@@ -28,7 +28,7 @@ public class Item {
     private int quantity;
 
     //=== 생성메서드 ===//
-    public Item(String name, int price, int quantity) {
+    public void createItem(String name, int price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;

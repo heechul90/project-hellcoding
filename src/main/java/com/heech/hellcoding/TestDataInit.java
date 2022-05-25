@@ -1,5 +1,6 @@
 package com.heech.hellcoding;
 
+import com.heech.hellcoding.core.shop.item.domain.Book;
 import com.heech.hellcoding.core.shop.item.domain.Item;
 import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -18,8 +20,8 @@ public class TestDataInit {
 
     @PostConstruct
     public void init() {
-        itemRepository.save(new Item("itemA", 10000, 10));
-        itemRepository.save(new Item("itemB", 20000, 20));
+        itemRepository.save(new Book("이희철하나", UUID.randomUUID().toString().toUpperCase()));
+        itemRepository.save(new Book("이희철둘", UUID.randomUUID().toString().toUpperCase()));
 
         Member member = new Member(
                 "admin",

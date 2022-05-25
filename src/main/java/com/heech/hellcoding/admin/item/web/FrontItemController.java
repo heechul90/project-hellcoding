@@ -73,7 +73,7 @@ public class FrontItemController {
      */
     @GetMapping(value = "/add")
     public String addItemForm(Model model) {
-        model.addAttribute("item", new Item());
+        model.addAttribute("item", new AddItemForm());
         return "front/item/addItemForm";
     }
 
@@ -97,14 +97,14 @@ public class FrontItemController {
             return "front/item/addItemForm";
         }
 
-        Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
+        //Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
         //item.setOpen(form.getOpen());
         //item.setRegionList(form.getRegionList());
         //item.setItemType(form.getItemType());
         //item.setDeliveryCode(form.getDeliveryCode());
 
-        Item savedItem = itemService.save(item);
-        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        //Item savedItem = itemService.save(item);
+        //redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/front/items/{itemId}";
     }
@@ -152,13 +152,13 @@ public class FrontItemController {
             return "front/item/editItemForm";
         }
 
-        Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
+        //Item item = new Item(form.getItemName(), form.getPrice(), form.getQuantity());
         //item.setOpen(form.getOpen());
         //item.setRegionList(form.getRegionList());
         //item.setItemType(form.getItemType());
         //item.setDeliveryCode(form.getDeliveryCode());
 
-        itemService.update(itemId, item);
+        //itemService.update(itemId, item);
         return "redirect:/front/items/{itemId}";
     }
 
