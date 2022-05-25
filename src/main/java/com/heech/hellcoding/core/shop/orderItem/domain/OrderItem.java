@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(
+/*@SequenceGenerator(
         name = "orderItem_seq_generator",
         sequenceName = "orderItem_seq",
         initialValue = 1, allocationSize = 100
-)
+)*/
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderItem_seq_generator")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Long id;
 

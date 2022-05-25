@@ -9,17 +9,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@SequenceGenerator(
+/*@SequenceGenerator(
         name = "order_seq_generator",
         sequenceName = "order_seq",
         initialValue = 1, allocationSize = 100
-)
+)*/
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor
 public class Order {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_generator")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 

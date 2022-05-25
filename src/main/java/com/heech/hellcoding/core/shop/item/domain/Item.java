@@ -6,18 +6,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(
+/*@SequenceGenerator(
         name = "item_seq_generator",
         sequenceName = "seq",
         initialValue = 1, allocationSize = 100
-)
+)*/
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 @Getter
 @NoArgsConstructor
 public class Item {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_generator")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
 

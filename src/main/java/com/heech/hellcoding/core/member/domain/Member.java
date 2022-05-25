@@ -9,17 +9,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@SequenceGenerator(
+/*@SequenceGenerator(
         name = "member_seq_generator",
         sequenceName = "member_seq",
         initialValue = 1, allocationSize = 100
-)
+)*/
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     /** 멤버고유ID */
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
