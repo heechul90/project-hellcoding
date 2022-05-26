@@ -1,4 +1,4 @@
-package com.heech.hellcoding.session;
+package com.heech.hellcoding.core.session;
 
 import com.heech.hellcoding.core.session.SessionManager;
 import com.heech.hellcoding.core.member.domain.Member;
