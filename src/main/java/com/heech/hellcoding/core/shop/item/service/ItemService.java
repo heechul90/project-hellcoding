@@ -39,17 +39,8 @@ public class ItemService {
      * @param name
      * @return
      */
-    public Optional<Item> findByName(String name) {
+    public List<Item> findByName(String name) {
         return itemRepository.findByName(name);
-    }
-
-    /**
-     * 상품 수정
-     * @param id
-     * @param item
-     */
-    public void update(Long id, Item item) {
-        itemRepository.update(id, item);
     }
 
     /**
