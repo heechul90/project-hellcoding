@@ -25,4 +25,9 @@ public class Address {
         this.address = address;
         this.detailAddress = detailAddress;
     }
+
+    //===변환 메서드===//
+    public String fullAddress() {
+        return "(" + this.zipcode + ") " + this.address + " " + this.detailAddress;
+    }
 }
