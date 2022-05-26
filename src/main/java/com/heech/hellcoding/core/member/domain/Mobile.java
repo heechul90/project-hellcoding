@@ -27,4 +27,9 @@ public class Mobile {
         this.mobileNumberMiddle = mobileNumberMiddle;
         this.mobileNumberLast = mobileNumberLast;
     }
+
+    //=== 변화 메서드 ===//
+    public String fullPhoneNumber() {
+        return this.mobileNumberFirst + "-" + this.mobileNumberMiddle + "-" + this.mobileNumberLast;
+    }
 }
