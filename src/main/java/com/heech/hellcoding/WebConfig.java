@@ -26,7 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/",
                         "/user/join/**",
                         "/user/login/**",
-                        "/user/logout/**")
+                        "/user/logout/**",
+                        "/api/**")
                 .excludePathPatterns(
                         "/*.ico",
                         "/common/error",
