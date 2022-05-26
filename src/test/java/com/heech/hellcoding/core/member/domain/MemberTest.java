@@ -30,7 +30,7 @@ class MemberTest {
         Member member1 = new Member("spring1", "스프링1", "1234");
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("12345", "Sejong", "hanuridaero");
-        Member member2 = new Member("spring2", "스프링2", "1234", "spring2@spring.com", "19901009", GenderCode.M, mobile, address,
+        Member member2 = new Member("spring2", "1234", "스프링2", "spring2@spring.com", "19901009", GenderCode.M, mobile, address,
                 LocalDateTime.now(), LocalDateTime.now());
 
         //when
