@@ -57,4 +57,26 @@ class OrderRepositoryTest {
         assertThat(findOrder.getDelivery().getStatus()).isEqualTo(DeliveryStatus.READY);
     }
 
+    @Test
+    void exceptionTest() {
+        //given
+        Member member = new Member("loginId", "memberA", "1111");
+        Address address = new Address("12345", "Seoul", "gangnamdaero");
+        Delivery delivery = new Delivery(address, DeliveryStatus.READY);
+        Order order = new Order(LocalDateTime.now(), OrderStatus.ORDER, member, delivery);
+        Order savedOrder = orderRepository.save(order);
+
+        //when
+        Throwable throwable = catchThrowable(() -> {
+            throw new NoSuchElementException("조회에 실패했습니다.");
+        });
+
+        //then
+        assertThat(throwable).isInstanceOf(Exception.class).hasMessageContaining("조회에 실패했습니다.");
+        assertThatThrownBy(() -> {
+            orderRepository.findById(100L).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        }).isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("조회에 실패했습니다.");
+    }
+
 }
