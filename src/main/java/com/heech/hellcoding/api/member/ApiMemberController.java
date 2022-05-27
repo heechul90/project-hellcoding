@@ -1,18 +1,20 @@
 package com.heech.hellcoding.api.member;
 
+import com.heech.hellcoding.api.member.request.CreateMemberRequest;
+import com.heech.hellcoding.api.member.request.CreateMemberResponse;
+import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberDto;
 import com.heech.hellcoding.core.member.service.MemberService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,5 +48,37 @@ public class ApiMemberController {
 
         return new JsonResult(collect.size(), collect);
     }
+
+    /**
+     * 회원 저장
+     */
+    @PostMapping
+    public CreateMemberResponse saveMember(@RequestBody @Validated CreateMemberRequest request) {
+        System.out.println("request.getMemberName = " + request.getMemberName());
+        Member member = new Member(
+                request.getLoginId(),
+                request.getPassword(),
+                request.getMemberName(),
+                request.getEmail(),
+                request.getBirthDate(),
+                request.getGender().equals("M") ? GenderCode.M : GenderCode.F,
+                new Mobile(request.getMobileNumberFirst(), request.getMobileNumberMiddle(), request.getMobileNumberLast()),
+                new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress()),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+        Member savedMember = memberService.insertMember(member);
+        return new CreateMemberResponse(savedMember.getId());
+    }
+
+    /**
+     * 회원 수정
+     */
+    //@PutMapping(value = "/{id}")
+
+    /**
+     * 회원 삭제
+     */
+    //@DeleteMapping(value = "/{id}")
 
 }

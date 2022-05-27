@@ -25,6 +25,10 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public Member insertMember(Member member) {
+        return memberRepository.save(member);
+    }
+
     public Member save(Member member) {
         return memberRepository.save(member);
     }
@@ -44,5 +48,6 @@ public class MemberService {
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
+
 
 }
