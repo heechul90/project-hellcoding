@@ -16,6 +16,7 @@ spring:
         #        show_sql: true
         format_sql: true
         ues_sql_comment: true
+    open-in-view: false
 
   messages:
     basename: messages,errors
