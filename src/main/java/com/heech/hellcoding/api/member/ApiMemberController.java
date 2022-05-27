@@ -10,6 +10,7 @@ import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberDto;
+import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class ApiMemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     /**
      * 회원 목록
@@ -56,10 +58,9 @@ public class ApiMemberController {
                 findMember.getName(),
                 findMember.getEmail(),
                 findMember.getBirthDate(),
-                findMember.getGenderCode().equals(GenderCode.M) ? "남" : "여",
+                findMember.getGenderCode().equals(GenderCode.M) ? "남자" : "여자",
                 findMember.getMobile().fullPhoneNumber(),
-                findMember.getAddress().fullAddress()
-        );
+                findMember.getAddress().fullAddress());
         return JsonResult.OK(member);
     }
 
@@ -67,7 +68,7 @@ public class ApiMemberController {
      * 회원 저장
      */
     @PostMapping
-    public CreateMemberResponse saveMember(@RequestBody @Validated CreateMemberRequest request) {
+    public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
         Member member = new Member(
                 request.getLoginId(),
                 request.getPassword(),
@@ -81,28 +82,28 @@ public class ApiMemberController {
                 LocalDateTime.now()
         );
         Member savedMember = memberService.saveMember(member);
-        return new CreateMemberResponse(savedMember.getId());
+        return JsonResult.OK(new CreateMemberResponse(savedMember.getId()));
     }
 
     /**
      * 회원 수정
      */
     @PutMapping(value = "/{id}")
-    public UpdateMemberResponse updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
+    public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
 
         System.out.println("id = " + id);
         memberService.updateMmeber(id, request.getPassword());
-        Member findMember = memberService.findById(id).orElseGet(null);
-        return new UpdateMemberResponse(findMember.getId());
+        Member findMember = memberRepository.findById(id).orElseGet(null);
+        return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }
 
     /**
      * 회원 삭제
      */
     @DeleteMapping(value = "/{id}")
-    public String deleteMember(@PathVariable("id") Long id) {
+    public JsonResult deleteMember(@PathVariable("id") Long id) {
         memberService.deleteMember(id);
-        return "ok";
+        return JsonResult.OK();
 
     }
 

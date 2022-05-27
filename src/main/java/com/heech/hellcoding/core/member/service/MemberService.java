@@ -47,13 +47,4 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-    public Optional<Member> findByLoginId(String loginId) {
-        return memberRepository.findByLoginId(loginId);
-    }
-
-    public List<Member> findByName(String name) {
-        return memberRepository.findByName(name);
-    }
-
-
 }
