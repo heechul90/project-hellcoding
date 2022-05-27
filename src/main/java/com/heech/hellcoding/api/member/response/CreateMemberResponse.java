@@ -1,4 +1,4 @@
-package com.heech.hellcoding.api.member.request;
+package com.heech.hellcoding.api.member.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

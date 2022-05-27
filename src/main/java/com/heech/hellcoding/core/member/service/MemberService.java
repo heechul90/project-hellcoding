@@ -31,14 +31,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMmeber(Long id) {
+    public void updateMmeber(Long id, String password) {
         Member findMember = memberRepository.findById(id).orElseGet(null);
-
-
+        findMember.changePassword(password);
     }
 
-    public Member save(Member member) {
-        return memberRepository.save(member);
+    @Transactional
+    public void deleteMember(Long id) {
+        Member findMember = memberRepository.findById(id).orElseGet(null);
+        memberRepository.delete(findMember);
+        System.out.println("findMember.getPassword() = " + findMember.getPassword());
     }
 
     public Optional<Member> findById(Long id) {
@@ -51,10 +53,6 @@ public class MemberService {
 
     public List<Member> findByName(String name) {
         return memberRepository.findByName(name);
-    }
-
-    public List<Member> findAll() {
-        return memberRepository.findAll();
     }
 
 

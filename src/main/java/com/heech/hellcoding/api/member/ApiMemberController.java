@@ -1,7 +1,7 @@
 package com.heech.hellcoding.api.member;
 
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
-import com.heech.hellcoding.api.member.request.CreateMemberResponse;
+import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.api.member.response.UpdateMemberResponse;
 import com.heech.hellcoding.core.common.entity.Address;
@@ -79,7 +79,8 @@ public class ApiMemberController {
     @PutMapping(value = "/{id}")
     public UpdateMemberResponse updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
 
-        memberService.updateMmeber(id);
+        System.out.println("id = " + id);
+        memberService.updateMmeber(id, request.getPassword());
         Member findMember = memberService.findById(id).orElseGet(null);
         return new UpdateMemberResponse(findMember.getId());
     }
@@ -87,6 +88,13 @@ public class ApiMemberController {
     /**
      * 회원 삭제
      */
-    //@DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
+    public String deleteMember(@PathVariable("id") Long id) {
+
+        memberService.deleteMember(id);
+
+        return "ok";
+
+    }
 
 }
