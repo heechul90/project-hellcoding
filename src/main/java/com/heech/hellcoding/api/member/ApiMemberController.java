@@ -33,8 +33,6 @@ public class ApiMemberController {
      */
     @GetMapping
     public JsonResult findMembers() {
-        System.out.println("ApiMemberController.members");
-
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
                 .map(member -> new MemberDto(
@@ -45,10 +43,7 @@ public class ApiMemberController {
                         member.getMobile().fullPhoneNumber(),
                         member.getAddress().fullAddress()))
                 .collect(Collectors.toList());
-
-        System.out.println("collect = " + collect);
-
-        return new JsonResult(collect.size(), collect);
+        return JsonResult.OK(collect);
     }
 
     /**
@@ -56,8 +51,6 @@ public class ApiMemberController {
      */
     @GetMapping(value = "/{id}")
     public JsonResult findMember(@PathVariable("id") Long id) {
-        System.out.println("ApiMemberController.findMember");
-
         Member findMember = memberService.findById(id).orElseThrow(() -> new IllegalArgumentException("illegal argument :" + id));
         MemberDto member = new MemberDto(
                 findMember.getName(),
@@ -67,7 +60,7 @@ public class ApiMemberController {
                 findMember.getMobile().fullPhoneNumber(),
                 findMember.getAddress().fullAddress()
         );
-        return new JsonResult(1, member);
+        return JsonResult.OK(member);
     }
 
     /**
@@ -75,7 +68,6 @@ public class ApiMemberController {
      */
     @PostMapping
     public CreateMemberResponse saveMember(@RequestBody @Validated CreateMemberRequest request) {
-        System.out.println("request.getMemberName = " + request.getMemberName());
         Member member = new Member(
                 request.getLoginId(),
                 request.getPassword(),
@@ -109,9 +101,7 @@ public class ApiMemberController {
      */
     @DeleteMapping(value = "/{id}")
     public String deleteMember(@PathVariable("id") Long id) {
-
         memberService.deleteMember(id);
-
         return "ok";
 
     }
