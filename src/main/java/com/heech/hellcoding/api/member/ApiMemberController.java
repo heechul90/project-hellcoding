@@ -32,7 +32,7 @@ public class ApiMemberController {
      * 회원 목록
      */
     @GetMapping
-    public JsonResult members() {
+    public JsonResult findMembers() {
         System.out.println("ApiMemberController.members");
 
         List<Member> findMembers = memberService.findMembers();
@@ -49,6 +49,25 @@ public class ApiMemberController {
         System.out.println("collect = " + collect);
 
         return new JsonResult(collect.size(), collect);
+    }
+
+    /**
+     * 회원 조회(단건)
+     */
+    @GetMapping(value = "/{id}")
+    public JsonResult findMember(@PathVariable("id") Long id) {
+        System.out.println("ApiMemberController.findMember");
+
+        Member findMember = memberService.findById(id).orElseThrow(() -> new IllegalArgumentException("illegal argument :" + id));
+        MemberDto member = new MemberDto(
+                findMember.getName(),
+                findMember.getEmail(),
+                findMember.getBirthDate(),
+                findMember.getGenderCode().equals(GenderCode.M) ? "남" : "여",
+                findMember.getMobile().fullPhoneNumber(),
+                findMember.getAddress().fullAddress()
+        );
+        return new JsonResult(1, member);
     }
 
     /**
