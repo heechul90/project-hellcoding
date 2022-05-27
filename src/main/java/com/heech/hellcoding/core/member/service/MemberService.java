@@ -25,8 +25,16 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member insertMember(Member member) {
+    @Transactional
+    public Member saveMember(Member member) {
         return memberRepository.save(member);
+    }
+
+    @Transactional
+    public void updateMmeber(Long id) {
+        Member findMember = memberRepository.findById(id).orElseGet(null);
+
+
     }
 
     public Member save(Member member) {

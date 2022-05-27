@@ -2,6 +2,8 @@ package com.heech.hellcoding.api.member;
 
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.CreateMemberResponse;
+import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
+import com.heech.hellcoding.api.member.response.UpdateMemberResponse;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.GenderCode;
@@ -67,14 +69,20 @@ public class ApiMemberController {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-        Member savedMember = memberService.insertMember(member);
+        Member savedMember = memberService.saveMember(member);
         return new CreateMemberResponse(savedMember.getId());
     }
 
     /**
      * 회원 수정
      */
-    //@PutMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
+    public UpdateMemberResponse updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
+
+        memberService.updateMmeber(id);
+        Member findMember = memberService.findById(id).orElseGet(null);
+        return new UpdateMemberResponse(findMember.getId());
+    }
 
     /**
      * 회원 삭제
