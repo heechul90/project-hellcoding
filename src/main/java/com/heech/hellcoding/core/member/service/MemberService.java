@@ -25,17 +25,26 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    /**
+     * 회원 저장
+     */
     @Transactional
     public Member saveMember(Member member) {
         return memberRepository.save(member);
     }
 
+    /**
+     * 회원 수정
+     */
     @Transactional
     public void updateMmeber(Long id, String password) {
         Member findMember = memberRepository.findById(id).orElseGet(null);
         findMember.changePassword(password);
     }
 
+    /**
+     * 회원 삭제
+     */
     @Transactional
     public void deleteMember(Long id) {
         Member findMember = memberRepository.findById(id).orElseGet(null);
@@ -43,6 +52,9 @@ public class MemberService {
         System.out.println("findMember.getPassword() = " + findMember.getPassword());
     }
 
+    /**
+     * 회원 조회 By Id
+     */
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
