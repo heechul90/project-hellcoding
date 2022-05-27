@@ -34,14 +34,14 @@ public class CreateMemberRequest {
     private String detailAddress;
 
     public String getMobileNumberFirst() {
-        return this.phoneNumber.substring(0, 2);
+        return this.phoneNumber.substring(0, 3);
     }
 
     public String getMobileNumberMiddle() {
-        return this.phoneNumber.substring(3, 6);
+        return this.phoneNumber.substring(3, 7);
     }
 
     public String getMobileNumberLast() {
-        return this.phoneNumber.substring(7, 10);
+        return this.phoneNumber.substring(7, 11);
     }
 }
