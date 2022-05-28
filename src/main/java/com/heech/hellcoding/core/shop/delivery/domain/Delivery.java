@@ -27,9 +27,13 @@ public class Delivery {
     private DeliveryStatus status;
 
     //===생성 메서드===//
-
     public Delivery(Address address, DeliveryStatus status) {
         this.address = address;
+        this.status = status;
+    }
+
+    //===변경 메서드===//
+    public void changeDeliveryStatus(DeliveryStatus status) {
         this.status = status;
     }
 }

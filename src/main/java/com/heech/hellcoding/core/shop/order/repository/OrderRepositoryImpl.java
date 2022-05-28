@@ -8,9 +8,7 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.order.domain.QOrder.*;
-
-public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
+public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
