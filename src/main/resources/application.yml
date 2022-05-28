@@ -16,7 +16,8 @@ spring:
         #        show_sql: true
         format_sql: true
         ues_sql_comment: true
-    open-in-view: false
+        default_batch_fetch_size: 1000
+    open-in-view: true
 
   messages:
     basename: messages,errors
