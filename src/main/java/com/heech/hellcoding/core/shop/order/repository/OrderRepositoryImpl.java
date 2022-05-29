@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class OrderRepositoryImpl implements OrderRepositoryCustom {
+public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
 
