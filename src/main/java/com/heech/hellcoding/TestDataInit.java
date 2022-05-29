@@ -24,10 +24,13 @@ public class TestDataInit {
 
     @PostConstruct
     public void init() {
-        /*
-        itemRepository.save(new Book("이희철하나", UUID.randomUUID().toString().toUpperCase()));
-        itemRepository.save(new Book("이희철둘", UUID.randomUUID().toString().toUpperCase()));
-        */
+        Book book1 = new Book("파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
+        book1.createItem("연금술사", 10800, 100);
+        itemRepository.save(book1);
+
+        Book book2 = new Book("리처드 바크", UUID.randomUUID().toString().toUpperCase());
+        book2.createItem("갈매기의 꿈", 7200, 200);
+        itemRepository.save(book2);
 
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("12345", "Sejong", "hanuridaero");
