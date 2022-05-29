@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.heech.hellcoding.core.member.domain.QMember.*;
+import static org.springframework.util.StringUtils.*;
 
 public class MemberRepositoryImpl implements MemberRepositoryQuerydsl {
 
@@ -69,18 +70,22 @@ public class MemberRepositoryImpl implements MemberRepositoryQuerydsl {
     }
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null) {
+        if (searchCondition == null || !hasText(searchKeyword)) {
             return null;
         }
 
-        //like : % 내가 추가해야함
-        //contains : 앞뒤로 % 추가해서 날라감
         if (SearchCondition.NAME.equals(searchCondition)) {
             return member.name.contains(searchKeyword);
+        } else {
+            return null;
         }
-        return null;
     }
 
+    /**
+     * searchGender == member.genderCode
+     * @param searchGender
+     * @return
+     */
     private BooleanExpression searchGenderEq(GenderCode searchGender) {
         return searchGender != null ? member.genderCode.eq(searchGender) : null;
     }
