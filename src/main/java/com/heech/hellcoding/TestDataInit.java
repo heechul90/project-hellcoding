@@ -24,12 +24,16 @@ public class TestDataInit {
 
     @PostConstruct
     public void init() {
-        Book book1 = new Book("파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
-        book1.createItem("연금술사", 10800, 100);
+        Book book1 = Book.builder()
+                .author("파울로 코엘료")
+                .isbn(UUID.randomUUID().toString().toUpperCase())
+                .build();
+
+        book1.createItem("연금술사", "2022년 베스트 셀러!", "재미있는 책입니다", 10800, 100);
         itemRepository.save(book1);
 
         Book book2 = new Book("리처드 바크", UUID.randomUUID().toString().toUpperCase());
-        book2.createItem("갈매기의 꿈", 7200, 200);
+        book2.createItem("갈매기의 꿈", "2021년 베스트 셀러!", "200만이 선택한 책입니다.", 7200, 200);
         itemRepository.save(book2);
 
         Mobile mobile = new Mobile("010", "4250", "4296");

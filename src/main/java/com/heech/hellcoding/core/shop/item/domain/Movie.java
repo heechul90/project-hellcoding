@@ -7,7 +7,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "Movie")
+@DiscriminatorValue(value = "MOVIE")
 @Getter
 @NoArgsConstructor
 public class Movie extends Item {
