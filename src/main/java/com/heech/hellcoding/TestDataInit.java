@@ -35,7 +35,7 @@ public class TestDataInit {
         Member admin = new Member(
                 "admin",
                 "1234",
-                "관리자",
+                "스프링관리자",
                 "spring2@spring.com",
                 "19901009",
                 GenderCode.M,
@@ -50,7 +50,7 @@ public class TestDataInit {
         Member spring = new Member(
                 "spring",
                 "1234",
-                "스프링",
+                "스프링유저",
                 "spring2@spring.com",
                 "19901009",
                 GenderCode.M,
