@@ -26,6 +26,12 @@ public abstract class Item {
     @Column(name = "item_name")
     private String name;
 
+    @Column(name = "item_title")
+    private String title;
+
+    @Column(name = "item_content")
+    private String content;
+
     private int price;
     private int stockQuantity;
 
