@@ -182,7 +182,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findMemberListTest() {
+    void findMembersTest() {
         //given
         MemberSearchCondition condition = new MemberSearchCondition();
         condition.setSearchCondition(SearchCondition.NAME);
@@ -192,7 +192,7 @@ class MemberRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         //when
-        Page<Member> resultList = memberRepository.findMemberList(condition, pageRequest);
+        Page<Member> resultList = memberRepository.findMembers(condition, pageRequest);
 
         //then
         assertThat(resultList).extracting("name").containsExactly("스프링관리자", "스프링유저");

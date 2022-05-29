@@ -10,10 +10,13 @@ import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberDto;
+import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +37,9 @@ public class ApiMemberController {
      * 회원 목록
      */
     @GetMapping
-    public JsonResult findMembers() {
-        List<Member> findMembers = memberService.findMembers();
-        List<MemberDto> collect = findMembers.stream()
+    public JsonResult findMembers(MemberSearchCondition condition, Pageable pageable) {
+        Page<Member> content = memberService.findMembers(condition, pageable);
+        List<MemberDto> collect = content.getContent().stream()
                 .map(member -> new MemberDto(
                         member.getName(),
                         member.getEmail(),
@@ -45,6 +48,7 @@ public class ApiMemberController {
                         member.getMobile().fullPhoneNumber(),
                         member.getAddress().fullAddress()))
                 .collect(Collectors.toList());
+        System.out.println("content.getSize() = " + content.getPageable());
         return JsonResult.OK(collect);
     }
 

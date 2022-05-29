@@ -1,10 +1,13 @@
 package com.heech.hellcoding.core.member.service;
 
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -31,11 +34,14 @@ class MemberServiceTest {
         Member member = new Member("test", "test", "test");
         memberService.saveMember(member);
 
+        MemberSearchCondition condition = new MemberSearchCondition();
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
         //when
-        List<Member> members = memberService.findMembers();
+        Page<Member> content = memberService.findMembers(condition, pageRequest);
 
         //then
-        assertThat(members).extracting("name").contains("test");
+        assertThat(content.getContent()).extracting("name").contains("test");
     }
 
     @Test

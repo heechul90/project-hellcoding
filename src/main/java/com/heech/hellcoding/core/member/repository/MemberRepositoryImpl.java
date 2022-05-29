@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.heech.hellcoding.core.member.domain.QMember.*;
-import static org.springframework.util.StringUtils.*;
 
 public class MemberRepositoryImpl implements MemberRepositoryQuerydsl {
 
@@ -26,8 +25,11 @@ public class MemberRepositoryImpl implements MemberRepositoryQuerydsl {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 회원 목록
+     */
     @Override
-    public Page<Member> findMemberList(MemberSearchCondition condition, Pageable pageable) {
+    public Page<Member> findMembers(MemberSearchCondition condition, Pageable pageable) {
         List<Member> content = getMemberList(condition, pageable);
 
         JPAQuery<Long> count = getMemberListCount(condition);

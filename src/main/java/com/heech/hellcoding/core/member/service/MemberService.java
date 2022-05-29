@@ -1,9 +1,12 @@
 package com.heech.hellcoding.core.member.service;
 
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +24,8 @@ public class MemberService {
     /**
      * 회원 목록
      */
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
+    public Page<Member> findMembers(MemberSearchCondition condition, Pageable pageable) {
+        return memberRepository.findMembers(condition, pageable);
     }
 
     /**

@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface MemberRepositoryQuerydsl {
 
-    Page<Member> findMemberList(MemberSearchCondition condition, Pageable pageable);
+    Page<Member> findMembers(MemberSearchCondition condition, Pageable pageable);
 }
