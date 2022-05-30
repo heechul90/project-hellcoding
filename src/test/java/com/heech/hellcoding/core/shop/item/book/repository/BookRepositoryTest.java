@@ -2,7 +2,6 @@ package com.heech.hellcoding.core.shop.item.book.repository;
 
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
-import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
