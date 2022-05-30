@@ -13,10 +13,14 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "ALBUM")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Album extends Item {
 
     private String artist;
+
+    @Builder
+    public Album(String name, String title, String content, int price, int stockQuantity, String artist) {
+        super(name, title, content, price, stockQuantity);
+        this.artist = artist;
+    }
 }
 
