@@ -79,7 +79,7 @@ public class ApiItemController {
                 request.getPrice(),
                 request.getStockQuantity()
         );
-        Item savedItem = itemService.save(book);
+        Item savedItem = itemService.saveItem(book);
         return JsonResult.OK(new CreateItemResponse(savedItem.getId()));
     }
     //TODO 상품 수정

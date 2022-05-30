@@ -1,12 +1,15 @@
 package com.heech.hellcoding.admin.item.web;
 
 import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
 import com.heech.hellcoding.core.temp.domain.ItemType;
 import com.heech.hellcoding.core.shop.item.service.ItemService;
 import com.heech.hellcoding.admin.item.form.AddItemForm;
 import com.heech.hellcoding.admin.item.form.EditItemForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,8 +66,10 @@ public class FrontItemController {
      */
     @GetMapping()
     public String itemList(Model model) {
-        List<Item> itemList = itemService.findAll();
-        model.addAttribute("itemList", itemList);
+        ItemSearchCondition condition = new ItemSearchCondition();
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<Item> content = itemService.findItems(condition, pageRequest);
+        model.addAttribute("itemList", content.getContent());
         return "front/item/itemList";
     }
 

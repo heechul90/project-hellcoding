@@ -22,7 +22,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     /**
-     * 상품 조회(목록)
+     * 상품 목록 조회
      */
     public Page<Item> findItems(ItemSearchCondition condition, Pageable pageable) {
         return itemRepository.findItems(condition, pageable);
@@ -30,38 +30,25 @@ public class ItemService {
 
     /**
      * 상품 저장
-     * @param item
-     * @return
      */
     @Transactional
-    public Item save(Item item) {
+    public Item saveItem(Item item) {
         return itemRepository.save(item);
     }
 
     /**
-     * 상품찾기(아이디)
-     * @param id
-     * @return
+     * 상품 단건 조회
      */
     public Optional<Item> findById(Long id) {
         return itemRepository.findById(id);
     }
 
     /**
-     * 상품찾기(네임)
-     * @param name
-     * @return
+     * 상품 이름 조회
      */
     public List<Item> findByName(String name) {
         return itemRepository.findByName(name);
     }
 
-    /**
-     * 상품 목록
-     * @return
-     */
-    public List<Item> findAll() {
-        return itemRepository.findAll();
-    }
 
 }

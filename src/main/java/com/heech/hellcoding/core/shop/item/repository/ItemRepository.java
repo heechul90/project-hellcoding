@@ -11,6 +11,9 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemReposityQ
 
     List<Item> findByName(String name);
 
+    /**
+     * Book 테이블 조회는 리턴은 Book으로 받아야함
+     */
     List<Book> findByAuthor(String author);
 
 }
