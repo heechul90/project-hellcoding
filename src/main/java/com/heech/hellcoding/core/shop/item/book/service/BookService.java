@@ -46,6 +46,7 @@ public class BookService {
     /**
      * 상품 > Book 삭제
      */
+    @Transactional
     public void deleteBook(Book book) {
         bookRepository.delete(book);
     }
