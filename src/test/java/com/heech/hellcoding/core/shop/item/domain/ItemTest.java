@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.shop.item.domain;
 
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
+import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;

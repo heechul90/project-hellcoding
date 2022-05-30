@@ -1,10 +1,8 @@
 package com.heech.hellcoding.api.item;
 
 import com.heech.hellcoding.api.item.request.CreateBookRequest;
-import com.heech.hellcoding.api.item.request.CreateItemRequest;
 import com.heech.hellcoding.api.item.response.CreateItemResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
-import com.heech.hellcoding.core.shop.item.domain.Book;
 import com.heech.hellcoding.core.shop.item.domain.Item;
 import com.heech.hellcoding.core.shop.item.dto.ItemDto;
 import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
@@ -32,7 +30,7 @@ public class ApiItemController {
     /**
      * 상품 조회(목록)
      */
-    @GetMapping
+    /*@GetMapping
     public JsonResult findItems(ItemSearchCondition condition, Pageable pageable) {
         Page<Item> content = itemService.findItems(condition, pageable);
         List<ItemDto> collect = content.getContent().stream()
@@ -45,12 +43,12 @@ public class ApiItemController {
                 ))
                 .collect(Collectors.toList());
         return JsonResult.OK(collect);
-    }
+    }*/
 
     /**
      * 상품 조회(단건)
      */
-    @GetMapping(value = "/{id}")
+    /*@GetMapping(value = "/{id}")
     public JsonResult findItem(@PathVariable("id") Long id) {
         Item findItem = itemRepository.findById(id).orElse(null);
         ItemDto item = new ItemDto(
@@ -61,12 +59,12 @@ public class ApiItemController {
                 findItem.getStockQuantity()
         );
         return JsonResult.OK(item);
-    }
+    }*/
 
     /**
      * 상품 저장
      */
-    @PostMapping(value = "/book")
+    /*@PostMapping(value = "/book")
     public JsonResult saveItem(@RequestBody @Validated CreateBookRequest request) {
         //TODO error return 처리 필요
         System.out.println("ApiItemController.saveItemmmmmm");
@@ -81,7 +79,7 @@ public class ApiItemController {
         );
         Item savedItem = itemService.saveItem(book);
         return JsonResult.OK(new CreateItemResponse(savedItem.getId()));
-    }
+    }*/
     //TODO 상품 수정
     //TODO 상품 삭제
 

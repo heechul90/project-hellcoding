@@ -1,12 +1,11 @@
 package com.heech.hellcoding.core.shop.item.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
+import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.domain.Album;
-import com.heech.hellcoding.core.shop.item.domain.Book;
 import com.heech.hellcoding.core.shop.item.domain.Item;
 import com.heech.hellcoding.core.shop.item.domain.Movie;
 import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;

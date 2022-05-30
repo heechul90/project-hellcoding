@@ -1,5 +1,6 @@
-package com.heech.hellcoding.core.shop.item.domain;
+package com.heech.hellcoding.core.shop.item.book.domain;
 
+import com.heech.hellcoding.core.shop.item.domain.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

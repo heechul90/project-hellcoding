@@ -3,6 +3,8 @@ package com.heech.hellcoding.core.shop.item.repository;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.shop.item.domain.Item;
 import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
+import com.heech.hellcoding.core.shop.item.dto.SearchItemType;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -83,6 +85,16 @@ public class ItemRepositoryImpl implements ItemReposityQuerydsl{
         } else {
             return null;
         }
+    }
+
+    private BooleanExpression searchItemType(SearchItemType searchItemType) {
+        if (searchItemType == null) {
+            return null;
+        }
+        if (SearchItemType.BOOK.equals(searchItemType)) {
+            //return item.dtype
+        }
+        return null;
     }
 
     /**

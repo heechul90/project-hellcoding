@@ -3,8 +3,8 @@ package com.heech.hellcoding;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Mobile;
-import com.heech.hellcoding.core.shop.item.domain.Book;
-import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.book.domain.Book;
+import com.heech.hellcoding.core.shop.item.domain.Album;
 import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
@@ -35,6 +35,10 @@ public class TestDataInit {
         Book book2 = new Book("리처드 바크", UUID.randomUUID().toString().toUpperCase());
         book2.createItem("갈매기의 꿈", "2021년 베스트 셀러!", "200만이 선택한 책입니다.", 7200, 200);
         itemRepository.save(book2);
+
+        Album album = Album.builder().artist("IU").build();
+        album.createItem("test", "test", "test", 10000, 10);
+        itemRepository.save(album);
 
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("12345", "Sejong", "hanuridaero");

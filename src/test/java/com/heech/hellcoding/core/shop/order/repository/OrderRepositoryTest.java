@@ -1,16 +1,12 @@
 package com.heech.hellcoding.core.shop.order.repository;
 
-import com.heech.hellcoding.core.common.entity.Address;
-import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
-import com.heech.hellcoding.core.shop.item.domain.Book;
-import com.heech.hellcoding.core.shop.item.domain.Item;
+import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
-import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
