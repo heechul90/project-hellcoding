@@ -2,15 +2,13 @@ package com.heech.hellcoding.core.shop.item.service;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.shop.item.domain.Item;
-import com.heech.hellcoding.core.shop.item.domain.Movie;
+import com.heech.hellcoding.core.shop.item.movie.domain.Movie;
 import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -19,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

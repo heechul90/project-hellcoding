@@ -1,8 +1,8 @@
-package com.heech.hellcoding.core.shop.item.book.repository;
+package com.heech.hellcoding.core.shop.item.album.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
-import com.heech.hellcoding.core.shop.item.book.domain.Book;
-import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
+import com.heech.hellcoding.core.shop.item.album.domain.Album;
+import com.heech.hellcoding.core.shop.item.album.dto.AlbumSearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,33 +14,34 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.item.book.domain.QBook.*;
+import static com.heech.hellcoding.core.shop.item.album.domain.QAlbum.*;
+import static com.heech.hellcoding.core.shop.item.book.domain.QBook.book;
 import static org.springframework.util.StringUtils.hasText;
 
-public class BookRepositoryImpl implements BookRepositoryQuerydsl{
+public class AlbumRepositoryImpl implements AlbumRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
 
-    public BookRepositoryImpl(EntityManager em) {
+    public AlbumRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
-    public Page<Book> findBooks(BookSearchCondition condition, Pageable pageable) {
-        List<Book> content = getBookList(condition, pageable);
+    public Page<Album> findAlbums(AlbumSearchCondition condition, Pageable pageable) {
+        List<Album> content = getAlbumList(condition, pageable);
 
-        JPAQuery<Long> count = getBookListCount(condition);
+        JPAQuery<Long> count = getAlbumListCount(condition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
     /**
-     * Book 목록
+     * Album 목록
      */
-    private List<Book> getBookList(BookSearchCondition condition, Pageable pageable) {
-        List<Book> content = queryFactory
-                .select(book)
-                .from(book)
+    private List<Album> getAlbumList(AlbumSearchCondition condition, Pageable pageable) {
+        List<Album> content = queryFactory
+                .select(album)
+                .from(album)
                 .where(
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword()),
                         searchPriceGoe(condition.getSearchPriceGoe()),
@@ -53,12 +54,12 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
     }
 
     /**
-     * Book 목록 카운트
+     * Album 목록 카운트
      */
-    private JPAQuery<Long> getBookListCount(BookSearchCondition condition) {
+    private JPAQuery<Long> getAlbumListCount(AlbumSearchCondition condition) {
         JPAQuery<Long> count = queryFactory
-                .select(book.count())
-                .from(book)
+                .select(album.count())
+                .from(album)
                 .where(
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword()),
                         searchPriceGoe(condition.getSearchPriceGoe()),
@@ -66,6 +67,7 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
                 );
         return count;
     }
+
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
         if (searchCondition == null || !hasText(searchKeyword)) {

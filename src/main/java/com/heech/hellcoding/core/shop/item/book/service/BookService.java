@@ -30,7 +30,7 @@ public class BookService {
      * 상품 > Book 단건 조회
      */
     public Book findBook(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회된 목록이 없습니다."));
+        return bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
     }
 
     /**

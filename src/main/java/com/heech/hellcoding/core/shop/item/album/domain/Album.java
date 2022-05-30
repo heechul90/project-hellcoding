@@ -1,5 +1,6 @@
-package com.heech.hellcoding.core.shop.item.domain;
+package com.heech.hellcoding.core.shop.item.album.domain;
 
+import com.heech.hellcoding.core.shop.item.domain.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,13 +10,13 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "MOVIE")
+@DiscriminatorValue(value = "ALBUM")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Movie extends Item {
+public class Album extends Item {
 
-    private String director;
-    private String actor;
+    private String artist;
 }
+
