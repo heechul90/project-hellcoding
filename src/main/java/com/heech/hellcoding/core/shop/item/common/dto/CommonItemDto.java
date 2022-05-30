@@ -1,11 +1,11 @@
-package com.heech.hellcoding.core.shop.item.dto;
+package com.heech.hellcoding.core.shop.item.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ItemDto {
+public class CommonItemDto {
 
     private String itemName;
     private String itemTitle;

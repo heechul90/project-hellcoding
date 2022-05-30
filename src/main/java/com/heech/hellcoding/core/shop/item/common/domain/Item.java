@@ -1,16 +1,14 @@
-package com.heech.hellcoding.core.shop.item.domain;
+package com.heech.hellcoding.core.shop.item.common.domain;
 
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-/*@SequenceGenerator(
-        name = "item_seq_generator",
-        sequenceName = "seq",
-        initialValue = 1, allocationSize = 100
-)*/
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "dtype")
 @Getter
@@ -33,15 +31,14 @@ public abstract class Item {
     private int price;
     private int stockQuantity;
 
-    public void createItem(String name, String title, String content, int price, int stockQuantity) {
+    //=== 생성메서드 ===//
+    public Item(String name, String title, String content, int price, int stockQuantity) {
         this.name = name;
         this.title = title;
         this.content = content;
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
-
-    //=== 생성메서드 ===//
 
     //===비즈니스 로직===//
     public void addStock(int quantity) {

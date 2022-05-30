@@ -1,9 +1,7 @@
 package com.heech.hellcoding.admin.item.web;
 
-import com.heech.hellcoding.core.shop.item.domain.Item;
-import com.heech.hellcoding.core.shop.item.dto.ItemSearchCondition;
+import com.heech.hellcoding.core.shop.item.common.dto.CommonItemSearchCondition;
 import com.heech.hellcoding.core.temp.domain.ItemType;
-import com.heech.hellcoding.core.shop.item.service.ItemService;
 import com.heech.hellcoding.admin.item.form.AddItemForm;
 import com.heech.hellcoding.admin.item.form.EditItemForm;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,7 @@ import java.util.*;
 @RequestMapping(value = "/front/items")
 public class FrontItemController {
 
-    private final ItemService itemService;
+    //private final ItemService itemService;
 
     /**
      * 지역 목록
@@ -64,14 +62,14 @@ public class FrontItemController {
     /**
      * 상품 목록
      */
-    @GetMapping()
+    /*@GetMapping()
     public String itemList(Model model) {
-        ItemSearchCondition condition = new ItemSearchCondition();
+        CommonItemSearchCondition condition = new CommonItemSearchCondition();
         PageRequest pageRequest = PageRequest.of(0, 10);
         Page<Item> content = itemService.findItems(condition, pageRequest);
         model.addAttribute("itemList", content.getContent());
         return "front/item/itemList";
-    }
+    }*/
 
     /**
      * Item 등록 폼
@@ -117,12 +115,12 @@ public class FrontItemController {
     /**
      * 상품 상세
      */
-    @GetMapping(value = "/{itemId}")
+    /*@GetMapping(value = "/{itemId}")
     public String itemDetail(@PathVariable long itemId, Model model) {
         Optional<Item> item = itemService.findById(itemId);
         model.addAttribute("item", item.get());
         return "front/item/itemDetail";
-    }
+    }*/
 
     /**
      * Item 수정 폼
@@ -130,11 +128,11 @@ public class FrontItemController {
      * @param model
      * @return
      */
-    @GetMapping(value = "/{itemId}/edit")
+    /*@GetMapping(value = "/{itemId}/edit")
     public String editItemForm(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("item", itemService.findById(itemId).get());
         return "front/item/editItemForm";
-    }
+    }*/
 
     /**
      * Item 수정

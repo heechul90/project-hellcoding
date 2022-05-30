@@ -49,11 +49,11 @@ public class ApiOrderController {
 
     }
 
-    @PostMapping
+    /*@PostMapping
     public JsonResult saveOrder(@RequestBody @Validated CreateOrderRequest request) {
         Long orderId = orderService.order(request.getMemberId(), request.getItemId(), request.getOrderCount());
 
         return JsonResult.OK(orderId);
-    }
+    }*/
 
 }

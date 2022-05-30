@@ -5,7 +5,6 @@ import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
-import com.heech.hellcoding.core.shop.item.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import org.junit.jupiter.api.Test;
@@ -32,10 +31,10 @@ class OrderRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    ItemRepository itemRepository;
+    /*@Autowired
+    ItemRepository itemRepository;*/
 
-    @Test
+    /*@Test
     @Rollback(value = false)
     void saveOrderTest() throws Exception {
         //given
@@ -56,6 +55,6 @@ class OrderRepositoryTest {
         Order findOrder = orderRepository.findById(savedOrder.getId()).orElse(null);
         //Order findOrder = orderRepository.findById(order.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         assertThat(findOrder.getDelivery().getStatus()).isEqualTo(DeliveryStatus.READY);
-    }
+    }*/
 
 }
