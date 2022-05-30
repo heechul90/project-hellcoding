@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.item.repository;
 
+import com.heech.hellcoding.core.shop.item.domain.Book;
 import com.heech.hellcoding.core.shop.item.domain.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemReposityQ
 
     List<Item> findByName(String name);
 
-
+    List<Book> findByAuthor(String author);
 
 }
