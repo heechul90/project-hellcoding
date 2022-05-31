@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.shop.item.book.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -32,7 +34,7 @@ class BookRepositoryTest {
         //given
         for (int i = 0; i <50; i++) {
             bookRepository.save(
-                    Book.builder()
+                    Book.createBuilder()
                             .name("상품이름" + i)
                             .title("상품타이틀" + i)
                             .content("상품내용" + i)
@@ -68,17 +70,17 @@ class BookRepositoryTest {
     @Test
     public void findByXxxTest() throws Exception{
         //given
-        Book book1 = Book.builder()
+        Book book1 = Book.createBuilder()
                 .name("상품이름")
                 .title("상품타이틀1")
                 .content("상품내용1")
                 .price(7200)
-                .stockQuantity(200)
+                .stockQuantity(150)
                 .author("저자")
                 .isbn(UUID.randomUUID().toString().toUpperCase())
                 .build();
 
-        Book book2 = Book.builder()
+        Book book2 = Book.createBuilder()
                 .name("상품이름")
                 .title("상품타이틀2")
                 .content("상품내용2")
@@ -94,9 +96,11 @@ class BookRepositoryTest {
         //when
         List<Book> resultList1 = bookRepository.findByName("상품이름");
         List<Book> resultList2 = bookRepository.findByAuthor("저자");
+        Book findBook = bookRepository.findById(book1.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
 
         //then
         assertThat(resultList1).extracting("title").containsExactly("상품타이틀1", "상품타이틀2");
         assertThat(resultList2).extracting("content").containsExactly("상품내용1", "상품내용2");
+        assertThat(findBook).isEqualTo(book1);
     }
 }

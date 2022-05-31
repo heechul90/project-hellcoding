@@ -33,7 +33,7 @@ public class TestDataInit {
         Book book1 = new Book("연금술사", "2022년 베스트 셀러!", "재미있는 책입니다.", 10800, 100, "파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
         bookRepository.save(book1);
 
-        Book book2 = Book.builder()
+        Book book2 = Book.createBuilder()
                 .name("갈매기의 꿈")
                 .title("2021년 베스트 셀러!")
                 .content("갈매기 맛있다")

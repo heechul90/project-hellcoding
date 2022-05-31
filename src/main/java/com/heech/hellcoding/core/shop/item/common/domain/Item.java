@@ -5,8 +5,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+
+import static org.springframework.util.StringUtils.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -38,6 +41,25 @@ public abstract class Item {
         this.content = content;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    //===변경 메서드===//
+    protected void updateItem(String name, String title, String content, int price, int stockQuantity) {
+        if (hasText(name)) {
+            this.name = name;
+        }
+        if (hasText(title)) {
+            this.title = title;
+        }
+        if (hasText(content)) {
+            this.content = content;
+        }
+        if (price >= 0) {
+            this.price = price;
+        }
+        if (stockQuantity >= 0) {
+            this.stockQuantity = stockQuantity;
+        }
     }
 
     //===비즈니스 로직===//
