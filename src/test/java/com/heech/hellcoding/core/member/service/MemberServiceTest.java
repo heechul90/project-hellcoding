@@ -35,6 +35,7 @@ class MemberServiceTest {
                 .name("test")
                 .loginId("test")
                 .password("test")
+                .email("test")
                 .build();
         memberService.saveMember(member);
 
@@ -55,6 +56,7 @@ class MemberServiceTest {
                 .name("test")
                 .loginId("test")
                 .password("test")
+                .email("test")
                 .build();
 
         //when
@@ -74,16 +76,17 @@ class MemberServiceTest {
                 .name("test")
                 .loginId("test")
                 .password("test")
+                .email("test")
                 .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
 
         //when
-        memberService.updateMember(savedMember.getId(), "", "", "1111");
+        memberService.updateMember(savedMember.getId(), "", "1111", "");
 
         //then
-        Member findMember = memberService.findById(savedMember.getId());
+        Member findMember = em.find(Member.class, savedMember.getId());
         assertThat(findMember.getPassword()).isEqualTo("1111");
     }
 
@@ -94,6 +97,7 @@ class MemberServiceTest {
                 .name("test")
                 .loginId("test")
                 .password("test")
+                .email("test")
                 .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
@@ -103,7 +107,7 @@ class MemberServiceTest {
         memberService.deleteMember(savedMember.getId());
 
         //then
-        Member findMember = memberService.findById(savedMember.getId());
+        Member findMember = em.find(Member.class, savedMember.getId());
         assertThat(findMember).isNull();
     }
 
@@ -114,6 +118,7 @@ class MemberServiceTest {
                 .name("test")
                 .loginId("test")
                 .password("test")
+                .email("test")
                 .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
