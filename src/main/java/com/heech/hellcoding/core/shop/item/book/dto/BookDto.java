@@ -1,7 +1,6 @@
 package com.heech.hellcoding.core.shop.item.book.dto;
 
 import com.heech.hellcoding.core.shop.item.common.dto.CommonItemDto;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
