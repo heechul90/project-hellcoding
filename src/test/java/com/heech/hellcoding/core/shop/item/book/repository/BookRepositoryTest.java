@@ -3,7 +3,6 @@ package com.heech.hellcoding.core.shop.item.book.repository;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -63,5 +63,40 @@ class BookRepositoryTest {
         assertThat(content2.getContent())
                 .extracting("name")
                 .containsExactly("상품이름45", "상품이름46", "상품이름47", "상품이름48", "상품이름49");
+    }
+
+    @Test
+    public void findByXxxTest() throws Exception{
+        //given
+        Book book1 = Book.builder()
+                .name("상품이름")
+                .title("상품타이틀1")
+                .content("상품내용1")
+                .price(7200)
+                .stockQuantity(200)
+                .author("저자")
+                .isbn(UUID.randomUUID().toString().toUpperCase())
+                .build();
+
+        Book book2 = Book.builder()
+                .name("상품이름")
+                .title("상품타이틀2")
+                .content("상품내용2")
+                .price(7200)
+                .stockQuantity(200)
+                .author("저자")
+                .isbn(UUID.randomUUID().toString().toUpperCase())
+                .build();
+
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+
+        //when
+        List<Book> resultList1 = bookRepository.findByName("상품이름");
+        List<Book> resultList2 = bookRepository.findByAuthor("저자");
+
+        //then
+        assertThat(resultList1).extracting("title").containsExactly("상품타이틀1", "상품타이틀2");
+        assertThat(resultList2).extracting("content").containsExactly("상품내용1", "상품내용2");
     }
 }
