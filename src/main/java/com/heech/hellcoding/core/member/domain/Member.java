@@ -68,15 +68,15 @@ public class Member {
 
     //===생성 메서드===//
     @Builder
-    public Member(String loginId, String password, String name, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
+    public Member(String name, String loginId, String password, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
+        Assert.hasText(name, "name은 필수값입니다.");
         Assert.hasText(loginId, "loginId는 필수값입니다.");
         Assert.hasText(password, "password는 필수값입니다.");
-        Assert.hasText(name, "name은 필수값입니다.");
         Assert.hasText(email, "email은 필수값입니다.");
 
+        this.name = name;
         this.loginId = loginId;
         this.password = password;
-        this.name = name;
         this.email = email;
         this.birthDate = birthDate;
         this.genderCode = genderCode;

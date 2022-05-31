@@ -68,32 +68,33 @@ public class TestDataInit {
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("12345", "Sejong", "hanuridaero");
 
-        Member admin = new Member(
-                "admin",
-                "1234",
-                "스프링관리자",
-                "spring2@spring.com",
-                "19901009",
-                GenderCode.M,
-                mobile,
-                address,
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
+        Member admin = Member.builder()
+                .name("스프링관리자")
+                .loginId("admin")
+                .password("1234")
+                .email("admin@spring.com")
+                .birthDate("19901009")
+                .genderCode(GenderCode.M)
+                .mobile(mobile)
+                .address(address)
+                .signupDate(LocalDateTime.now())
+                .signinDate(LocalDateTime.now())
+                .build();
+
         memberRepository.save(admin);
 
-        Member spring = new Member(
-                "spring",
-                "1234",
-                "스프링유저",
-                "spring2@spring.com",
-                "19901009",
-                GenderCode.M,
-                mobile,
-                address,
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
+        Member spring = Member.builder()
+                .name("스프링유저")
+                .loginId("spring")
+                .password("1234")
+                .email("spring@spring.com")
+                .birthDate("19901009")
+                .genderCode(GenderCode.M)
+                .mobile(mobile)
+                .address(address)
+                .signupDate(LocalDateTime.now())
+                .signinDate(LocalDateTime.now())
+                .build();
         memberRepository.save(spring);
     }
 
