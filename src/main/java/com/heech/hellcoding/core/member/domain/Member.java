@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.member.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -68,6 +69,7 @@ public class Member {
         this.password = password;
     }
 
+    @Builder
     public Member(String loginId, String password, String name, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
         this.loginId = loginId;
         this.password = password;
@@ -82,8 +84,15 @@ public class Member {
     }
 
     //=== 변경 메서드 ===//
+    public void changeMemberName(String memberNeme) {
+        this.name = memberNeme;
+    }
+
+    public void changeEmail(String email) {
+        this.email = email;
+    }
+
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
-
 }

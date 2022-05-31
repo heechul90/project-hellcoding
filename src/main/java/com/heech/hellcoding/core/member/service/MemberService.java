@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.member.service;
 
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
@@ -9,9 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.util.StringUtils.*;
 
 @Slf4j
 @Service
@@ -40,9 +44,18 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public void updateMmeber(Long id, String password) {
-        Member findMember = memberRepository.findById(id).orElseGet(null);
-        findMember.changePassword(password);
+    public void updateMember(Long id, String memberName, String email, String password) {
+        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        System.out.println("password = " + password);
+        if (hasText(memberName)) {
+            findMember.changeMemberName(memberName);
+        }
+        if (hasText(email)) {
+            findMember.changeEmail(email);
+        }
+        if (hasText(password)) {
+            findMember.changePassword(password);
+        }
     }
 
     /**

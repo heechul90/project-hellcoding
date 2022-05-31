@@ -5,6 +5,7 @@ import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.api.member.response.UpdateMemberResponse;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -95,10 +96,14 @@ public class ApiMemberController {
      */
     @PutMapping(value = "/{id}")
     public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
-
+        //TODO validation 처리
         System.out.println("id = " + id);
-        memberService.updateMmeber(id, request.getPassword());
-        Member findMember = memberRepository.findById(id).orElseGet(null);
+        System.out.println("request.getMemberName() = " + request.getMemberName());
+        System.out.println("request.getEmail() = " + request.getEmail());
+        System.out.println("request.getPassword() = " + request.getPassword());
+
+        memberService.updateMember(id, request.getMemberName(), request.getEmail(), request.getPassword());
+        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }
 

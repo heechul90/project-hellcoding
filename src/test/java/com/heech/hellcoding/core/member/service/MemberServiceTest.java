@@ -68,7 +68,7 @@ class MemberServiceTest {
         em.clear();
 
         //when
-        memberService.updateMmeber(savedMember.getId(), "1111");
+        memberService.updateMember(savedMember.getId(), "", "", "1111");
 
         //then
         Member findMember = memberService.findById(savedMember.getId()).orElse(null);
