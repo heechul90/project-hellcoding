@@ -41,7 +41,22 @@ public class BookService {
         return bookRepository.save(book).getId();
     }
 
-    //TODO updateBook
+    /**
+     * 상품 > Book 수정
+     */
+    @Transactional
+    public void updateBook(Long id, String name, String title, String content, int price, int stockQuantity, String author, String isbn) {
+        Book findBook = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        findBook.updateBuilder()
+                .name(name)
+                .title(title)
+                .content(content)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .author(author)
+                .isbn(isbn)
+                .build();
+    }
 
     /**
      * 상품 > Book 삭제
