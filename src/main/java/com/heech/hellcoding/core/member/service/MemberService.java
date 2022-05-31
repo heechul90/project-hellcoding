@@ -33,6 +33,13 @@ public class MemberService {
     }
 
     /**
+     * 회원 조회 By Id
+     */
+    public Member findMember(Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+    }
+
+    /**
      * 회원 저장
      */
     @Transactional
@@ -56,13 +63,6 @@ public class MemberService {
     public void deleteMember(Long id) {
         Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         memberRepository.delete(findMember);
-    }
-
-    /**
-     * 회원 조회 By Id
-     */
-    public Member findById(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
     }
 
 }

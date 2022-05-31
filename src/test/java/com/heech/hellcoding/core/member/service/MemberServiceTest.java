@@ -125,7 +125,7 @@ class MemberServiceTest {
         em.clear();
 
         //when
-        Member findMember = memberService.findById(savedMember.getId());
+        Member findMember = memberService.findMember(savedMember.getId());
 
         //then
         assertThat(findMember.getLoginId()).isEqualTo("test");

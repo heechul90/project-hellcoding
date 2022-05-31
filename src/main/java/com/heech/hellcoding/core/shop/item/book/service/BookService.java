@@ -62,8 +62,9 @@ public class BookService {
      * 상품 > Book 삭제
      */
     @Transactional
-    public void deleteBook(Book book) {
-        bookRepository.delete(book);
+    public void deleteBook(Long id) {
+        Book findBook = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        bookRepository.delete(findBook);
     }
 
 }

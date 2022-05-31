@@ -56,7 +56,7 @@ public class ApiMemberController {
      */
     @GetMapping(value = "/{id}")
     public JsonResult findMember(@PathVariable("id") Long id) {
-        Member findMember = memberService.findById(id);
+        Member findMember = memberService.findMember(id);
         MemberDto member = new MemberDto(
                 findMember.getName(),
                 findMember.getEmail(),
@@ -96,7 +96,7 @@ public class ApiMemberController {
     public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
         //TODO validation 처리
         memberService.updateMember(id, request.getMemberName(), request.getPassword(), request.getEmail());
-        Member findMember = memberService.findById(id);
+        Member findMember = memberService.findMember(id);
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }
 
@@ -107,7 +107,6 @@ public class ApiMemberController {
     public JsonResult deleteMember(@PathVariable("id") Long id) {
         memberService.deleteMember(id);
         return JsonResult.OK();
-
     }
 
 }
