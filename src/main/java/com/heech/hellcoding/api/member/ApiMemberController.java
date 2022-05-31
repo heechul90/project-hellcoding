@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 public class ApiMemberController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     /**
      * 회원 목록
@@ -49,7 +48,6 @@ public class ApiMemberController {
                         member.getMobile().fullPhoneNumber(),
                         member.getAddress().fullAddress()))
                 .collect(Collectors.toList());
-        System.out.println("content.getSize() = " + content.getPageable());
         return JsonResult.OK(collect);
     }
 
@@ -58,7 +56,7 @@ public class ApiMemberController {
      */
     @GetMapping(value = "/{id}")
     public JsonResult findMember(@PathVariable("id") Long id) {
-        Member findMember = memberService.findById(id).orElseThrow(() -> new IllegalArgumentException("illegal argument :" + id));
+        Member findMember = memberService.findById(id);
         MemberDto member = new MemberDto(
                 findMember.getName(),
                 findMember.getEmail(),
@@ -97,13 +95,8 @@ public class ApiMemberController {
     @PutMapping(value = "/{id}")
     public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
         //TODO validation 처리
-        System.out.println("id = " + id);
-        System.out.println("request.getMemberName() = " + request.getMemberName());
-        System.out.println("request.getEmail() = " + request.getEmail());
-        System.out.println("request.getPassword() = " + request.getPassword());
-
-        memberService.updateMember(id, request.getMemberName(), request.getEmail(), request.getPassword());
-        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        memberService.updateMember(id, request.getMemberName(), request.getPassword(), request.getEmail());
+        Member findMember = memberService.findById(id);
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }
 

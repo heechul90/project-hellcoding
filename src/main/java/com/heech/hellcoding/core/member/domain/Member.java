@@ -5,9 +5,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import static org.springframework.util.StringUtils.*;
 
 @Entity
 /*@SequenceGenerator(
@@ -63,14 +66,14 @@ public class Member {
     /** 접속일 */
     private LocalDateTime signinDate;
 
-    public Member(String loginId, String name, String password) {
-        this.loginId = loginId;
-        this.name = name;
-        this.password = password;
-    }
-
+    //===생성 메서드===//
     @Builder
     public Member(String loginId, String password, String name, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
+        Assert.hasText(loginId, "loginId는 필수값입니다.");
+        Assert.hasText(password, "password는 필수값입니다.");
+        Assert.hasText(name, "name은 필수값입니다.");
+        Assert.hasText(email, "email은 필수값입니다.");
+
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -84,12 +87,16 @@ public class Member {
     }
 
     //=== 변경 메서드 ===//
-    public void changeMemberName(String memberNeme) {
-        this.name = memberNeme;
-    }
-
-    public void changeEmail(String email) {
-        this.email = email;
+    public void updateMember(String name, String password, String email) {
+        if (hasText(name)) {
+            this.name = name;
+        }
+        if (hasText(password)) {
+            this.password = password;
+        }
+        if (hasText(email)) {
+            this.email = email;
+        }
     }
 
     public void changePassword(String newPassword) {

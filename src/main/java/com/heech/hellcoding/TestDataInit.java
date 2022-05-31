@@ -82,7 +82,6 @@ public class TestDataInit {
         );
         memberRepository.save(admin);
 
-
         Member spring = new Member(
                 "spring",
                 "1234",

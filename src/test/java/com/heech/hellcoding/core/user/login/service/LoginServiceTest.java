@@ -30,7 +30,11 @@ class LoginServiceTest {
     @Test
     void login() {
         //given
-        Member member = new Member("spring1", "spring1", "spring1");
+        Member member = Member.builder()
+                .loginId("spring1")
+                .password("spring1")
+                .name("spring1")
+                .build();
         Member savedMember = memberRepository.save(member);
         em.flush();
         em.clear();

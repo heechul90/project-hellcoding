@@ -31,7 +31,11 @@ class MemberServiceTest {
     @Test
     void findMembers() {
         //given
-        Member member = new Member("test", "test", "test");
+        Member member = Member.builder()
+                .name("test")
+                .loginId("test")
+                .password("test")
+                .build();
         memberService.saveMember(member);
 
         MemberSearchCondition condition = new MemberSearchCondition();
@@ -47,7 +51,11 @@ class MemberServiceTest {
     @Test
     void saveMember() {
         //given
-        Member member = new Member("test", "test", "test");
+        Member member = Member.builder()
+                .name("test")
+                .loginId("test")
+                .password("test")
+                .build();
 
         //when
         Member savedMember = memberService.saveMember(member);
@@ -62,7 +70,11 @@ class MemberServiceTest {
     @Test
     void updateMmeber() {
         //given
-        Member member = new Member("test", "test", "test");
+        Member member = Member.builder()
+                .name("test")
+                .loginId("test")
+                .password("test")
+                .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
@@ -71,14 +83,18 @@ class MemberServiceTest {
         memberService.updateMember(savedMember.getId(), "", "", "1111");
 
         //then
-        Member findMember = memberService.findById(savedMember.getId()).orElse(null);
+        Member findMember = memberService.findById(savedMember.getId());
         assertThat(findMember.getPassword()).isEqualTo("1111");
     }
 
     @Test
     void deleteMember() {
         //given
-        Member member = new Member("test", "test", "test");
+        Member member = Member.builder()
+                .name("test")
+                .loginId("test")
+                .password("test")
+                .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
@@ -87,20 +103,24 @@ class MemberServiceTest {
         memberService.deleteMember(savedMember.getId());
 
         //then
-        Member findMember = memberService.findById(savedMember.getId()).orElse(null);
+        Member findMember = memberService.findById(savedMember.getId());
         assertThat(findMember).isNull();
     }
 
     @Test
     void findById() {
         //given
-        Member member = new Member("test", "test", "test");
+        Member member = Member.builder()
+                .name("test")
+                .loginId("test")
+                .password("test")
+                .build();
         Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
 
         //when
-        Member findMember = memberService.findById(savedMember.getId()).orElse(null);
+        Member findMember = memberService.findById(savedMember.getId());
 
         //then
         assertThat(findMember.getLoginId()).isEqualTo("test");

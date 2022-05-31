@@ -44,18 +44,9 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public void updateMember(Long id, String memberName, String email, String password) {
+    public void updateMember(Long id, String memberName, String password, String email) {
         Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        System.out.println("password = " + password);
-        if (hasText(memberName)) {
-            findMember.changeMemberName(memberName);
-        }
-        if (hasText(email)) {
-            findMember.changeEmail(email);
-        }
-        if (hasText(password)) {
-            findMember.changePassword(password);
-        }
+        findMember.updateMember(memberName, password, email);
     }
 
     /**
@@ -63,16 +54,15 @@ public class MemberService {
      */
     @Transactional
     public void deleteMember(Long id) {
-        Member findMember = memberRepository.findById(id).orElseGet(null);
+        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         memberRepository.delete(findMember);
-        System.out.println("findMember.getPassword() = " + findMember.getPassword());
     }
 
     /**
      * 회원 조회 By Id
      */
-    public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
+    public Member findById(Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
     }
 
 }
