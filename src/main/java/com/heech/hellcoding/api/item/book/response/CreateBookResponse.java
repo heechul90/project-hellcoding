@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreateItemResponse {
+public class CreateBookResponse {
 
     private Long id;
 }

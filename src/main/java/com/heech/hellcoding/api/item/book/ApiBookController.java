@@ -1,6 +1,9 @@
 package com.heech.hellcoding.api.item.book;
 
 import com.heech.hellcoding.api.item.book.request.CreateBookRequest;
+import com.heech.hellcoding.api.item.book.request.UpdateBookRequest;
+import com.heech.hellcoding.api.item.book.response.CreateBookResponse;
+import com.heech.hellcoding.api.item.book.response.UpdateBookResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookDto;
@@ -87,11 +90,25 @@ public class ApiBookController {
                 .isbn(request.getIsbn())
                 .build();
         Long savedId = bookService.saveBook(book);
-        return JsonResult.OK(new HashMap<String, Long>() {{
-            put("savedId", savedId);
-        }});
+        return JsonResult.OK(new CreateBookResponse(savedId));
     }
-    //TODO 상품 > Book 수정
+
+    /**
+     * 상품 > Book 수정
+     */
+    @PutMapping(value = "/{id}")
+    public JsonResult updateBook(@PathVariable("id") Long id,
+                                 @RequestBody @Validated UpdateBookRequest request, BindingResult bindingResult) {
+        //TODO validation check
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        bookService.updateBook(id, request.getItemName(), request.getItemTitle(), request.getItemContent(),
+                request.getPrice(), request.getStockQuantity(), request.getAuthor(), request.getIsbn());
+        Book book = bookService.findBook(id);
+        return JsonResult.OK(new UpdateBookResponse(book.getId()));
+    }
     //TODO 상품 > Book 삭제
 
 }
