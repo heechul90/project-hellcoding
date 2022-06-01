@@ -104,11 +104,26 @@ public class ApiBookController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        bookService.updateBook(id, request.getItemName(), request.getItemTitle(), request.getItemContent(),
-                request.getPrice(), request.getStockQuantity(), request.getAuthor(), request.getIsbn());
+        bookService.updateBook(
+                id,
+                request.getItemName(),
+                request.getItemTitle(),
+                request.getItemContent(),
+                request.getPrice(),
+                request.getStockQuantity(),
+                request.getAuthor(),
+                request.getIsbn());
         Book book = bookService.findBook(id);
         return JsonResult.OK(new UpdateBookResponse(book.getId()));
     }
-    //TODO 상품 > Book 삭제
+
+    /**
+     * 상품 > Book 삭제
+     */
+    @DeleteMapping(value = "{id}")
+    public JsonResult deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBook(id);
+        return JsonResult.OK();
+    }
 
 }
