@@ -7,6 +7,7 @@ import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,6 @@ import static com.heech.hellcoding.core.shop.orderItem.domain.QOrderItem.orderIt
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Order {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +39,6 @@ public class Order {
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -48,23 +46,14 @@ public class Order {
 
     private LocalDateTime orderDate;
 
-    //===연관관계 편의 메서드===//
-    /*public void addOrderItems(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }*/
-
     //===생성 메서드===//
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        Order order = Order.builder()
-                .member(member)
-                .delivery(delivery)
-                .status(OrderStatus.ORDER)
-                .orderDate(LocalDateTime.now())
-                .build();
-        //Arrays.stream(orderItems).forEach(order::addOrderItems);
-        Arrays.stream(orderItems).forEachOrdered(orderItem -> orderItem.addOrder(order));
-        return order;
+    @Builder(builderMethodName = "createBuilder")
+    public Order(Member member, Delivery delivery, OrderItem... orderItems) {
+        this.member = member;
+        this.delivery = delivery;
+        this.status = OrderStatus.ORDER;
+        this.orderDate = LocalDateTime.now();
+        Arrays.stream(orderItems).forEachOrdered(orderItem -> orderItem.addOrder(this));
     }
 
     //===비즈니스 록직===//

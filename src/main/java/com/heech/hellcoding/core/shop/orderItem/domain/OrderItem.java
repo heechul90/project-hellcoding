@@ -14,8 +14,6 @@ import javax.persistence.*;
 )*/
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class OrderItem {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,15 +44,12 @@ public class OrderItem {
     }
 
     //=== 생성 메서드 ===//
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        OrderItem orderItem = OrderItem.builder()
-                .item(item)
-                .orderPrice(orderPrice)
-                .count(count)
-                .build();
-
+    @Builder(builderMethodName = "createOrderItem")
+    public OrderItem(Item item, int orderPrice, int count) {
+        this.item = item;
+        this.orderPrice = orderPrice;
+        this.count = count;
         item.removeStock(count);
-        return orderItem;
     }
 
     //===비즈니스 로직===//
