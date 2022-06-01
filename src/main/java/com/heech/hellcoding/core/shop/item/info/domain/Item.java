@@ -35,7 +35,7 @@ public abstract class Item {
     private int stockQuantity;
 
     //=== 생성메서드 ===//
-    public Item(String name, String title, String content, int price, int stockQuantity) {
+    protected Item(String name, String title, String content, int price, int stockQuantity) {
         this.name = name;
         this.title = title;
         this.content = content;
