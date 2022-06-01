@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.shop.item.book.domain;
 
-import com.heech.hellcoding.core.shop.item.common.domain.Item;
+import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import com.mysema.commons.lang.Assert;
 import lombok.Builder;
 import lombok.Getter;

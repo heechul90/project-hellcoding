@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -16,6 +19,7 @@ public class JsonResult<T> {
     private HttpStatus status;
     private String message = "";
 
+    private List<ObjectError> allErrors;
     private T data;
 
     public static <T> JsonResult<T> OK() {
@@ -33,10 +37,11 @@ public class JsonResult<T> {
                 .build();
     }
 
-    public static <T> JsonResult<T> ERROR() {
+    public static <T> JsonResult<T> ERROR(List<ObjectError> allErrors) {
         return (JsonResult<T>) JsonResult.builder()
                 .transaction_time(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST)
+                .allErrors(allErrors)
                 .build();
     }
 }

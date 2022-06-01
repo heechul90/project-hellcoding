@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.shop.item.album.dto;
 
-import com.heech.hellcoding.core.shop.item.common.dto.CommonItemSearchCondition;
+import com.heech.hellcoding.core.shop.item.info.dto.ItemSearchCondition;
 
-public class AlbumSearchCondition extends CommonItemSearchCondition {
+public class AlbumSearchCondition extends ItemSearchCondition {
 }

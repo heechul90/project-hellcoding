@@ -1,10 +1,10 @@
 package com.heech.hellcoding.core.shop.item.book.dto;
 
-import com.heech.hellcoding.core.shop.item.common.dto.CommonItemDto;
+import com.heech.hellcoding.core.shop.item.info.dto.ItemDto;
 import lombok.Getter;
 
 @Getter
-public class BookDto extends CommonItemDto {
+public class BookDto extends ItemDto {
 
     private String author;
     private String isbn;

@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.shop.item.common.domain;
+package com.heech.hellcoding.core.shop.item.info.domain;
 
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
 import lombok.AccessLevel;

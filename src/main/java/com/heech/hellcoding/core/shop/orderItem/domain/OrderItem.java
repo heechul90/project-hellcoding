@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.shop.orderItem.domain;
 
-import com.heech.hellcoding.core.shop.item.common.domain.Item;
+import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import lombok.*;
 

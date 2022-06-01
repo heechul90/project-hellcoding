@@ -1,5 +1,6 @@
 package com.heech.hellcoding.api.item.book;
 
+import com.heech.hellcoding.api.item.book.request.CreateBookRequest;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookDto;
@@ -9,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +66,31 @@ public class ApiBookController {
         return JsonResult.OK(book);
     }
 
-    //TODO 상품 > Book 저장
+    /**
+     * 상품 > Book 저장
+     */
+    @PostMapping
+    public JsonResult saveBook(@RequestBody @Validated CreateBookRequest request, BindingResult bindingResult) throws BindException {
+
+        //TODO validation check
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        Book book = Book.createBuilder()
+                .name(request.getItemName())
+                .title(request.getItemTitle())
+                .content(request.getItemContent())
+                .price(request.getPrice())
+                .stockQuantity(request.getStockQuantity())
+                .author(request.getAuthor())
+                .isbn(request.getIsbn())
+                .build();
+        Long savedId = bookService.saveBook(book);
+        return JsonResult.OK(new HashMap<String, Long>() {{
+            put("savedId", savedId);
+        }});
+    }
     //TODO 상품 > Book 수정
     //TODO 상품 > Book 삭제
 
