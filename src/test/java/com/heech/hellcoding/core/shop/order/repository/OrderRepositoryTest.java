@@ -79,6 +79,7 @@ class OrderRepositoryTest {
         //then
         assertThat(content.getContent().size()).isEqualTo(1);
         assertThat(content.getContent().get(0).getOrderItems().size()).isEqualTo(2);
+        assertThat(content.getContent().get(0).getMember().getName()).isEqualTo("tester");
     }
 
     private Member addMember(String memberName, String loginId, String password, String email, Address address) {
