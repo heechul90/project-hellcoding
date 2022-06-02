@@ -8,4 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateOrderResponse {
+
+    private Long id;
 }

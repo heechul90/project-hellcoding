@@ -3,15 +3,16 @@ package com.heech.hellcoding.api.order.request;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Setter
 @Getter
 public class ItemInfo {
 
-    @NotEmpty
+    @Positive
     private Long itemId;
 
-    @NotEmpty
+    @PositiveOrZero
     private int orderCount;
 }

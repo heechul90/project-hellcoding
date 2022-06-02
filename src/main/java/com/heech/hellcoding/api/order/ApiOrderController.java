@@ -39,35 +39,39 @@ public class ApiOrderController {
     public JsonResult saveOrder(@RequestBody @Validated CreateOrderRequest request, BindingResult bindingResult) {
 
         //TODO validation check
+        if (request.getItemInfos().size() > 0) {
+            for (ItemInfo itemInfo : request.getItemInfos()) {
+                if (itemInfo.getItemId() == null) {
+                    bindingResult.reject("NotEmpty.itemId", "itemId는 필수값입니다.");
+                }
+                if (itemInfo.getOrderCount() == 0) {
+                    bindingResult.reject("NotEmpty.orderCount", "orderCount는 필수값입니다.");
+                }
+                if (itemInfo.getItemId() != null) {
+                    if (itemInfo.getItemId() < 1) {
+                        bindingResult.reject("Positive.itemId", "itemId는 0 이상이어야 합니다.");
+                    }
+                }
+                if (itemInfo.getOrderCount() < 1) {
+                    bindingResult.reject("Positive.orderCount", "orderCount는 0 이상이어야 합니다.");
+                }
+            }
+        }
+
         if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        saveItemDto saveItemDto = new saveItemDto();
-        saveItemDto.setMemberId(1L);
+        System.out.println("request.getMemberId() = " + request.getMemberId());
+        for (ItemInfo itemInfo : request.getItemInfos()) {
+            System.out.println("itemInfo.getItemId() = " + itemInfo.getItemId());
+            System.out.println("itemInfo.getOrderCount() = " + itemInfo.getOrderCount());
+        }
 
-        ItemInfo itemInfo1 = new ItemInfo();
-        itemInfo1.setItemId(1L);
-        itemInfo1.setOrderCount(10);
+        Long savedId = orderService.saveOrderTest(request.getMemberId(), request.getItemInfos());
 
-        ItemInfo itemInfo2 = new ItemInfo();
-        itemInfo2.setItemId(2L);
-        itemInfo2.setOrderCount(15);
-
-        saveItemDto.getItemInfos().add(itemInfo1);
-        saveItemDto.getItemInfos().add(itemInfo2);
-
-        orderService.saveOrderTest(saveItemDto.getMemberId(), saveItemDto.getItemInfos());
-
-        return JsonResult.OK(new CreateOrderResponse());
+        return JsonResult.OK(new CreateOrderResponse(savedId));
     }
-
-    @Data
-    static class saveItemDto {
-        private Long memberId;
-        private List<ItemInfo> itemInfos;
-    }
-
 
     //TODO 주문 수정
 
