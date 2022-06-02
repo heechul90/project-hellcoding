@@ -56,6 +56,16 @@ public class Order {
         Arrays.stream(orderItems).forEachOrdered(orderItem -> orderItem.addOrder(this));
     }
 
+    @Builder(builderMethodName = "createBuilderTest")
+    public Order(Member member, Delivery delivery, List<OrderItem> orderItems) {
+        this.member = member;
+        this.delivery = delivery;
+        this.status = OrderStatus.ORDER;
+        this.orderDate = LocalDateTime.now();
+        orderItems.forEach(orderItem -> orderItem.addOrder(this));
+        //Arrays.stream(orderItems).forEachOrdered(orderItem -> orderItem.addOrder(this));
+    }
+
     //===비즈니스 록직===//
     /**
      * 주문취소

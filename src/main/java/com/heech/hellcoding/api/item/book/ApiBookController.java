@@ -73,7 +73,7 @@ public class ApiBookController {
      * 상품 > Book 저장
      */
     @PostMapping
-    public JsonResult saveBook(@RequestBody @Validated CreateBookRequest request, BindingResult bindingResult) throws BindException {
+    public JsonResult saveBook(@RequestBody @Validated CreateBookRequest request, BindingResult bindingResult) {
 
         //TODO validation check
         if (bindingResult.hasErrors()) {
