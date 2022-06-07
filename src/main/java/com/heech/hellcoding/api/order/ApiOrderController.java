@@ -116,6 +116,13 @@ public class ApiOrderController {
 
     //TODO 주문 수정
 
-    //TODO 주문 삭제
+    /**
+     * 주문 삭제
+     */
+    @DeleteMapping(value = "/{id}")
+    public JsonResult deleteOrder(@PathVariable("id") Long id) {
+        orderService.deleteOrder(id);
+        return JsonResult.OK();
+    }
 
 }
