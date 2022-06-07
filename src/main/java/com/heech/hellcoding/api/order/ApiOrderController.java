@@ -51,7 +51,27 @@ public class ApiOrderController {
         return JsonResult.OK(collect);
     }
 
-    //TODO 주문 단건 조회
+    /**
+     * 주문 단건 조회
+     */
+    @GetMapping(value = "/{id}")
+    public JsonResult findOrder(@PathVariable("id") Long id) {
+        Order findOrder = orderService.findOrder(id);
+        OrderDto order = new OrderDto(
+                findOrder.getId(),
+                findOrder.getOrderDate(),
+                OrderStatus.ORDER.equals(findOrder.getStatus()) ? "주문" : "주문취소",
+                findOrder.getDelivery().getAddress().fullAddress(),
+                findOrder.getOrderItems().stream()
+                        .map(orderItem -> new OrderItemDto(
+                                orderItem.getItem().getName(),
+                                orderItem.getOrderPrice(),
+                                orderItem.getCount()
+                        ))
+                        .collect(Collectors.toList())
+        );
+        return JsonResult.OK(order);
+    }
 
     /**
      * 주문 저장
