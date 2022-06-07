@@ -27,6 +27,14 @@ public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
 
     @Override
     public Page<Order> findOrders(OrderSearchCondition condition, Pageable pageable) {
+        List<Order> content = getOrderList(condition, pageable);
+
+        JPAQuery<Long> count = getOrderListCount(condition);
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    private List<Order> getOrderList(OrderSearchCondition condition, Pageable pageable) {
         List<Order> content = queryFactory
                 .select(order)
                 .from(order)
@@ -38,14 +46,17 @@ public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+        return content;
+    }
 
+    private JPAQuery<Long> getOrderListCount(OrderSearchCondition condition) {
         JPAQuery<Long> count = queryFactory
                 .select(order.count())
                 .from(order)
                 .where(
                         searchOrderStatusEq(condition.getSearchOrderStatus())
                 );
-        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+        return count;
     }
 
     private BooleanExpression searchOrderStatusEq(OrderStatus searchOrderStatus) {
