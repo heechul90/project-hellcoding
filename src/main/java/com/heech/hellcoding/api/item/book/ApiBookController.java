@@ -101,8 +101,17 @@ public class ApiBookController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        bookService.updateBook(
-                id,
+        /*BookDto updateBookDto = BookDto.updateBookBuilder()
+                .itemName(request.getItemName())
+                .itemTitle(request.getItemTitle())
+                .itemContent(request.getItemContent())
+                .price(request.getPrice())
+                .stockQuantity(request.getStockQuantity())
+                .author(request.getAuthor())
+                .isbn(request.getIsbn())
+                .build();*/
+
+        bookService.updateBook(id,
                 request.getItemName(),
                 request.getItemTitle(),
                 request.getItemContent(),
