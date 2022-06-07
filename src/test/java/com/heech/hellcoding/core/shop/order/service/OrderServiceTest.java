@@ -85,7 +85,6 @@ class OrderServiceTest {
         List<Item> items = itemRepository.findByIdIn(condition.getSearchIds());
 
 
-
     }
 
     @Test

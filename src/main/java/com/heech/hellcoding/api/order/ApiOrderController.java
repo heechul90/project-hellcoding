@@ -7,16 +7,16 @@ import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
 import com.heech.hellcoding.core.shop.order.dto.OrderDto;
-import com.heech.hellcoding.core.shop.order.repository.OrderRepository;
+import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
 import com.heech.hellcoding.core.shop.order.service.OrderService;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemDto;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +27,29 @@ public class ApiOrderController {
 
     private final OrderService orderService;
 
-
-    //TODO 주문 목록 조회
+    /**
+     * 주문 목록 조회
+     */
+    @GetMapping
+    public JsonResult findOrders(OrderSearchCondition condition, Pageable pageable) {
+        Page<Order> content = orderService.findOrders(condition, pageable);
+        List<OrderDto> collect = content.getContent().stream()
+                .map(order -> new OrderDto(
+                        order.getId(),
+                        order.getOrderDate(),
+                        OrderStatus.ORDER.equals(order.getStatus()) ? "주문" : "주문취소",
+                        order.getDelivery().getAddress().fullAddress(),
+                        order.getOrderItems().stream()
+                                .map(orderItem -> new OrderItemDto(
+                                        orderItem.getItem().getName(),
+                                        orderItem.getOrderPrice(),
+                                        orderItem.getCount()
+                                ))
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+        return JsonResult.OK(collect);
+    }
 
     //TODO 주문 단건 조회
 
