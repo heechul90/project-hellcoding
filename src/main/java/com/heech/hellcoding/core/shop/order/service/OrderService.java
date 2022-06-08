@@ -1,13 +1,12 @@
 package com.heech.hellcoding.core.shop.order.service;
 
-import com.heech.hellcoding.api.order.request.ItemInfo;
+import com.heech.hellcoding.api.shop.order.request.ItemInfo;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
-import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import com.heech.hellcoding.core.shop.item.book.repository.BookRepository;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;

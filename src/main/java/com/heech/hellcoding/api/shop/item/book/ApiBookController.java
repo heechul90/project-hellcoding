@@ -1,9 +1,9 @@
-package com.heech.hellcoding.api.item.book;
+package com.heech.hellcoding.api.shop.item.book;
 
-import com.heech.hellcoding.api.item.book.request.CreateBookRequest;
-import com.heech.hellcoding.api.item.book.request.UpdateBookRequest;
-import com.heech.hellcoding.api.item.book.response.CreateBookResponse;
-import com.heech.hellcoding.api.item.book.response.UpdateBookResponse;
+import com.heech.hellcoding.api.shop.item.book.request.CreateBookRequest;
+import com.heech.hellcoding.api.shop.item.book.request.UpdateBookRequest;
+import com.heech.hellcoding.api.shop.item.book.response.CreateBookResponse;
+import com.heech.hellcoding.api.shop.item.book.response.UpdateBookResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookDto;

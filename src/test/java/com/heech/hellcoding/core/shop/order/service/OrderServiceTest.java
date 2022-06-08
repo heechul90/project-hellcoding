@@ -1,7 +1,6 @@
 package com.heech.hellcoding.core.shop.order.service;
 
-import com.heech.hellcoding.api.order.ApiOrderController;
-import com.heech.hellcoding.api.order.request.ItemInfo;
+import com.heech.hellcoding.api.shop.order.request.ItemInfo;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
@@ -11,7 +10,6 @@ import com.heech.hellcoding.core.shop.item.info.dto.ItemSearchCondition;
 import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import lombok.Data;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

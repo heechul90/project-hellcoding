@@ -1,4 +1,4 @@
-package com.heech.hellcoding.api.item.info.request;
+package com.heech.hellcoding.api.shop.item.info.request;
 
 import lombok.Getter;
 import lombok.Setter;

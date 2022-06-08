@@ -1,9 +1,9 @@
-package com.heech.hellcoding.api.order;
+package com.heech.hellcoding.api.shop.order;
 
-import com.heech.hellcoding.api.order.request.CreateOrderRequest;
-import com.heech.hellcoding.api.order.request.ItemInfo;
-import com.heech.hellcoding.api.order.request.UpdateOrderRequest;
-import com.heech.hellcoding.api.order.response.CreateOrderResponse;
+import com.heech.hellcoding.api.shop.order.request.CreateOrderRequest;
+import com.heech.hellcoding.api.shop.order.request.ItemInfo;
+import com.heech.hellcoding.api.shop.order.request.UpdateOrderRequest;
+import com.heech.hellcoding.api.shop.order.response.CreateOrderResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.domain.OrderStatus;

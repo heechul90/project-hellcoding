@@ -1,6 +1,6 @@
-package com.heech.hellcoding.api.item.book.request;
+package com.heech.hellcoding.api.shop.item.book.request;
 
-import com.heech.hellcoding.api.item.info.request.CreateItemRequest;
+import com.heech.hellcoding.api.shop.item.info.request.CreateItemRequest;
 import lombok.Getter;
 import lombok.Setter;
 
