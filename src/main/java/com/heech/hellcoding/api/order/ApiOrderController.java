@@ -2,6 +2,7 @@ package com.heech.hellcoding.api.order;
 
 import com.heech.hellcoding.api.order.request.CreateOrderRequest;
 import com.heech.hellcoding.api.order.request.ItemInfo;
+import com.heech.hellcoding.api.order.request.UpdateOrderRequest;
 import com.heech.hellcoding.api.order.response.CreateOrderResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.order.domain.Order;
@@ -103,18 +104,19 @@ public class ApiOrderController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        System.out.println("request.getMemberId() = " + request.getMemberId());
-        for (ItemInfo itemInfo : request.getItemInfos()) {
-            System.out.println("itemInfo.getItemId() = " + itemInfo.getItemId());
-            System.out.println("itemInfo.getOrderCount() = " + itemInfo.getOrderCount());
-        }
-
         Long savedId = orderService.saveOrderTest(request.getMemberId(), request.getItemInfos());
 
         return JsonResult.OK(new CreateOrderResponse(savedId));
     }
 
-    //TODO 주문 수정
+    /**
+     * 주문 수정
+     */
+    @PutMapping(value = "/{id}")
+    public JsonResult updateOrder(@PathVariable("id") Long id,
+                                  @RequestBody @Validated UpdateOrderRequest request, BindingResult bindingResult) {
+        return JsonResult.OK();
+    }
 
     /**
      * 주문 삭제
