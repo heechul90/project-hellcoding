@@ -5,14 +5,15 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
-import com.heech.hellcoding.core.shop.item.info.domain.Item;
-import com.heech.hellcoding.core.shop.item.info.dto.ItemSearchCondition;
 import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
-import lombok.Data;
+import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
+import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +38,22 @@ class OrderServiceTest {
     @Autowired
     ItemRepository itemRepository;
 
+    private List<ItemInfo> getItemInfos(Long itemId1, Long itemId2, int orderCount) {
+        List<ItemInfo> itemInfos = new ArrayList<>();
+        ItemInfo itemInfo1 = new ItemInfo();
+        itemInfo1.setItemId(itemId1);
+        itemInfo1.setOrderCount(orderCount);
+        itemInfos.add(itemInfo1);
+
+        ItemInfo itemInfo2 = new ItemInfo();
+        itemInfo2.setItemId(itemId2);
+        itemInfo2.setOrderCount(orderCount);
+        itemInfos.add(itemInfo2);
+        return itemInfos;
+    }
+
     @Test
-    @Rollback(value = false)
-    void findOrders() {
+    void findOrdersTest() {
         //when
         Address address = new Address("11111", "서울", "강남대로");
         Member member1 = addMember("tester1", "tester1", "12341", "tester1@spring.com", address);
@@ -57,35 +71,66 @@ class OrderServiceTest {
         em.persist(book3);
         em.persist(book4);
         em.persist(book5);
+
+        List<ItemInfo> itemInfos1 = getItemInfos(book1.getId(), book2.getId(), 10);
+        List<ItemInfo> itemInfos2 = getItemInfos(book2.getId(), book3.getId(), 20);
+        List<ItemInfo> itemInfos3 = getItemInfos(book3.getId(), book4.getId(), 30);
+        List<ItemInfo> itemInfos4 = getItemInfos(book4.getId(), book5.getId(), 40);
+        List<ItemInfo> itemInfos5 = getItemInfos(book5.getId(), book1.getId(), 50);
+
+        for (int i = 0; i < 50; i++) {
+            if (i < 10) {
+                orderService.saveOrder(member1.getId(), itemInfos1);
+            } else if (i < 20) {
+                orderService.saveOrder(member2.getId(), itemInfos2);
+            } else if (i < 30) {
+                orderService.saveOrder(member1.getId(), itemInfos3);
+            } else if (i < 40) {
+                orderService.saveOrder(member2.getId(), itemInfos4);
+            } else {
+                orderService.saveOrder(member1.getId(), itemInfos5);
+            }
+        }
         em.flush();
         em.clear();
 
         //when
-        for (int i = 0; i < 50; i++) {
-            if (i < 10) {
-                orderService.saveOrder(member1.getId(), book1.getId(), i);
-            } else if (i < 20) {
-                orderService.saveOrder(member2.getId(), book2.getId(), i);
-            } else if (i < 30) {
-                orderService.saveOrder(member1.getId(), book3.getId(), i);
-            } else if (i < 40) {
-                orderService.saveOrder(member2.getId(), book4.getId(), i);
-            } else {
-                orderService.saveOrder(member1.getId(), book5.getId(), i);
-            }
-        }
+        OrderSearchCondition condition = new OrderSearchCondition();
+        //condition.setSearchOrderStatus(OrderStatus.CANCEL);
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<Order> content = orderService.findOrders(condition, pageRequest);
 
-        ItemSearchCondition condition = new ItemSearchCondition();
-        condition.getSearchIds().add(book1.getId());
-        condition.getSearchIds().add(book2.getId());
-
-        List<Item> items = itemRepository.findByIdIn(condition.getSearchIds());
-
-
+        //then
+        assertThat(content.getContent().size()).isEqualTo(10);
+        assertThat(content.getContent().get(0).getOrderItems().get(0).getItem().getName()).isEqualTo("book1");
+        assertThat(content.getTotalElements()).isEqualTo(50);
     }
 
     @Test
-    void findOrder() {
+    void findOrderTest() {
+        //given
+        Address address = new Address("11111", "서울", "강남대로");
+        Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
+        Book book1 = addItem("book1", 10000, 150, "author1");
+        Book book2 = addItem("book2", 15000, 150, "author2");
+
+        em.persist(member);
+        em.persist(book1);
+        em.persist(book2);
+
+        List<ItemInfo> itemInfos = getItemInfos(book1.getId(), book2.getId(), 10);
+        Long savedId = orderService.saveOrder(member.getId(), itemInfos);
+        em.flush();
+        em.clear();
+
+        //when
+        Order findOrder = orderService.findOrder(savedId);
+
+        //then
+        assertThat(findOrder.getStatus()).isEqualTo(OrderStatus.ORDER);
+        assertThat(findOrder.getMember().getName()).isEqualTo("tester");
+        assertThat(findOrder.getDelivery().getAddress().getDetailAddress()).isEqualTo("강남대로");
+        assertThat(findOrder.getOrderItems().get(0).getItem().getName()).isEqualTo("book1");
     }
 
     @Test
@@ -102,8 +147,10 @@ class OrderServiceTest {
         em.flush();
         em.clear();
 
+        List<ItemInfo> itemInfos = getItemInfos(book1.getId(), book2.getId(), 10);
+
         //when
-        Long savedId = orderService.saveOrder(member.getId(), book1.getId(), 10);
+        Long savedId = orderService.saveOrder(member.getId(), itemInfos);
 
         //then
         Order findOrder = orderService.findOrder(savedId);
@@ -111,47 +158,6 @@ class OrderServiceTest {
         assertThat(findOrder.getDelivery().getStatus()).isEqualTo(DeliveryStatus.READY);
         assertThat(findOrder.getMember().getName()).isEqualTo("tester");
         assertThat(findOrder.getOrderItems().size()).isEqualTo(1);
-    }
-
-    @Test
-    @Rollback(value = false)
-    public void saveOrderTestTest() throws Exception{
-        //given
-        Address address = new Address("11111", "서울", "강남대로");
-        Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
-        Book book1 = addItem("book1", 10000, 150, "author1");
-        Book book2 = addItem("book2", 15000, 150, "author2");
-
-        em.persist(member);
-        em.persist(book1);
-        em.persist(book2);
-        em.flush();
-        em.clear();
-
-        //when
-        SaveItemDto saveItemDto = new SaveItemDto();
-        saveItemDto.setMemberId(member.getId());
-
-        ItemInfo itemInfo1 = new ItemInfo();
-        itemInfo1.setItemId(book1.getId());
-        itemInfo1.setOrderCount(10);
-
-        ItemInfo itemInfo2 = new ItemInfo();
-        itemInfo2.setItemId(book2.getId());
-        itemInfo2.setOrderCount(15);
-
-        saveItemDto.getItemInfos().add(itemInfo1);
-        saveItemDto.getItemInfos().add(itemInfo2);
-
-        Long savedId = orderService.saveOrderTest(member.getId(), saveItemDto.getItemInfos());
-
-        //then
-    }
-
-    @Data
-    static class SaveItemDto {
-        private Long memberId;
-        private List<ItemInfo> itemInfos = new ArrayList<>();
     }
 
     @Test

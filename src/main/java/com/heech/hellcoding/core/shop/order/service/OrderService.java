@@ -51,7 +51,7 @@ public class OrderService {
     /**
      * 주문 저장(주문하기)
      */
-    @Transactional
+    /*@Transactional
     public Long saveOrder(Long memberId, Long itemId, int count) {
         //엔티티 조회
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
@@ -68,18 +68,18 @@ public class OrderService {
                 .build();
 
         //주문생성
-        /*Order order = Order.createBuilder()
+        *//*Order order = Order.createBuilder()
                 .member(findMember)
                 .delivery(delivery)
                 .orderItems(orderItem)
-                .build();*/
+                .build();*//*
         Order order = new Order(findMember, delivery, orderItem);
 
         //주문저장
         orderRepository.save(order);
 
         return order.getId();
-    }
+    }*/
 
     /**
      * 주문 수정
@@ -103,7 +103,7 @@ public class OrderService {
      * test
      */
     @Transactional
-    public Long saveOrderTest(Long memberId, List<ItemInfo> itemInfos) {
+    public Long saveOrder(Long memberId, List<ItemInfo> itemInfos) {
         //회원 조회
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
 

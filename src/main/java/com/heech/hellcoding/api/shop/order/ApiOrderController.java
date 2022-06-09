@@ -49,6 +49,15 @@ public class ApiOrderController {
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
+        System.out.println("content.getContent().size() = " + content.getContent().size());
+        System.out.println("content.getTotalPages() = " + content.getTotalPages());
+        System.out.println("content.getTotalElements() = " + content.getTotalElements());
+        System.out.println("content.getPageable() = " + content.getPageable());
+        System.out.println("content.getPageable().getPageSize() = " + content.getPageable().getPageSize());
+        System.out.println("content.getPageable().getOffset() = " + content.getPageable().getOffset());
+        System.out.println("content.getPageable().getPageNumber() = " + content.getPageable().getPageNumber());
+        System.out.println("content.getSize() = " + content.getSize());
+
         return JsonResult.OK(collect);
     }
 
@@ -104,7 +113,7 @@ public class ApiOrderController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Long savedId = orderService.saveOrderTest(request.getMemberId(), request.getItemInfos());
+        Long savedId = orderService.saveOrder(request.getMemberId(), request.getItemInfos());
 
         return JsonResult.OK(new CreateOrderResponse(savedId));
     }

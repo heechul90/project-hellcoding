@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.common.json;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class JsonResult<T> {
 
