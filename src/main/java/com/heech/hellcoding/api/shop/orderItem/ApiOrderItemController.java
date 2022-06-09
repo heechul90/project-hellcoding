@@ -1,7 +1,9 @@
 package com.heech.hellcoding.api.shop.orderItem;
 
+import com.heech.hellcoding.api.shop.orderItem.request.CreateOrderItemRequest;
 import com.heech.hellcoding.api.shop.orderItem.request.UpdateOrderItemRequest;
 import com.heech.hellcoding.api.shop.orderItem.response.CreateOrderItemResponse;
+import com.heech.hellcoding.api.shop.orderItem.response.UpdateOrderItemResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemDto;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,7 +67,12 @@ public class ApiOrderItemController {
      */
     @PostMapping(value = "/{orderId}/add")
     public JsonResult addOrderItem(@PathVariable("orderId") Long orderId,
-                                   @RequestBody UpdateOrderItemRequest request) {
+                                   @Validated @RequestBody CreateOrderItemRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
         Long addedId = orderItemService.addOrderItem(orderId, request.getItemId(), request.getCount());
         return JsonResult.OK(new CreateOrderItemResponse(addedId));
     }
@@ -71,8 +80,26 @@ public class ApiOrderItemController {
     /**
      * 주문상품 수정
      */
+    @PutMapping(value = "/{orderItemId}")
+    public JsonResult updateOrderItem(@PathVariable("orderItemId") Long orderItemId,
+                                      @Validated @RequestBody UpdateOrderItemRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        orderItemService.updateOrderItem(orderItemId, request.getOrderPrice(), request.getOrderCount());
+        OrderItem findOrderItem = orderItemService.findOrderItem(orderItemId);
+        return JsonResult.OK(new UpdateOrderItemResponse(findOrderItem.getId()));
+    }
 
     /**
      * 주문상품 삭제
      */
+    @DeleteMapping(value = "/{orderItemId}")
+    public JsonResult deleteOrderItem(@PathVariable("orderItemId") Long orderItemId) {
+        orderItemService.deleteOrderItem(orderItemId);
+        return JsonResult.OK();
+    }
 }
