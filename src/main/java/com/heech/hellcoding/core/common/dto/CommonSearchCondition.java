@@ -11,6 +11,4 @@ public class CommonSearchCondition {
     private SearchCondition searchCondition;
     private String searchKeyword;
 
-    private Long searchId;
-    private String searchName;
 }

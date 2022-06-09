@@ -35,6 +35,27 @@ class OrderRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
+    private Member addMember(String memberName, String loginId, String password, String email, Address address) {
+        Member member = Member.builder()
+                .name(memberName)
+                .loginId(loginId)
+                .password(password)
+                .email(email)
+                .address(address)
+                .build();
+        return member;
+    }
+
+    private Book addItem(String itemName, int price, int stockQuantity, String author) {
+        Book book = Book.createBuilder()
+                .name(itemName)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .author(author)
+                .build();
+        return book;
+    }
+
     @Test
     @Rollback(value = false)
     void findOrdersTest() throws Exception {
@@ -73,6 +94,7 @@ class OrderRepositoryTest {
 
         //when
         OrderSearchCondition condition = new OrderSearchCondition();
+
         PageRequest pageRequest = PageRequest.of(0, 10);
         Page<Order> content = orderRepository.findOrders(condition, pageRequest);
 
@@ -80,27 +102,6 @@ class OrderRepositoryTest {
         assertThat(content.getContent().size()).isEqualTo(1);
         assertThat(content.getContent().get(0).getOrderItems().size()).isEqualTo(2);
         assertThat(content.getContent().get(0).getMember().getName()).isEqualTo("tester");
-    }
-
-    private Member addMember(String memberName, String loginId, String password, String email, Address address) {
-        Member member = Member.builder()
-                .name(memberName)
-                .loginId(loginId)
-                .password(password)
-                .email(email)
-                .address(address)
-                .build();
-        return member;
-    }
-
-    private Book addItem(String itemName, int price, int stockQuantity, String author) {
-        Book book = Book.createBuilder()
-                .name(itemName)
-                .price(price)
-                .stockQuantity(stockQuantity)
-                .author(author)
-                .build();
-        return book;
     }
 
 }

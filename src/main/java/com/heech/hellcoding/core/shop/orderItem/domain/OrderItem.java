@@ -54,7 +54,7 @@ public class OrderItem {
 
     //===비즈니스 로직===//
     /**
-     * 주문 취소
+     * 주문상품 취소
      */
     public void cancel() {
         this.getItem().addStock(count);
@@ -69,4 +69,15 @@ public class OrderItem {
     }
 
     //===변경 로직===//
+    @Builder(builderMethodName = "updateOrderitemBuilder")
+    public void updateOrderItem(Integer orderPrice, Integer count) {
+        if (orderPrice != null) {
+            this.orderPrice = orderPrice;
+        }
+        if (count != null) {
+            item.addStock(this.count);
+            item.removeStock(count);
+            this.count = count;
+        }
+    }
 }
