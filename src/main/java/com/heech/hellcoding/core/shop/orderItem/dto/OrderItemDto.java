@@ -7,7 +7,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OrderItemDto {
 
+    private Long orderItemId;
     private String itemName;
+    private int itemPrice;
     private int orderPrice;
-    private int count;
+    private int orderCount;
+
+    public OrderItemDto(String itemName, int orderPrice, int orderCount) {
+        this.itemName = itemName;
+        this.orderPrice = orderPrice;
+        this.orderCount = orderCount;
+    }
 }

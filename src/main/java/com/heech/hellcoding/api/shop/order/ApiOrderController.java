@@ -2,7 +2,6 @@ package com.heech.hellcoding.api.shop.order;
 
 import com.heech.hellcoding.api.shop.order.request.CreateOrderRequest;
 import com.heech.hellcoding.api.shop.order.request.ItemInfo;
-import com.heech.hellcoding.api.shop.order.request.UpdateOrderRequest;
 import com.heech.hellcoding.api.shop.order.response.CreateOrderResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.order.domain.Order;
@@ -12,6 +11,7 @@ import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
 import com.heech.hellcoding.core.shop.order.service.OrderService;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/orders")
