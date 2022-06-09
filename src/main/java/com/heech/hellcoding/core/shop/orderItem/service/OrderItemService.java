@@ -43,7 +43,7 @@ public class OrderItemService {
      * 주문상품 추가
      */
     @Transactional
-    public Long saveOrderItem(Long orderId, Long itemId, int count) {
+    public Long addOrderItem(Long orderId, Long itemId, int count) {
         Order findOrder = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         Item findItem = itemRepository.findById(itemId).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         OrderItem orderItem = new OrderItem(findOrder, findItem, count);
