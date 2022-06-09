@@ -1,6 +1,12 @@
 # project-hellcoding
-- 기능
-  - 로그인
-  - 상품등록
-  - 로그추적기
-- jpa 적용
+
+## 1. 프로젝트 설정
+
+### 스펙
+```text
+project : gradle project
+language : java
+spring boot : 2.7.0
+packaging : jar
+java : 11
+```
