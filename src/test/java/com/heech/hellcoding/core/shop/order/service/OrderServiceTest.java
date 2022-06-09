@@ -2,10 +2,10 @@ package com.heech.hellcoding.core.shop.order.service;
 
 import com.heech.hellcoding.api.shop.order.request.ItemInfo;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
-import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
 import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
@@ -35,8 +35,26 @@ class OrderServiceTest {
     @Autowired
     OrderService orderService;
 
-    @Autowired
-    ItemRepository itemRepository;
+    private Member addMember(String memberName, String loginId, String password, String email, Address address) {
+        Member member = Member.builder()
+                .name(memberName)
+                .loginId(loginId)
+                .password(password)
+                .email(email)
+                .address(address)
+                .build();
+        return member;
+    }
+
+    private Book addItem(String itemName, int price, int stockQuantity, String author) {
+        Book book = Book.createBuilder()
+                .name(itemName)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .author(author)
+                .build();
+        return book;
+    }
 
     private List<ItemInfo> getItemInfos(Long itemId1, Long itemId2, int orderCount) {
         List<ItemInfo> itemInfos = new ArrayList<>();
@@ -161,31 +179,64 @@ class OrderServiceTest {
     }
 
     @Test
-    void updateOrder() {
+    void cancelOrderTest() {
+        //given
+        Address address = new Address("11111", "서울", "강남대로");
+        Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
+        Book book1 = addItem("book1", 10000, 150, "author1");
+        Book book2 = addItem("book2", 15000, 150, "author2");
+
+        em.persist(member);
+        em.persist(book1);
+        em.persist(book2);
+
+        List<ItemInfo> itemInfos = getItemInfos(book1.getId(), book2.getId(), 20);
+        Long savedId = orderService.saveOrder(member.getId(), itemInfos);
+
+        em.flush();
+        em.clear();
+
+        //when
+        Order findOrder = orderService.findOrder(savedId);
+        assertThat(findOrder.getOrderItems().get(0).getItem().getName()).isEqualTo("book1");
+        assertThat(findOrder.getOrderItems().get(0).getItem().getStockQuantity()).isEqualTo(130);
+        assertThat(findOrder.getOrderItems().get(1).getItem().getName()).isEqualTo("book2");
+        assertThat(findOrder.getOrderItems().get(1).getItem().getStockQuantity()).isEqualTo(130);
+
+        findOrder.cancel();
+        em.flush();
+        em.clear();
+
+        //then
+        Order cancelOrder = orderService.findOrder(savedId);
+        assertThat(cancelOrder.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(cancelOrder.getOrderItems().get(0).getItem().getStockQuantity()).isEqualTo(150);
+        assertThat(cancelOrder.getOrderItems().get(1).getItem().getStockQuantity()).isEqualTo(150);
     }
 
     @Test
-    void deleteOrder() {
-    }
+    void deleteOrderTest() {
+        //given
+        Address address = new Address("11111", "서울", "강남대로");
+        Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
+        Book book1 = addItem("book1", 10000, 150, "author1");
+        Book book2 = addItem("book2", 15000, 150, "author2");
 
-    private Member addMember(String memberName, String loginId, String password, String email, Address address) {
-        Member member = Member.builder()
-                .name(memberName)
-                .loginId(loginId)
-                .password(password)
-                .email(email)
-                .address(address)
-                .build();
-        return member;
-    }
+        em.persist(member);
+        em.persist(book1);
+        em.persist(book2);
 
-    private Book addItem(String itemName, int price, int stockQuantity, String author) {
-        Book book = Book.createBuilder()
-                .name(itemName)
-                .price(price)
-                .stockQuantity(stockQuantity)
-                .author(author)
-                .build();
-        return book;
+        List<ItemInfo> itemInfos = getItemInfos(book1.getId(), book2.getId(), 10);
+        Long savedId = orderService.saveOrder(member.getId(), itemInfos);
+        em.flush();
+        em.clear();
+
+        //when
+        orderService.deleteOrder(savedId);
+
+        //then
+        assertThatThrownBy(() -> orderService.findOrder(savedId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("조회에");
     }
 }

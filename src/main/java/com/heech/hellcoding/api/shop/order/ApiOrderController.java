@@ -49,15 +49,6 @@ public class ApiOrderController {
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
-        System.out.println("content.getContent().size() = " + content.getContent().size());
-        System.out.println("content.getTotalPages() = " + content.getTotalPages());
-        System.out.println("content.getTotalElements() = " + content.getTotalElements());
-        System.out.println("content.getPageable() = " + content.getPageable());
-        System.out.println("content.getPageable().getPageSize() = " + content.getPageable().getPageSize());
-        System.out.println("content.getPageable().getOffset() = " + content.getPageable().getOffset());
-        System.out.println("content.getPageable().getPageNumber() = " + content.getPageable().getPageNumber());
-        System.out.println("content.getSize() = " + content.getSize());
-
         return JsonResult.OK(collect);
     }
 
@@ -119,11 +110,11 @@ public class ApiOrderController {
     }
 
     /**
-     * 주문 수정
+     * 주문 취소
      */
-    @PutMapping(value = "/{id}")
-    public JsonResult updateOrder(@PathVariable("id") Long id,
-                                  @RequestBody @Validated UpdateOrderRequest request, BindingResult bindingResult) {
+    @PutMapping(value = "/{id}/cancel")
+    public JsonResult cancelOrder(@PathVariable("id") Long id) {
+        orderService.cancelOrder(id);
         return JsonResult.OK();
     }
 
