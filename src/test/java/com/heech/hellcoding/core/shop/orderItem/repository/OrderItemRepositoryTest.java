@@ -56,7 +56,7 @@ class OrderItemRepositoryTest {
     }
 
     private OrderItem getOrderItem(Book book, int count) {
-        return OrderItem.createOrderItem()
+        return OrderItem.createOrderItemBuilder()
                 .item(book)
                 .orderPrice(book.getPrice())
                 .count(count)

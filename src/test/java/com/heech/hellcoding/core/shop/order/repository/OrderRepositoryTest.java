@@ -75,12 +75,12 @@ class OrderRepositoryTest {
         Book findBook2 = em.find(Book.class, book2.getId());
 
         Delivery delivery = new Delivery(findMember.getAddress(), DeliveryStatus.READY);
-        OrderItem orderItem1 = OrderItem.createOrderItem()
+        OrderItem orderItem1 = OrderItem.createOrderItemBuilder()
                 .item(findBook1)
                 .orderPrice(findBook1.getPrice())
                 .count(10)
                 .build();
-        OrderItem orderItem2 = OrderItem.createOrderItem()
+        OrderItem orderItem2 = OrderItem.createOrderItemBuilder()
                 .item(findBook2)
                 .orderPrice(findBook2.getPrice())
                 .count(10)

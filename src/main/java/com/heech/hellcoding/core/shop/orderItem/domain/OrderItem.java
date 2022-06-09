@@ -44,10 +44,21 @@ public class OrderItem {
     }
 
     //=== 생성 메서드 ===//
-    @Builder(builderMethodName = "createOrderItem")
+    @Builder(builderMethodName = "createOrderItemBuilder")
     public OrderItem(Item item, int orderPrice, int count) {
         this.item = item;
         this.orderPrice = orderPrice;
+        this.count = count;
+        item.removeStock(count);
+    }
+
+    /**
+     * 주문상품 추가
+     */
+    public OrderItem(Order order, Item item, int count) {
+        this.order = order;
+        this.item = item;
+        this.orderPrice = item.getPrice();
         this.count = count;
         item.removeStock(count);
     }

@@ -63,7 +63,7 @@ public class OrderService {
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (Item item : items) {
-            OrderItem orderItem = OrderItem.createOrderItem()
+            OrderItem orderItem = OrderItem.createOrderItemBuilder()
                     .item(item)
                     .orderPrice(item.getPrice())
                     .count(itemInfos.stream().filter(i -> i.getItemId().equals(item.getId())).findAny().orElseThrow(() -> new NoSuchElementException("잘못된 접근")).getOrderCount())
