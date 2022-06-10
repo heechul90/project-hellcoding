@@ -54,7 +54,7 @@ public class OrderService {
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
 
         //배송정보 생성
-        Delivery delivery = new Delivery(findMember.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(findMember.getAddress());
 
         //상품 조회
         List<Long> itemIds = itemInfos.stream().map(info -> info.getItemId())

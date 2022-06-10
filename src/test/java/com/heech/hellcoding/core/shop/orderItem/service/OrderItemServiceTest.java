@@ -78,7 +78,7 @@ class OrderItemServiceTest {
         em.persist(book1);
         em.persist(book2);
 
-        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(member.getAddress());
         List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem1 = getOrderItem(book1, 10);
         OrderItem orderItem2 = getOrderItem(book2, 10);
@@ -113,7 +113,7 @@ class OrderItemServiceTest {
         em.persist(book1);
         em.persist(book2);
 
-        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(member.getAddress());
         List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem1 = getOrderItem(book1, 10);
         OrderItem orderItem2 = getOrderItem(book2, 10);
@@ -145,7 +145,7 @@ class OrderItemServiceTest {
         em.persist(book1);
         em.persist(book2);
 
-        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(member.getAddress());
         List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem1 = getOrderItem(book1, 10);
         OrderItem orderItem2 = getOrderItem(book2, 10);
@@ -187,7 +187,7 @@ class OrderItemServiceTest {
         em.persist(book1);
         em.persist(book2);
 
-        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(member.getAddress());
         List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem1 = getOrderItem(book1, 10);
         OrderItem orderItem2 = getOrderItem(book2, 10);
@@ -223,7 +223,7 @@ class OrderItemServiceTest {
         em.persist(book1);
         em.persist(book2);
 
-        Delivery delivery = new Delivery(member.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(member.getAddress());
         List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem1 = getOrderItem(book1, 10);
         OrderItem orderItem2 = getOrderItem(book2, 10);

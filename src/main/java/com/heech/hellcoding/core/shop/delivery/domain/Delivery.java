@@ -1,19 +1,16 @@
 package com.heech.hellcoding.core.shop.delivery.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-/*@SequenceGenerator(
-        name = "delivery_seq_generator",
-        sequenceName = "seq",
-        initialValue = 1, allocationSize = 100
-)*/
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +24,24 @@ public class Delivery {
     private DeliveryStatus status;
 
     //===생성 메서드===//
-    public Delivery(Address address, DeliveryStatus status) {
+    @Builder(builderMethodName = "createDeliveryBuilder")
+    public Delivery(Address address) {
         this.address = address;
-        this.status = status;
+        this.status = DeliveryStatus.READY;
     }
 
-    //===변경 메서드===//
-    public void changeDeliveryStatus(DeliveryStatus status) {
-        this.status = status;
+    //===비즈니스 로직===//
+    /**
+     * 배달시작
+     */
+    public void delivery() {
+        this.status = DeliveryStatus.DELIVERY;
+    }
+
+    /**
+     * 배달완료
+     */
+    public void complete() {
+        this.status = DeliveryStatus.COMPLETE;
     }
 }

@@ -1,5 +1,5 @@
 package com.heech.hellcoding.core.shop.delivery.domain;
 
 public enum DeliveryStatus {
-    READY, COMPLETE
+    READY, DELIVERY, COMPLETE
 }

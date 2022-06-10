@@ -41,7 +41,7 @@ public class OrderTest {
         Book findBook1 = em.find(Book.class, book1.getId());
         Book findBook2 = em.find(Book.class, book2.getId());
 
-        Delivery delivery = new Delivery(findMember.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(findMember.getAddress());
         OrderItem orderItem1 = OrderItem.createOrderItemBuilder()
                 .item(findBook1)
                 .orderPrice(findBook1.getPrice())
@@ -88,7 +88,7 @@ public class OrderTest {
         Book findBook1 = em.find(Book.class, book1.getId());
         Book findBook2 = em.find(Book.class, book2.getId());
 
-        Delivery delivery = new Delivery(findMember.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(findMember.getAddress());
         OrderItem orderItem1 = OrderItem.createOrderItemBuilder()
                 .item(findBook1)
                 .orderPrice(findBook1.getPrice())
@@ -135,7 +135,7 @@ public class OrderTest {
         Book findBook1 = em.find(Book.class, book1.getId());
         Book findBook2 = em.find(Book.class, book2.getId());
 
-        Delivery delivery = new Delivery(findMember.getAddress(), DeliveryStatus.READY);
+        Delivery delivery = new Delivery(findMember.getAddress());
         OrderItem orderItem1 = OrderItem.createOrderItemBuilder()
                 .item(findBook1)
                 .orderPrice(findBook1.getPrice())
