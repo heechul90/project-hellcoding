@@ -2,11 +2,9 @@ package com.heech.hellcoding.core.shop.orderItem.repository;
 
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemSearchCondition;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.apache.el.parser.BooleanNode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
