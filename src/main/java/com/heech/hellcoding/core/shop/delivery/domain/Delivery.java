@@ -24,10 +24,21 @@ public class Delivery {
     private DeliveryStatus status;
 
     //===생성 메서드===//
+    /**
+     * 저장
+     */
     @Builder(builderMethodName = "createDeliveryBuilder")
     public Delivery(Address address) {
         this.address = address;
         this.status = DeliveryStatus.READY;
+    }
+
+    /**
+     * 수정
+     */
+    @Builder(builderMethodName = "updateDeliveryBuilder")
+    public void updateDelivery(Address address) {
+        this.address = address;
     }
 
     //===비즈니스 로직===//
