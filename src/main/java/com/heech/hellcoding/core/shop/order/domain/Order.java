@@ -66,8 +66,6 @@ public class Order {
         //Arrays.stream(orderItems).forEachOrdered(orderItem -> orderItem.addOrder(this));
     }
 
-
-
     //===비즈니스 록직===//
     /**
      * 주문취소
@@ -75,6 +73,8 @@ public class Order {
     public void cancel() {
         if (this.delivery.getStatus().equals(DeliveryStatus.COMPLETE)) {
             throw new IllegalStateException("배송 완료된 상품은 취소가 불가능합니다.");
+        } else if (this.delivery.getStatus().equals(DeliveryStatus.DELIVERY)) {
+            throw new IllegalStateException("배송중인 상품은 취소가 불가능합니다.");
         }
         this.status = OrderStatus.CANCEL;
         this.orderItems.forEach(OrderItem::cancel);
