@@ -68,9 +68,6 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
     }
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null || !hasText(searchKeyword)) {
-            return null;
-        }
         if (SearchCondition.NAME.equals(searchCondition)) {
             return book.name.contains(searchKeyword);
         } else if (SearchCondition.TITLE.equals(searchCondition)) {

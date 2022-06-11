@@ -28,7 +28,7 @@ public class TestDataInit {
     private final MovieRepository movieRepository;
     private final MemberRepository memberRepository;
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         Book book1 = new Book("연금술사", "2022년 베스트 셀러!", "재미있는 책입니다.", 10800, 100, "파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
         bookRepository.save(book1);
