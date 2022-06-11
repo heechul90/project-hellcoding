@@ -3,6 +3,8 @@ package com.heech.hellcoding;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Mobile;
+import com.heech.hellcoding.core.shop.category.domain.Category;
+import com.heech.hellcoding.core.shop.category.repository.CategoryRepository;
 import com.heech.hellcoding.core.shop.item.album.domain.Album;
 import com.heech.hellcoding.core.shop.item.album.repository.AlbumRepository;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.UUID;
 
 @Component
@@ -27,8 +28,9 @@ public class TestDataInit {
     private final AlbumRepository albumRepository;
     private final MovieRepository movieRepository;
     private final MemberRepository memberRepository;
+    private final CategoryRepository categoryRepository;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         Book book1 = new Book("연금술사", "2022년 베스트 셀러!", "재미있는 책입니다.", 10800, 100, "파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
         bookRepository.save(book1);
@@ -96,6 +98,27 @@ public class TestDataInit {
                 .signinDate(LocalDateTime.now())
                 .build();
         memberRepository.save(spring);
+
+        Category bookCategory = Category.createCategoryBuilder()
+                .name("도서")
+                .title("도서카테고리")
+                .content("도서관련 카테고리입니다.")
+                .build();
+
+        Category albumCategory = Category.createCategoryBuilder()
+                .name("음반")
+                .title("음반카테고리")
+                .content("음반관련 카테고리입니다.")
+                .build();
+
+        Category movieCategory = Category.createCategoryBuilder()
+                .name("영화")
+                .title("영화카테고리")
+                .content("영화관련 카테고리입니다.")
+                .build();
+        categoryRepository.save(bookCategory);
+        categoryRepository.save(albumCategory);
+        categoryRepository.save(movieCategory);
     }
 
 }

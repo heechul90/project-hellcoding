@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.category.domain;
 
+import com.mysema.commons.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,10 +37,17 @@ public class Category {
 
     //===생성 메서드===//
     @Builder(builderMethodName = "createCategoryBuilder")
+    public Category(String name, String title, String content) {
+        this.name = name;
+        this.title = title;
+        this.content = content;
+    }
+
     public Category(String name, String title, String content, Category parent) {
         this.name = name;
         this.title = title;
         this.content = content;
         this.parent = parent;
+        this.parent.getChild().add(this);
     }
 }
