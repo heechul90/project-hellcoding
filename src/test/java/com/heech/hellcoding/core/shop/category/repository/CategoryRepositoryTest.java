@@ -50,6 +50,7 @@ class CategoryRepositoryTest {
         Category savedCategory = categoryRepository.save(bookCategory);
 
         //then
+        assertThat(savedCategory).isEqualTo(bookCategory);
         assertThat(savedCategory.getName()).isEqualTo("도서");
         assertThat(savedCategory.getTitle()).isEqualTo("도서카테고리");
         assertThat(savedCategory.getContent()).isEqualTo("도서관련 카테고리이니다.");
