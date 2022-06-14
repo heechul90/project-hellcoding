@@ -35,6 +35,7 @@ class CategoryRepositoryTest {
     @Test
     public void findCategoriesTest() throws Exception{
         //given
+        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
 
         //when
 
