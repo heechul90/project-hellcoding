@@ -38,11 +38,7 @@ public class Book extends Item {
     @Builder(builderMethodName = "updateBuilder")
     public void updateBook(String name, String title, String content, int price, int stockQuantity, String author, String isbn) {
         updateItem(name, title, content, price, stockQuantity);
-        if (hasText(author)) {
-            this.author = author;
-        }
-        if (hasText(isbn)) {
-            this.isbn = isbn;
-        }
+        if (hasText(author)) this.author = author;
+        if (hasText(isbn)) this.isbn = isbn;
     }
 }

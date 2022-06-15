@@ -5,10 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.util.StringUtils.*;
 
 @Entity
 @Getter
@@ -36,6 +39,9 @@ public class Category {
     private List<Category> child = new ArrayList<>();
 
     //===생성 메서드===//
+    /**
+     * 생성
+     */
     @Builder(builderMethodName = "createCategoryBuilder")
     public Category(String name, String title, String content) {
         this.name = name;
@@ -43,11 +49,22 @@ public class Category {
         this.content = content;
     }
 
+    /**
+     * child생성
+     */
     public Category(String name, String title, String content, Category parent) {
         this.name = name;
         this.title = title;
         this.content = content;
         this.parent = parent;
         this.parent.getChild().add(this);
+    }
+
+    //===업데이트 로직===//
+    @Builder(builderMethodName = "updateCategoryBuilder")
+    public void updateCategory(String name, String title, String content) {
+        if (hasText(name)) this.name = name;
+        if (hasText(title)) this.title = title;
+        if (hasText(content)) this.content = content;
     }
 }
