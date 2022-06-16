@@ -8,7 +8,7 @@ import com.heech.hellcoding.core.shop.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,16 +25,26 @@ public class ApiCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public JsonResult findCategories(CategorySearchCondition condition, PageRequest pageRequest) {
-        Page<Category> content = categoryService.findCategories(condition, pageRequest);
+    public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
+        Page<Category> content = categoryService.findCategories(condition, Pageable);
+
+        List<CategoryDto> collect = content.getContent().stream()
+                .collect(
+                        Collectors.groupingBy(
+                                category -> new CategoryDto(category.getId(), category.getName()),
+                                Collectors.mapping(category -> new CategoryDto(category.getId(), category.getName()), Collectors.toList())
+                        )).entrySet().stream()
+                .map(e -> new CategoryDto(e.getKey().getCategoryId(), e.getKey().getCategoryName(), e.getValue()))
+                .collect(Collectors.toList());
+
         /*List<CategoryDto> collect = content.getContent().stream()
-                .collect(Collectors.groupingBy(category -> new CategoryDto(category.getId(), category.getName(), category.getTitle(), category.getContent()),
-                        Collectors.mapping(category -> new CategoryDto(category.getId(), category.getName(), category.getTitle(), category.getContent(), Collectors.toList())
-                        ))).entrySet().stream()
-                .map(e -> new CategoryDto(e.getKey().getCategoryId(), e.getKey().getCategoryName(), e.getKey().getCategoryTitle(), e.getKey().getCategoryContent(), e.getKey().getChildCategories()))
+                .map(category -> new CategoryDto(
+                        category.getId(),
+                        category.getName(),
+                        category.getTitle(),
+                        category.getContent()
+                ))
                 .collect(Collectors.toList());*/
-
-
-        return JsonResult.OK(content);
+        return JsonResult.OK(collect);
     }
 }

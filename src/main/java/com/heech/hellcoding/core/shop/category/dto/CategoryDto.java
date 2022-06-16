@@ -19,6 +19,17 @@ public class CategoryDto {
     private String categoryContent;
     private List<CategoryDto> childCategories = new ArrayList<>();
 
+    public CategoryDto(Long categoryId, String categoryName) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+    }
+
+    public CategoryDto(Long categoryId, String categoryName, List<CategoryDto> childCategories) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.childCategories = childCategories;
+    }
+
     public CategoryDto(Long categoryId, String categoryName, String categoryTitle, String categoryContent) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
