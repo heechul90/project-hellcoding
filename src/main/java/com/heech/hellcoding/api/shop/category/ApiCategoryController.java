@@ -36,15 +36,6 @@ public class ApiCategoryController {
                         )).entrySet().stream()
                 .map(e -> new CategoryDto(e.getKey().getCategoryId(), e.getKey().getCategoryName(), e.getValue()))
                 .collect(Collectors.toList());
-
-        /*List<CategoryDto> collect = content.getContent().stream()
-                .map(category -> new CategoryDto(
-                        category.getId(),
-                        category.getName(),
-                        category.getTitle(),
-                        category.getContent()
-                ))
-                .collect(Collectors.toList());*/
         return JsonResult.OK(collect);
     }
 }
