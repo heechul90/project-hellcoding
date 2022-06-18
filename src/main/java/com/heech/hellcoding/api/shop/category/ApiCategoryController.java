@@ -27,7 +27,6 @@ public class ApiCategoryController {
     @GetMapping
     public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
         Page<Category> content = categoryService.findCategories(condition, Pageable);
-
         List<CategoryDto> collect = content.getContent().stream()
                 .collect(
                         Collectors.groupingBy(
