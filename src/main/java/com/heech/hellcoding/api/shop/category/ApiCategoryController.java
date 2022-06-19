@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,9 @@ public class ApiCategoryController {
 
     private final CategoryService categoryService;
 
+    /**
+     * 카테고리 목록 조회
+     */
     @GetMapping
     public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
         Page<Category> content = categoryService.findCategories(condition, Pageable);
@@ -36,5 +40,20 @@ public class ApiCategoryController {
                 .map(e -> new CategoryDto(e.getKey().getCategoryId(), e.getKey().getCategoryName(), e.getValue()))
                 .collect(Collectors.toList());
         return JsonResult.OK(collect);
+    }
+
+    /**
+     * 카테고리 단건 조회
+     */
+    @GetMapping(value = "/{id}")
+    public JsonResult findCategory(@PathVariable("id") Long categoryId) {
+        Category findCategory = categoryService.findCategory(categoryId);
+        CategoryDto category = new CategoryDto(
+                findCategory.getId(),
+                findCategory.getName(),
+                findCategory.getTitle(),
+                findCategory.getContent()
+        );
+        return JsonResult.OK(category);
     }
 }
