@@ -28,18 +28,16 @@ class CategoryServiceTest {
     @Autowired
     CategoryService categoryService;
 
-    private Category getCategory(String name, String title, String content) {
-        Category category = Category.createCategoryBuilder()
+    private Category getCategory(String name) {
+        Category category = Category.createRootCategoryBuilder()
                 .name(name)
-                .title(title)
-                .content(content)
                 .build();
         em.persist(category);
         return category;
     }
 
     private Category getChildCategory(String name, String title, String content, Category bookCategory) {
-        Category childCategory = new Category(name, title, content, bookCategory);
+        Category childCategory = new Category(bookCategory, name, 1);
         em.persist(childCategory);
         return childCategory;
     }
@@ -47,8 +45,8 @@ class CategoryServiceTest {
     @Test
     void findCategoriesTest() {
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
-        Category albumCategory = getCategory("음반", "음반카테고리", "음반관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
+        Category albumCategory = getCategory("음반");
         Category developCategory = getChildCategory("개발", "개발카테고리", "개발관련 카테고리입니다.", bookCategory);
         Category languageCategory = getChildCategory("언어", "언어카테고리", "언어관련 카테고리입니다.", bookCategory);
         Category kpopCategory = getChildCategory("케이팝", "케이팝카테고리", "케이팝관련 카테고리입니다.", albumCategory);
@@ -66,21 +64,19 @@ class CategoryServiceTest {
     @Test
     void findCategoryTest() {
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
 
         //when
         Category findCategory = categoryService.findCategory(bookCategory.getId());
 
         //then
         assertThat(findCategory.getName()).isEqualTo("도서");
-        assertThat(findCategory.getTitle()).isEqualTo("도서카테고리");
-        assertThat(findCategory.getContent()).isEqualTo("도서관련 카테고리이니다.");
     }
 
     @Test
     void saveCategoryTest() {
         //given
-        Category bookCategory = new Category("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
 
         //when
         Long savedId = categoryService.saveCategory(bookCategory);
@@ -88,15 +84,13 @@ class CategoryServiceTest {
         //then
         Category findCategory = categoryService.findCategory(savedId);
         assertThat(findCategory.getName()).isEqualTo("도서");
-        assertThat(findCategory.getTitle()).isEqualTo("도서카테고리");
-        assertThat(findCategory.getContent()).isEqualTo("도서관련 카테고리이니다.");
     }
 
 
     @Test
     void updateCategoryTest() {
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
         em.flush();
         em.clear();
 
@@ -106,14 +100,12 @@ class CategoryServiceTest {
         //then
         Category findCategory = categoryService.findCategory(bookCategory.getId());
         assertThat(findCategory.getName()).isEqualTo("호미");
-        assertThat(findCategory.getTitle()).isEqualTo("호미");
-        assertThat(findCategory.getContent()).isEqualTo("호미");
     }
 
     @Test
     void deleteCategoryTest() {
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
         em.flush();
         em.clear();
 

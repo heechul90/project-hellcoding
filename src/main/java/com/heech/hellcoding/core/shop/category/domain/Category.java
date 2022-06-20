@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.category.domain;
 
+import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.mysema.commons.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,55 +17,69 @@ import static org.springframework.util.StringUtils.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category {
+public class Category extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
 
-    @Column(name = "category_name")
-    private String name;
-
-    @Column(name = "category_title")
-    private String title;
-
-    @Column(name = "category_content")
-    private String content;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
+    @Column(name = "category_name")
+    private String name;
+
+    private int categoryOrder;
+    private String activationAt;
+
     @OneToMany(mappedBy = "parent")
-    private List<Category> child = new ArrayList<>();
+    private List<Category> children = new ArrayList<>();
 
     //===생성 메서드===//
     /**
-     * 생성
+     * 카테고리 생성
      */
-    @Builder(builderMethodName = "createCategoryBuilder")
-    public Category(String name, String title, String content) {
+    @Builder(builderClassName = "createRootCategoryBuilder", builderMethodName = "createRootCategoryBuilder")
+    public Category(String name, int categoryOrder) {
         this.name = name;
-        this.title = title;
-        this.content = content;
+        this.categoryOrder = categoryOrder;
+        this.activationAt = "Y";
     }
 
     /**
-     * child생성
+     * 하위카테고리 생성
      */
-    public Category(String name, String title, String content, Category parent) {
-        this.name = name;
-        this.title = title;
-        this.content = content;
+    @Builder(builderClassName = "createChildCategoryBuilder", builderMethodName = "createChildCategoryBuilder")
+    public Category(Category parent, String name, int categoryOrder) {
         this.parent = parent;
-        this.parent.getChild().add(this);
+        this.name = name;
+        this.categoryOrder = categoryOrder;
+        this.activationAt = "Y";
+        this.parent.getChildren().add(this);
     }
 
     //===업데이트 로직===//
-    @Builder(builderMethodName = "updateCategoryBuilder")
-    public void updateCategory(String name, String title, String content) {
+    /**
+     * 카테고리 수정
+     */
+    @Builder(builderClassName = "updateCategoryBuilder", builderMethodName = "updateCategoryBuilder")
+    public void updateCategory(String name, int categoryOrder) {
         if (hasText(name)) this.name = name;
-        if (hasText(title)) this.title = title;
-        if (hasText(content)) this.content = content;
+        if (categoryOrder == 0) this.categoryOrder = categoryOrder;
+    }
+
+    /**
+     * 카테고리 활성화
+     */
+    public void activateCategory() {
+        this.activationAt = "Y";
+    }
+
+    /**
+     * 카테고리 비활성화
+     */
+    public void unactivateCategory() {
+        this.activationAt = "N";
     }
 }

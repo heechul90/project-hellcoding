@@ -99,22 +99,16 @@ public class TestDataInit {
                 .build();
         memberRepository.save(spring);
 
-        Category bookCategory = Category.createCategoryBuilder()
+        Category bookCategory = Category.createRootCategoryBuilder()
                 .name("도서")
-                .title("도서카테고리")
-                .content("도서관련 카테고리입니다.")
                 .build();
 
-        Category albumCategory = Category.createCategoryBuilder()
+        Category albumCategory = Category.createRootCategoryBuilder()
                 .name("음반")
-                .title("음반카테고리")
-                .content("음반관련 카테고리입니다.")
                 .build();
 
-        Category movieCategory = Category.createCategoryBuilder()
+        Category movieCategory = Category.createRootCategoryBuilder()
                 .name("영화")
-                .title("영화카테고리")
-                .content("영화관련 카테고리입니다.")
                 .build();
         categoryRepository.save(bookCategory);
         categoryRepository.save(albumCategory);

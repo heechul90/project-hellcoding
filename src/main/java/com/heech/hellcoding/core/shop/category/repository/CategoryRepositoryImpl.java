@@ -65,10 +65,6 @@ public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
         if (SearchCondition.NAME.equals(searchCondition)) {
             return category.name.contains(searchKeyword);
-        } else if (SearchCondition.TITLE.equals(searchCondition)) {
-            return category.title.contains(searchKeyword);
-        } else if (SearchCondition.CONTENT.equals(searchCondition)) {
-            return category.content.contains(searchKeyword);
         } else {
             return null;
         }

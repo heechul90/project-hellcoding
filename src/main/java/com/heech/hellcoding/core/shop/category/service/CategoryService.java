@@ -50,8 +50,6 @@ public class CategoryService {
         Category findCategory = categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
         findCategory.updateCategoryBuilder()
                 .name(name)
-                .title(title)
-                .content(content)
                 .build();
     }
 

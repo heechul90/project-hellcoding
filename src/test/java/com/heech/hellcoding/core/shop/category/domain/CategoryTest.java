@@ -19,21 +19,20 @@ class CategoryTest {
     @PersistenceContext
     EntityManager em;
 
-    private Category getCategory(String name, String title, String content) {
-        Category bookCategory = Category.createCategoryBuilder()
+    private Category getCategory(String name) {
+        Category bookCategory = Category.createRootCategoryBuilder()
                 .name(name)
-                .title(title)
-                .content(content)
+                .categoryOrder(1)
                 .build();
         return bookCategory;
     }
 
     @Test
-    public void createCategoryTest() throws Exception{
+    public void createRootCategoryTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
-        Category albumCategory = getCategory("음반", "음반카테고리", "음반관련 카테고리이니다.");
-        Category movieCategory = getCategory("영화", "영화카테고리", "영화관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
+        Category albumCategory = getCategory("음반");
+        Category movieCategory = getCategory("영화");
 
         //when
         em.persist(bookCategory);
@@ -50,21 +49,23 @@ class CategoryTest {
     @Rollback(value = false)
     public void createChildCategoryTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
-        Category albumCategory = getCategory("음반", "음반카테고리", "음반관련 카테고리이니다.");
-        Category movieCategory = getCategory("영화", "영화카테고리", "영화관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
+        Category albumCategory = getCategory("음반");
+        Category movieCategory = getCategory("영화");
         em.persist(bookCategory);
         em.persist(albumCategory);
         em.persist(movieCategory);
 
         //when
-        Category itCategory = new Category("IT", "IT관련 도서", "IT관련 도서입니다.", bookCategory);
+        Category itCategory = Category.createChildCategoryBuilder()
+                .parent(bookCategory)
+                .name("IT")
+                .categoryOrder(1)
+                .build();
         em.persist(itCategory);
 
         //then
         assertThat(itCategory.getParent().getName()).isEqualTo("도서");
-        assertThat(itCategory.getChild().size()).isZero();
-        assertThat(bookCategory.getChild()).extracting("name").containsExactly("IT");
     }
 
 }

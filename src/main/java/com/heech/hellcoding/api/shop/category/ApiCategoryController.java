@@ -48,12 +48,6 @@ public class ApiCategoryController {
     @GetMapping(value = "/{id}")
     public JsonResult findCategory(@PathVariable("id") Long categoryId) {
         Category findCategory = categoryService.findCategory(categoryId);
-        CategoryDto category = new CategoryDto(
-                findCategory.getId(),
-                findCategory.getName(),
-                findCategory.getTitle(),
-                findCategory.getContent()
-        );
-        return JsonResult.OK(category);
+        return JsonResult.OK(findCategory);
     }
 }

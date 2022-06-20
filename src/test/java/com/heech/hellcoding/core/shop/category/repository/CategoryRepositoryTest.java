@@ -26,18 +26,16 @@ class CategoryRepositoryTest {
     @Autowired
     CategoryRepository categoryRepository;
 
-    private Category getCategory(String name, String title, String content) {
-        Category category = Category.createCategoryBuilder()
+    private Category getCategory(String name) {
+        Category category = Category.createRootCategoryBuilder()
                 .name(name)
-                .title(title)
-                .content(content)
                 .build();
         em.persist(category);
         return category;
     }
 
     private Category getChildCategory(String name, String title, String content, Category bookCategory) {
-        Category childCategory = new Category(name, title, content, bookCategory);
+        Category childCategory = new Category(bookCategory, name, 1);
         em.persist(childCategory);
         return childCategory;
     }
@@ -45,8 +43,8 @@ class CategoryRepositoryTest {
     @Test
     public void findCategoriesTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
-        Category albumCategory = getCategory("음반", "음반카테고리", "음반관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
+        Category albumCategory = getCategory("음반");
         Category developCategory = getChildCategory("개발", "개발카테고리", "개발관련 카테고리입니다.", bookCategory);
         Category languageCategory = getChildCategory("언어", "언어카테고리", "언어관련 카테고리입니다.", bookCategory);
         Category kpopCategory = getChildCategory("케이팝", "케이팝카테고리", "케이팝관련 카테고리입니다.", albumCategory);
@@ -64,7 +62,7 @@ class CategoryRepositoryTest {
     @Test
     public void saveTest() throws Exception{
         //given
-        Category bookCategory = new Category("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = new Category("도서", 1);
 
         //when
         Category savedCategory = categoryRepository.save(bookCategory);
@@ -72,14 +70,12 @@ class CategoryRepositoryTest {
         //then
         assertThat(savedCategory).isEqualTo(bookCategory);
         assertThat(savedCategory.getName()).isEqualTo("도서");
-        assertThat(savedCategory.getTitle()).isEqualTo("도서카테고리");
-        assertThat(savedCategory.getContent()).isEqualTo("도서관련 카테고리이니다.");
     }
 
     @Test
     public void updateTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
         em.flush();
         em.clear();
 
@@ -87,8 +83,6 @@ class CategoryRepositoryTest {
         Category findCategory = categoryRepository.findById(bookCategory.getId()).orElse(null);
         findCategory.updateCategoryBuilder()
                 .name("도서1")
-                .title("도서카테고리1")
-                .content("도서관련 카테고리이니다.1")
                 .build();
         em.flush();
         em.clear();
@@ -96,14 +90,12 @@ class CategoryRepositoryTest {
         //then
         Category updatedCategory = categoryRepository.findById(findCategory.getId()).orElse(null);
         assertThat(updatedCategory.getName()).isEqualTo("도서1");
-        assertThat(updatedCategory.getTitle()).isEqualTo("도서카테고리1");
-        assertThat(updatedCategory.getContent()).isEqualTo("도서관련 카테고리이니다.1");
     }
 
     @Test
     public void deleteTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서", "도서카테고리", "도서관련 카테고리이니다.");
+        Category bookCategory = getCategory("도서");
 
         //when
         Category findCategory = categoryRepository.findById(bookCategory.getId()).orElse(null);
