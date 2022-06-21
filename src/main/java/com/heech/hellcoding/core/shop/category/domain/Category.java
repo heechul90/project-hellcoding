@@ -66,7 +66,7 @@ public class Category extends BaseEntity {
     @Builder(builderClassName = "updateCategoryBuilder", builderMethodName = "updateCategoryBuilder")
     public void updateCategory(String name, int categoryOrder) {
         if (hasText(name)) this.name = name;
-        if (categoryOrder == 0) this.categoryOrder = categoryOrder;
+        if (categoryOrder != 0) this.categoryOrder = categoryOrder;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Category extends BaseEntity {
     /**
      * 카테고리 비활성화
      */
-    public void unactivateCategory() {
+    public void deactivateCategory() {
         this.activationAt = "N";
     }
 }

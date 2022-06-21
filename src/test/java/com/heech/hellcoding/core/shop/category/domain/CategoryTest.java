@@ -50,6 +50,7 @@ class CategoryTest {
         List<Category> resultList =
                 em.createQuery("select c from Category c", Category.class).getResultList();
         assertThat(resultList).extracting("name").contains("도서", "음반", "영화");
+        assertThat(resultList).extracting("categoryOrder").containsExactly(1, 2, 3);
     }
 
     @Test
@@ -67,7 +68,51 @@ class CategoryTest {
         em.persist(itCategory);
 
         //then
-        assertThat(itCategory.getParent().getName()).isEqualTo("도서");
+        Category findCategory = em.find(Category.class, itCategory.getId());
+        assertThat(findCategory.getParent()).isEqualTo(bookCategory);
+        assertThat(findCategory.getParent().getName()).isEqualTo("도서");
+        assertThat(findCategory.getParent().getCategoryOrder()).isEqualTo(1);
     }
 
+    @Test
+    public void updateCategorTest() throws Exception{
+        //given
+        Category bookCategory = getRootCategory("도서", 1);
+        em.persist(bookCategory);
+        em.flush();
+        em.clear();
+
+        //when
+        Category findCategory = em.find(Category.class, bookCategory.getId());
+        findCategory.updateCategoryBuilder()
+                .name("BOOK")
+                .categoryOrder(5)
+                .build();
+        em.flush();
+        em.clear();
+
+        //then
+        Category updatedCategory = em.find(Category.class, bookCategory.getId());
+        assertThat(updatedCategory.getName()).isEqualTo("BOOK");
+        assertThat(updatedCategory.getCategoryOrder()).isEqualTo(5);
+    }
+
+    @Test
+    public void activateCategoryTest() throws Exception {
+        //given
+        Category bookCategory = getRootCategory("도서", 1);
+        em.persist(bookCategory);
+        em.flush();
+        em.clear();
+
+        //when //then
+        Category findCategory = em.find(Category.class, bookCategory.getId());
+        assertThat(findCategory.getActivationAt()).isEqualTo("Y");
+
+        findCategory.deactivateCategory();
+        assertThat(findCategory.getActivationAt()).isEqualTo("N");
+
+        findCategory.activateCategory();
+        assertThat(findCategory.getActivationAt()).isEqualTo("Y");
+    }
 }
