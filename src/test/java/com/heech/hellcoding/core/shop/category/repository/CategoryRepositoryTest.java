@@ -26,16 +26,21 @@ class CategoryRepositoryTest {
     @Autowired
     CategoryRepository categoryRepository;
 
-    private Category getCategory(String name) {
-        Category category = Category.createRootCategoryBuilder()
+    private Category getRootCategory(String name, Integer order) {
+        Category rootCategory = Category.createRootCategoryBuilder()
                 .name(name)
+                .categoryOrder(order)
                 .build();
-        em.persist(category);
-        return category;
+        em.persist(rootCategory);
+        return rootCategory;
     }
 
-    private Category getChildCategory(String name, String title, String content, Category bookCategory) {
-        Category childCategory = new Category(bookCategory, name, 1);
+    private Category getChildCategory(Category parent, String name, Integer order) {
+        Category childCategory = Category.createChildCategoryBuilder()
+                .parent(parent)
+                .name(name)
+                .categoryOrder(order)
+                .build();
         em.persist(childCategory);
         return childCategory;
     }
@@ -43,12 +48,12 @@ class CategoryRepositoryTest {
     @Test
     public void findCategoriesTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서");
-        Category albumCategory = getCategory("음반");
-        Category developCategory = getChildCategory("개발", "개발카테고리", "개발관련 카테고리입니다.", bookCategory);
-        Category languageCategory = getChildCategory("언어", "언어카테고리", "언어관련 카테고리입니다.", bookCategory);
-        Category kpopCategory = getChildCategory("케이팝", "케이팝카테고리", "케이팝관련 카테고리입니다.", albumCategory);
-        Category balladCategory = getChildCategory("발라드", "발라드카테고리", "발라드관련 카테고리입니다.", albumCategory);
+        Category bookCategory = getRootCategory("도서", 1);
+        Category albumCategory = getRootCategory("음반", 2);
+        Category developCategory = getChildCategory(bookCategory, "개발", 1);
+        Category languageCategory = getChildCategory(bookCategory, "언어", 2);
+        Category kpopCategory = getChildCategory(albumCategory, "케이팝", 1);
+        Category balladCategory = getChildCategory(albumCategory, "발라드", 2);
 
         //when
         CategorySearchCondition condition = new CategorySearchCondition();
@@ -75,7 +80,7 @@ class CategoryRepositoryTest {
     @Test
     public void updateTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서");
+        Category bookCategory = getRootCategory("도서", 1);
         em.flush();
         em.clear();
 
@@ -83,6 +88,7 @@ class CategoryRepositoryTest {
         Category findCategory = categoryRepository.findById(bookCategory.getId()).orElse(null);
         findCategory.updateCategoryBuilder()
                 .name("도서1")
+                .categoryOrder(5)
                 .build();
         em.flush();
         em.clear();
@@ -90,12 +96,13 @@ class CategoryRepositoryTest {
         //then
         Category updatedCategory = categoryRepository.findById(findCategory.getId()).orElse(null);
         assertThat(updatedCategory.getName()).isEqualTo("도서1");
+        assertThat(updatedCategory.getCategoryOrder()).isEqualTo(5);
     }
 
     @Test
     public void deleteTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서");
+        Category bookCategory = getRootCategory("도서", 1);
 
         //when
         Category findCategory = categoryRepository.findById(bookCategory.getId()).orElse(null);
