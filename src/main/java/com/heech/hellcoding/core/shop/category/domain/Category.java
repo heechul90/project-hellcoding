@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class Category extends BaseEntity {
     private String name;
 
     private int categoryOrder;
-    private String activationAt;
+    private String activation;
 
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
@@ -47,7 +46,7 @@ public class Category extends BaseEntity {
 
         this.name = name;
         this.categoryOrder = categoryOrder;
-        this.activationAt = "Y";
+        this.activation = "Y";
     }
 
     /**
@@ -62,7 +61,7 @@ public class Category extends BaseEntity {
         this.parent = parent;
         this.name = name;
         this.categoryOrder = categoryOrder;
-        this.activationAt = "Y";
+        this.activation = "Y";
         this.parent.getChildren().add(this);
     }
 
@@ -80,13 +79,13 @@ public class Category extends BaseEntity {
      * 카테고리 활성화
      */
     public void activateCategory() {
-        this.activationAt = "Y";
+        this.activation = "Y";
     }
 
     /**
      * 카테고리 비활성화
      */
     public void deactivateCategory() {
-        this.activationAt = "N";
+        this.activation = "N";
     }
 }

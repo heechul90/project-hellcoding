@@ -2,7 +2,6 @@ package com.heech.hellcoding.core.shop.category.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -108,12 +107,12 @@ class CategoryTest {
 
         //when //then
         Category findCategory = em.find(Category.class, bookCategory.getId());
-        assertThat(findCategory.getActivationAt()).isEqualTo("Y");
+        assertThat(findCategory.getActivation()).isEqualTo("Y");
 
         findCategory.deactivateCategory();
-        assertThat(findCategory.getActivationAt()).isEqualTo("N");
+        assertThat(findCategory.getActivation()).isEqualTo("N");
 
         findCategory.activateCategory();
-        assertThat(findCategory.getActivationAt()).isEqualTo("Y");
+        assertThat(findCategory.getActivation()).isEqualTo("Y");
     }
 }

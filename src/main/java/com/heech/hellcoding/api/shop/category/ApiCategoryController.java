@@ -32,12 +32,15 @@ public class ApiCategoryController {
     public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
         Page<Category> content = categoryService.findCategories(condition, Pageable);
         List<CategoryDto> collect = content.getContent().stream()
-                .collect(
-                        Collectors.groupingBy(
-                                category -> new CategoryDto(category.getId(), category.getName()),
-                                Collectors.mapping(category -> new CategoryDto(category.getId(), category.getName()), Collectors.toList())
-                        )).entrySet().stream()
-                .map(e -> new CategoryDto(e.getKey().getCategoryId(), e.getKey().getCategoryName(), e.getValue()))
+                .map(category -> new CategoryDto(
+                        category.getId(),
+                        category.getName(),
+                        category.getCategoryOrder(),
+                        category.getActivation(),
+                        category.getParent() != null ? new CategoryDto(category.getParent().getId(), category.getParent().getName(), category.getParent().getCategoryOrder()) : null,
+                        category.getCreatedDate(),
+                        category.getCreatedBy()
+                ))
                 .collect(Collectors.toList());
         return JsonResult.OK(collect);
     }
@@ -48,6 +51,19 @@ public class ApiCategoryController {
     @GetMapping(value = "/{id}")
     public JsonResult findCategory(@PathVariable("id") Long categoryId) {
         Category findCategory = categoryService.findCategory(categoryId);
-        return JsonResult.OK(findCategory);
+        CategoryDto category = new CategoryDto(
+                findCategory.getId(),
+                findCategory.getName(),
+                findCategory.getCategoryOrder(),
+                findCategory.getActivation(),
+                findCategory.getParent() != null ? new CategoryDto(
+                        findCategory.getParent().getId(),
+                        findCategory.getParent().getName(),
+                        findCategory.getParent().getCategoryOrder()
+                ) : null,
+                findCategory.getCreatedDate(),
+                findCategory.getCreatedBy()
+        );
+        return JsonResult.OK(category);
     }
 }

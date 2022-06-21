@@ -1,59 +1,35 @@
 package com.heech.hellcoding.core.shop.category.dto;
 
-import com.heech.hellcoding.core.shop.category.domain.Category;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Parent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "categoryId")
 public class CategoryDto {
 
     private Long categoryId;
     private String categoryName;
-    private String categoryTitle;
-    private String categoryContent;
+    private int categoryOrder;
+    private String activation;
     private CategoryDto parentCategory;
-    private List<CategoryDto> childCategories = new ArrayList<>();
+    private LocalDateTime createdDate;
+    private String createdBy;
 
-    public CategoryDto(Long categoryId, String categoryName) {
+    public CategoryDto(Long categoryId, String categoryName, int categoryOrder) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
+        this.categoryOrder = categoryOrder;
     }
 
-    public CategoryDto(Long categoryId, String categoryName, List<CategoryDto> childCategories) {
+    public CategoryDto(Long categoryId, String categoryName, int categoryOrder, String activation, CategoryDto parentCategory, LocalDateTime createdDate, String createdBy) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.childCategories = childCategories;
-    }
-
-    public CategoryDto(Long categoryId, String categoryName, String categoryTitle, String categoryContent) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.categoryTitle = categoryTitle;
-        this.categoryContent = categoryContent;
-    }
-
-    public CategoryDto(Long categoryId, String categoryName, String categoryTitle, String categoryContent, List<CategoryDto> childCategories) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.categoryTitle = categoryTitle;
-        this.categoryContent = categoryContent;
-        this.childCategories = childCategories;
-    }
-
-    public CategoryDto(Long categoryId, String categoryName, String categoryTitle, String categoryContent, CategoryDto parentCategory, List<CategoryDto> childCategories) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.categoryTitle = categoryTitle;
-        this.categoryContent = categoryContent;
+        this.categoryOrder = categoryOrder;
+        this.activation = activation;
         this.parentCategory = parentCategory;
-        this.childCategories = childCategories;
+        this.createdDate = createdDate;
+        this.createdBy = createdBy;
     }
 }
