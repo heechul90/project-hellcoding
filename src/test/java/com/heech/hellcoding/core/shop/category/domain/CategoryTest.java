@@ -19,14 +19,14 @@ class CategoryTest {
     @PersistenceContext
     EntityManager em;
 
-    private Category getRootCategory(String name, int order) {
+    private Category getRootCategory(String name, Integer order) {
         return Category.createRootCategoryBuilder()
                 .name(name)
                 .categoryOrder(order)
                 .build();
     }
 
-    private Category getChildCategory(Category parent, String name, int order) {
+    private Category getChildCategory(Category parent, String name, Integer order) {
         return Category.createChildCategoryBuilder()
                 .parent(parent)
                 .name(name)
@@ -62,6 +62,7 @@ class CategoryTest {
         em.persist(bookCategory);
         em.persist(albumCategory);
         em.persist(movieCategory);
+
 
         //when
         Category itCategory = getChildCategory(bookCategory, "IT", 1);

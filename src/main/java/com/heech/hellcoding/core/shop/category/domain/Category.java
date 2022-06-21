@@ -1,11 +1,11 @@
 package com.heech.hellcoding.core.shop.category.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseEntity;
-import com.mysema.commons.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -41,7 +41,10 @@ public class Category extends BaseEntity {
      * 카테고리 생성
      */
     @Builder(builderClassName = "createRootCategoryBuilder", builderMethodName = "createRootCategoryBuilder")
-    public Category(String name, int categoryOrder) {
+    public Category(String name, Integer categoryOrder) {
+        Assert.hasText(name, "category_name 필수입니다.");
+        Assert.notNull(categoryOrder, "category_order 필수입니다.");
+
         this.name = name;
         this.categoryOrder = categoryOrder;
         this.activationAt = "Y";
@@ -51,7 +54,11 @@ public class Category extends BaseEntity {
      * 하위카테고리 생성
      */
     @Builder(builderClassName = "createChildCategoryBuilder", builderMethodName = "createChildCategoryBuilder")
-    public Category(Category parent, String name, int categoryOrder) {
+    public Category(Category parent, String name, Integer categoryOrder) {
+        Assert.notNull(parent, "parent 필수입니다.");
+        Assert.hasText(name, "category_name 필수입니다.");
+        Assert.notNull(categoryOrder, "category_order 필수입니다.");
+
         this.parent = parent;
         this.name = name;
         this.categoryOrder = categoryOrder;
