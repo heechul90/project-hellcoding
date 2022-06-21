@@ -19,20 +19,27 @@ class CategoryTest {
     @PersistenceContext
     EntityManager em;
 
-    private Category getCategory(String name) {
-        Category bookCategory = Category.createRootCategoryBuilder()
+    private Category getRootCategory(String name, int order) {
+        return Category.createRootCategoryBuilder()
                 .name(name)
-                .categoryOrder(1)
+                .categoryOrder(order)
                 .build();
-        return bookCategory;
+    }
+
+    private Category getChildCategory(Category parent, String name, int order) {
+        return Category.createChildCategoryBuilder()
+                .parent(parent)
+                .name(name)
+                .categoryOrder(order)
+                .build();
     }
 
     @Test
     public void createRootCategoryTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서");
-        Category albumCategory = getCategory("음반");
-        Category movieCategory = getCategory("영화");
+        Category bookCategory = getRootCategory("도서", 1);
+        Category albumCategory = getRootCategory("음반", 2);
+        Category movieCategory = getRootCategory("영화", 3);
 
         //when
         em.persist(bookCategory);
@@ -46,22 +53,17 @@ class CategoryTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void createChildCategoryTest() throws Exception{
         //given
-        Category bookCategory = getCategory("도서");
-        Category albumCategory = getCategory("음반");
-        Category movieCategory = getCategory("영화");
+        Category bookCategory = getRootCategory("도서", 1);
+        Category albumCategory = getRootCategory("음반", 2);
+        Category movieCategory = getRootCategory("영화", 3);
         em.persist(bookCategory);
         em.persist(albumCategory);
         em.persist(movieCategory);
 
         //when
-        Category itCategory = Category.createChildCategoryBuilder()
-                .parent(bookCategory)
-                .name("IT")
-                .categoryOrder(1)
-                .build();
+        Category itCategory = getChildCategory(bookCategory, "IT", 1);
         em.persist(itCategory);
 
         //then
