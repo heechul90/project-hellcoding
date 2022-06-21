@@ -46,10 +46,11 @@ public class CategoryService {
      * 카테고리 수정
      */
     @Transactional
-    public void updateCategory(Long id, String name, String title, String content) {
+    public void updateCategory(Long id, String name, Integer categoryOrder) {
         Category findCategory = categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
         findCategory.updateCategoryBuilder()
                 .name(name)
+                .categoryOrder(categoryOrder)
                 .build();
     }
 
