@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.shop.item.book.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import org.junit.jupiter.api.Test;
@@ -29,17 +30,29 @@ class BookRepositoryTest {
     @Autowired
     BookRepository bookRepository;
 
+    private Category getCategory() {
+        Category category = Category.createRootCategoryBuilder()
+                .name("category_name")
+                .categoryOrder(1)
+                .build();
+        em.persist(category);
+        return category;
+    }
+
     @Test
     public void findBooksTest() throws Exception{
         //given
+        Category category = getCategory();
+
         for (int i = 0; i <50; i++) {
-            bookRepository.save(
+            em.persist(
                     Book.createBookBuilder()
                             .name("상품이름" + i)
                             .title("상품타이틀" + i)
                             .content("상품내용" + i)
                             .price(7200 + i)
                             .stockQuantity(200 + i)
+                            .category(category)
                             .author("저자" + i)
                             .isbn(UUID.randomUUID().toString().toUpperCase())
                             .build()
@@ -70,12 +83,15 @@ class BookRepositoryTest {
     @Test
     public void findByXxxTest() throws Exception{
         //given
+        Category category = getCategory();
+
         Book book1 = Book.createBookBuilder()
                 .name("상품이름")
                 .title("상품타이틀1")
                 .content("상품내용1")
                 .price(7200)
                 .stockQuantity(150)
+                .category(category)
                 .author("저자")
                 .isbn(UUID.randomUUID().toString().toUpperCase())
                 .build();
@@ -86,6 +102,7 @@ class BookRepositoryTest {
                 .content("상품내용2")
                 .price(7200)
                 .stockQuantity(200)
+                .category(category)
                 .author("저자")
                 .isbn(UUID.randomUUID().toString().toUpperCase())
                 .build();

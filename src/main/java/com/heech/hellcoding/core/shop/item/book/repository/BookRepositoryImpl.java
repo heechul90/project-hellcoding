@@ -41,6 +41,8 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
         List<Book> content = queryFactory
                 .select(book)
                 .from(book)
+                .leftJoin(book.category)
+                .fetchJoin()
                 .where(
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword()),
                         searchPriceGoe(condition.getSearchPriceGoe()),

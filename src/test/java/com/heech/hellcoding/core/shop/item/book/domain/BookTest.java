@@ -23,6 +23,7 @@ class BookTest {
                 .name("category_name")
                 .categoryOrder(1)
                 .build();
+        em.persist(category);
         return category;
     }
 
@@ -44,7 +45,6 @@ class BookTest {
     public void createBookTest() throws Exception{
         //given
         Category category = getCategory();
-        em.persist(category);
         Book book = getBook(category);
 
         //when
@@ -64,7 +64,6 @@ class BookTest {
     public void updateBookTest() throws Exception{
         //given
         Category category = getCategory();
-        em.persist(category);
         Book book = getBook(category);
         em.persist(book);
         em.flush();
@@ -92,7 +91,6 @@ class BookTest {
     public void addStockTest() throws Exception{
         //given
         Category category = getCategory();
-        em.persist(category);
         Book book = getBook(category);
         em.persist(book);
         em.flush();
@@ -110,7 +108,6 @@ class BookTest {
     public void removeStockTest() throws Exception{
         //given
         Category category = getCategory();
-        em.persist(category);
         Book book = getBook(category);
         em.persist(book);
         em.flush();
