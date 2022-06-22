@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.shop.item.book.service;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import org.junit.jupiter.api.Test;
@@ -28,9 +29,19 @@ class BookServiceTest {
     @Autowired
     BookService bookService;
 
+    private Category getCategory() {
+        Category category = Category.createRootCategoryBuilder()
+                .name("category_name")
+                .categoryOrder(1)
+                .build();
+        em.persist(category);
+        return category;
+    }
+
     @Test
     void findBooks() {
         //given
+        Category category = getCategory();
         for (int i = 0; i < 50; i++) {
             bookService.saveBook(
                     Book.createBookBuilder()
@@ -39,6 +50,7 @@ class BookServiceTest {
                             .content("book" + i)
                             .price(1000 + i)
                             .stockQuantity(10 + i)
+                            .category(category)
                             .author("book" + i)
                             .isbn(UUID.randomUUID().toString().toUpperCase())
                             .build()
@@ -62,12 +74,14 @@ class BookServiceTest {
     @Test
     void findBook() {
         //given
+        Category category = getCategory();
         Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
                 .price(10000)
                 .stockQuantity(10)
+                .category(category)
                 .author("test")
                 .isbn("test")
                 .build();
@@ -86,12 +100,14 @@ class BookServiceTest {
     @Test
     void saveBook() {
         //given
+        Category category = getCategory();
         Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
                 .price(10000)
                 .stockQuantity(10)
+                .category(category)
                 .author("test")
                 .isbn("test")
                 .build();
@@ -110,12 +126,14 @@ class BookServiceTest {
     @Test
     void updateBook() {
         //given
+        Category category = getCategory();
         Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
                 .price(10000)
                 .stockQuantity(10)
+                .category(category)
                 .author("test")
                 .isbn("test")
                 .build();
@@ -131,6 +149,7 @@ class BookServiceTest {
         int stockQuantity = 100;
         String author = "changeAuthor";
         String isbn = "";
+
         bookService.updateBook(savedId, name, title, content, price, stockQuantity, author, isbn);
         em.flush();
         em.clear();
@@ -146,12 +165,14 @@ class BookServiceTest {
     @Test
     void deleteBook() {
         //given
+        Category category = getCategory();
         Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
                 .price(10000)
                 .stockQuantity(10)
+                .category(category)
                 .author("test")
                 .isbn("test")
                 .build();

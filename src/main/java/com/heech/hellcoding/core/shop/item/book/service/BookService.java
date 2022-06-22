@@ -47,7 +47,7 @@ public class BookService {
     @Transactional
     public void updateBook(Long id, String name, String title, String content, int price, int stockQuantity, String author, String isbn) {
         Book findBook = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        findBook.createBookBuilder()
+        findBook.updateBookBuilder()
                 .name(name)
                 .title(title)
                 .content(content)
