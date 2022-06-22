@@ -25,4 +25,7 @@ public class UpdateItemRequest {
     @PositiveOrZero
     private Integer stockQuantity;
 
+    @PositiveOrZero
+    private Long categoryId;
+
 }

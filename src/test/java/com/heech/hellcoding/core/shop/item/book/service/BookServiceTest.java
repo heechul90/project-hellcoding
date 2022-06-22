@@ -147,10 +147,11 @@ class BookServiceTest {
         String content = "";
         int price = 100;
         int stockQuantity = 100;
+        Category updateCategory = null;
         String author = "changeAuthor";
         String isbn = "";
 
-        bookService.updateBook(savedId, name, title, content, price, stockQuantity, author, isbn);
+        bookService.updateBook(savedId, name, title, content, price, stockQuantity, updateCategory, author, isbn);
         em.flush();
         em.clear();
 

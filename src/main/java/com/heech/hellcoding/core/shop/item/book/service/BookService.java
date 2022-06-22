@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.shop.item.book.service;
 
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import com.heech.hellcoding.core.shop.item.book.repository.BookRepository;
@@ -45,7 +46,7 @@ public class BookService {
      * 상품 > Book 수정
      */
     @Transactional
-    public void updateBook(Long id, String name, String title, String content, int price, int stockQuantity, String author, String isbn) {
+    public void updateBook(Long id, String name, String title, String content, int price, int stockQuantity, Category category, String author, String isbn) {
         Book findBook = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         findBook.updateBookBuilder()
                 .name(name)
@@ -53,6 +54,7 @@ public class BookService {
                 .content(content)
                 .price(price)
                 .stockQuantity(stockQuantity)
+                .category(category)
                 .author(author)
                 .isbn(isbn)
                 .build();

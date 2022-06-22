@@ -9,8 +9,8 @@ public class BookDto extends ItemDto {
     private String author;
     private String isbn;
 
-    public BookDto(String itemName, String itemTitle, String itemContent, int price, int stockQuantity, String author, String isbn) {
-        super(itemName, itemTitle, itemContent, price, stockQuantity);
+    public BookDto(String itemName, String itemTitle, String itemContent, int price, int stockQuantity, String categoryName, String author, String isbn) {
+        super(itemName, itemTitle, itemContent, price, stockQuantity, categoryName);
         this.author = author;
         this.isbn = isbn;
     }

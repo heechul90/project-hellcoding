@@ -5,6 +5,7 @@ import com.heech.hellcoding.api.shop.item.book.request.UpdateBookRequest;
 import com.heech.hellcoding.api.shop.item.book.response.CreateBookResponse;
 import com.heech.hellcoding.api.shop.item.book.response.UpdateBookResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
+import com.heech.hellcoding.core.shop.category.service.CategoryService;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookDto;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ApiBookController {
 
     private final BookService bookService;
+    private final CategoryService categoryService;
 
     /**
      * 상품 > Book 목록 조회
@@ -42,6 +44,7 @@ public class ApiBookController {
                         book.getContent(),
                         book.getPrice(),
                         book.getStockQuantity(),
+                        book.getCategory().getName(),
                         book.getAuthor(),
                         book.getIsbn()
                 ))
@@ -61,6 +64,7 @@ public class ApiBookController {
                 findBook.getContent(),
                 findBook.getPrice(),
                 findBook.getStockQuantity(),
+                findBook.getCategory().getName(),
                 findBook.getAuthor(),
                 findBook.getIsbn()
         );
@@ -84,6 +88,7 @@ public class ApiBookController {
                 .content(request.getItemContent())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
+                .category(categoryService.findCategory(request.getCategoryId()))
                 .author(request.getAuthor())
                 .isbn(request.getIsbn())
                 .build();
@@ -102,22 +107,13 @@ public class ApiBookController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        /*BookDto updateBookDto = BookDto.updateBookBuilder()
-                .itemName(request.getItemName())
-                .itemTitle(request.getItemTitle())
-                .itemContent(request.getItemContent())
-                .price(request.getPrice())
-                .stockQuantity(request.getStockQuantity())
-                .author(request.getAuthor())
-                .isbn(request.getIsbn())
-                .build();*/
-
         bookService.updateBook(id,
                 request.getItemName(),
                 request.getItemTitle(),
                 request.getItemContent(),
                 request.getPrice(),
                 request.getStockQuantity(),
+                request.getCategoryId() != null ? categoryService.findCategory(request.getCategoryId()) : null,
                 request.getAuthor(),
                 request.getIsbn());
         Book book = bookService.findBook(id);
