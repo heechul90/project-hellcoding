@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.item.info.repository;
 
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import org.assertj.core.api.Assertions;
@@ -28,10 +29,17 @@ class ItemRepositoryTest {
     ItemRepository itemRepository;
 
     private Book addItem(String itemName, int price, int stockQuantity, String author) {
+        Category category = Category.createRootCategoryBuilder()
+                .name("category_name")
+                .categoryOrder(1)
+                .build();
+        em.persist(category);
+
         Book book = Book.createBookBuilder()
                 .name(itemName)
                 .price(price)
                 .stockQuantity(stockQuantity)
+                .category(category)
                 .author(author)
                 .build();
         return book;
