@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionnaireRepositoryQuerydsl {
 
-    Page<Questionnaire> findForms(QuestionnaireSearchCondition condition, Pageable pageable);
+    Page<Questionnaire> findQuestionnaires(QuestionnaireSearchCondition condition, Pageable pageable);
 }

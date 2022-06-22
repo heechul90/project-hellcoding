@@ -27,7 +27,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepositoryQuery
     }
 
     @Override
-    public Page<Questionnaire> findForms(QuestionnaireSearchCondition condition, Pageable pageable) {
+    public Page<Questionnaire> findQuestionnaires(QuestionnaireSearchCondition condition, Pageable pageable) {
         List<Questionnaire> content = getQuestionnaireList(condition, pageable);
 
         JPAQuery<Long> count = getQuestionnaireListCount(condition);
