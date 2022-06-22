@@ -55,6 +55,24 @@ public class CategoryService {
     }
 
     /**
+     * 카테고리 활성화
+     */
+    @Transactional
+    public void activateCategory(Long id) {
+        Category findCategory = categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+        findCategory.activateCategory();
+    }
+
+    /**
+     * 카테고리 비활성화
+     */
+    @Transactional
+    public void deactivateCategory(Long id) {
+        Category findCategory = categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+        findCategory.deactivateCategory();
+    }
+
+    /**
      * 카테고리 삭제
      */
     @Transactional

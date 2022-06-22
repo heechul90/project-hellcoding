@@ -41,6 +41,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
                 .select(category)
                 .from(category)
                 .where(
+                        category.activation.eq("Y"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
                 .offset(pageable.getOffset())
@@ -57,6 +58,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
                 .select(category.count())
                 .from(category)
                 .where(
+                        category.activation.eq("Y"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 );
         return count;

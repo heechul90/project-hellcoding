@@ -1,7 +1,9 @@
 package com.heech.hellcoding.api.shop.category;
 
 import com.heech.hellcoding.api.shop.category.request.CreateCategoryRequest;
+import com.heech.hellcoding.api.shop.category.request.UpdateCategoryRequest;
 import com.heech.hellcoding.api.shop.category.response.CreateCategoryResponse;
+import com.heech.hellcoding.api.shop.category.response.UpdateCategoryResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategoryDto;
@@ -97,5 +99,39 @@ public class ApiCategoryController {
         return JsonResult.OK(new CreateCategoryResponse(savedId));
     }
 
+    /**
+     * 카테고리 수정
+     */
+    @PutMapping(value = "/{id}")
+    public JsonResult updateCategory(@PathVariable("id") Long categoryid,
+                                     @RequestBody @Validated UpdateCategoryRequest request, BindingResult bindingResult) {
+
+        //TODO validation check
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        categoryService.updateCategory(categoryid, request.getCategoryName(), request.getCategoryOrder());
+        Category category = categoryService.findCategory(categoryid);
+        return JsonResult.OK(new UpdateCategoryResponse(category.getId()));
+    }
+
+    /**
+     * 카테고리 활성화
+     */
+    @PutMapping(value = "/{id}/activate")
+    public JsonResult activateCategory(@PathVariable("id") Long categoryId) {
+        categoryService.activateCategory(categoryId);
+        return JsonResult.OK();
+    }
+
+    /**
+     * 카테고리 비활성화
+     */
+    @PutMapping(value = "/{id}/deactivate")
+    public JsonResult deactivateCategory(@PathVariable("id") Long categoryId) {
+        categoryService.deactivateCategory(categoryId);
+        return JsonResult.OK();
+    }
 
 }

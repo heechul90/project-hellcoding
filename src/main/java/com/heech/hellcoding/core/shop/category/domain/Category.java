@@ -70,9 +70,9 @@ public class Category extends BaseEntity {
      * 카테고리 수정
      */
     @Builder(builderClassName = "updateCategoryBuilder", builderMethodName = "updateCategoryBuilder")
-    public void updateCategory(String name, int categoryOrder) {
+    public void updateCategory(String name, Integer categoryOrder) {
         if (hasText(name)) this.name = name;
-        if (categoryOrder != 0) this.categoryOrder = categoryOrder;
+        if (categoryOrder != null) this.categoryOrder = categoryOrder;
     }
 
     /**
@@ -88,4 +88,6 @@ public class Category extends BaseEntity {
     public void deactivateCategory() {
         this.activation = "N";
     }
+
+    //===비즈니스 로직===//
 }
