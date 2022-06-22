@@ -60,8 +60,6 @@ public class Questionnaire extends BaseEntity {
             this.beginDate = null;
             this.endDate = null;
         }
-
     }
-
 
 }
