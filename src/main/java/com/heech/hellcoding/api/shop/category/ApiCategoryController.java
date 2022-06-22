@@ -134,4 +134,13 @@ public class ApiCategoryController {
         return JsonResult.OK();
     }
 
+    /**
+     * 카테고리 삭제
+     */
+    @DeleteMapping(value = "/{id}")
+    public JsonResult deleteCategory(@PathVariable("id") Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return JsonResult.OK();
+    }
+
 }
