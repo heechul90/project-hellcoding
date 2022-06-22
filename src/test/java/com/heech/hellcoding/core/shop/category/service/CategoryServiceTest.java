@@ -111,6 +111,40 @@ class CategoryServiceTest {
     }
 
     @Test
+    public void activateCategoryTest() throws Exception{
+        //given
+        Category bookCategory = getRootCategory("도서", 1);
+        em.flush();
+        em.clear();
+
+        //when
+        categoryService.activateCategory(bookCategory.getId());
+        em.flush();
+        em.clear();
+
+        //then
+        Category findCategory = categoryService.findCategory(bookCategory.getId());
+        assertThat(findCategory.getActivation()).isEqualTo("Y");
+    }
+
+    @Test
+    public void deactivateCategoryTest() throws Exception{
+        //given
+        Category bookCategory = getRootCategory("도서", 1);
+        em.flush();
+        em.clear();
+
+        //when
+        categoryService.deactivateCategory(bookCategory.getId());
+        em.flush();
+        em.clear();
+
+        //then
+        Category findCategory = categoryService.findCategory(bookCategory.getId());
+        assertThat(findCategory.getActivation()).isEqualTo("N");
+    }
+
+    @Test
     void deleteCategoryTest() {
         //given
         Category bookCategory = getRootCategory("도서", 1);
