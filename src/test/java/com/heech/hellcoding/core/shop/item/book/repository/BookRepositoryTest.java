@@ -34,7 +34,7 @@ class BookRepositoryTest {
         //given
         for (int i = 0; i <50; i++) {
             bookRepository.save(
-                    Book.createBuilder()
+                    Book.createBookBuilder()
                             .name("상품이름" + i)
                             .title("상품타이틀" + i)
                             .content("상품내용" + i)
@@ -70,7 +70,7 @@ class BookRepositoryTest {
     @Test
     public void findByXxxTest() throws Exception{
         //given
-        Book book1 = Book.createBuilder()
+        Book book1 = Book.createBookBuilder()
                 .name("상품이름")
                 .title("상품타이틀1")
                 .content("상품내용1")
@@ -80,7 +80,7 @@ class BookRepositoryTest {
                 .isbn(UUID.randomUUID().toString().toUpperCase())
                 .build();
 
-        Book book2 = Book.createBuilder()
+        Book book2 = Book.createBookBuilder()
                 .name("상품이름")
                 .title("상품타이틀2")
                 .content("상품내용2")

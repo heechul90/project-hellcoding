@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.item.album.domain;
 
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,8 @@ public class Album extends Item {
     private String artist;
 
     @Builder
-    public Album(String name, String title, String content, int price, int stockQuantity, String artist) {
-        super(name, title, content, price, stockQuantity);
+    public Album(String name, String title, String content, int price, int stockQuantity, Category category, String artist) {
+        super(name, title, content, price, stockQuantity, category);
         this.artist = artist;
     }
 }

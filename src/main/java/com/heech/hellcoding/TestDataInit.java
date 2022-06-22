@@ -31,9 +31,9 @@ public class TestDataInit {
     @PostConstruct
     public void init() {
 
+        initService.categoryInit();
         initService.memberInit();
         initService.itemInit();
-        initService.categoryInit();
 
     }
 
@@ -79,15 +79,25 @@ public class TestDataInit {
         }
 
         public void itemInit() {
-            Book book1 = new Book("연금술사", "2022년 베스트 셀러!", "재미있는 책입니다.", 10800, 100, "파울로 코엘료", UUID.randomUUID().toString().toUpperCase());
+            Book book1 = Book.createBookBuilder()
+                    .name("연금술사")
+                    .title("2022년 베스트 셀러!")
+                    .content("재미있는 책입니다.")
+                    .price(10800)
+                    .stockQuantity(100)
+                    .category(em.find(Category.class, 1L))
+                    .author("파울로 코엘료")
+                    .isbn(UUID.randomUUID().toString().toUpperCase())
+                    .build();
             em.persist(book1);
 
-            Book book2 = Book.createBuilder()
+            Book book2 = Book.createBookBuilder()
                     .name("갈매기의 꿈")
                     .title("2021년 베스트 셀러!")
                     .content("갈매기 맛있다")
                     .price(7200)
                     .stockQuantity(200)
+                    .category(em.find(Category.class, 1L))
                     .author("리처드 바크")
                     .isbn(UUID.randomUUID().toString().toUpperCase())
                     .build();
@@ -99,6 +109,7 @@ public class TestDataInit {
                     .content("서쪽하늘에")
                     .price(20000)
                     .stockQuantity(20)
+                    .category(em.find(Category.class, 2L))
                     .artist("이승철")
                     .build();
             em.persist(album1);
@@ -109,6 +120,7 @@ public class TestDataInit {
                     .content("죽고싶으면 와라")
                     .price(14000)
                     .stockQuantity(20)
+                    .category(em.find(Category.class, 3L))
                     .director("show box")
                     .actor("마동석")
                     .build();
@@ -118,6 +130,7 @@ public class TestDataInit {
         public void categoryInit() {
             Category bookCategory = getRootCategory("도서", 1);
             Category albumCategory = getRootCategory("음반", 2);
+            Category movieCategory = getRootCategory("영화", 3);
             Category developCategory = getChildCategory(bookCategory, "개발", 1);
             Category languageCategory = getChildCategory(bookCategory, "언어", 2);
             Category kpopCategory = getChildCategory(albumCategory, "케이팝", 1);

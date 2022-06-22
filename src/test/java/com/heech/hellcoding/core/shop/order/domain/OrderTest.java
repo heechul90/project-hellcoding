@@ -173,7 +173,7 @@ public class OrderTest {
     }
 
     private Book addItem(String itemName, int price, int stockQuantity, String author) {
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name(itemName)
                 .price(price)
                 .stockQuantity(stockQuantity)

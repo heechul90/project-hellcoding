@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -77,7 +78,7 @@ public class ApiBookController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name(request.getItemName())
                 .title(request.getItemTitle())
                 .content(request.getItemContent())

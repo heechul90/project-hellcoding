@@ -65,7 +65,7 @@ public class Category extends BaseEntity {
         this.parent.getChildren().add(this);
     }
 
-    //===업데이트 로직===//
+    //===수정 메서드===//
     /**
      * 카테고리 수정
      */

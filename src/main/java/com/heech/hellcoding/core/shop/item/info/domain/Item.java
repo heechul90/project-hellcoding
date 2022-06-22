@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.shop.item.info.domain;
 
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,17 +35,22 @@ public abstract class Item {
     private int price;
     private int stockQuantity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     //=== 생성메서드 ===//
-    protected Item(String name, String title, String content, int price, int stockQuantity) {
+    protected Item(String name, String title, String content, int price, int stockQuantity, Category category) {
         this.name = name;
         this.title = title;
         this.content = content;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.category = category;
     }
 
     //===변경 메서드===//
-    protected void updateItem(String name, String title, String content, int price, int stockQuantity) {
+    protected void updateItem(String name, String title, String content, int price, int stockQuantity, Category category) {
         if (hasText(name)) {
             this.name = name;
         }
@@ -59,6 +65,9 @@ public abstract class Item {
         }
         if (stockQuantity >= 0) {
             this.stockQuantity = stockQuantity;
+        }
+        if (category != null) {
+            this.category = category;
         }
     }
 

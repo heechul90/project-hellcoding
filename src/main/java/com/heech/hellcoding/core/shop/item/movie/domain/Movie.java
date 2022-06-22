@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.item.movie.domain;
 
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +19,8 @@ public class Movie extends Item {
     private String actor;
 
     @Builder
-    public Movie(String name, String title, String content, int price, int stockQuantity, String director, String actor) {
-        super(name, title, content, price, stockQuantity);
+    public Movie(String name, String title, String content, int price, int stockQuantity, Category category, String director, String actor) {
+        super(name, title, content, price, stockQuantity, category);
         this.director = director;
         this.actor = actor;
     }

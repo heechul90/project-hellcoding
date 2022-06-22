@@ -33,7 +33,7 @@ class BookServiceTest {
         //given
         for (int i = 0; i < 50; i++) {
             bookService.saveBook(
-                    Book.createBuilder()
+                    Book.createBookBuilder()
                             .name("book" + i)
                             .title("book" + i)
                             .content("book" + i)
@@ -62,7 +62,7 @@ class BookServiceTest {
     @Test
     void findBook() {
         //given
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
@@ -86,7 +86,7 @@ class BookServiceTest {
     @Test
     void saveBook() {
         //given
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
@@ -110,7 +110,7 @@ class BookServiceTest {
     @Test
     void updateBook() {
         //given
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")
@@ -146,7 +146,7 @@ class BookServiceTest {
     @Test
     void deleteBook() {
         //given
-        Book book = Book.createBuilder()
+        Book book = Book.createBookBuilder()
                 .name("test")
                 .title("test")
                 .content("test")

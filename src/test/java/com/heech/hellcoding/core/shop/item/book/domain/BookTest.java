@@ -1,9 +1,9 @@
 package com.heech.hellcoding.core.shop.item.book.domain;
 
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
+import com.heech.hellcoding.core.shop.category.domain.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -18,13 +18,34 @@ class BookTest {
     @PersistenceContext
     EntityManager em;
 
+    private Category getCategory() {
+        Category category = Category.createRootCategoryBuilder()
+                .name("category_name")
+                .categoryOrder(1)
+                .build();
+        return category;
+    }
+
+    private Book getBook(Category category) {
+        Book book = Book.createBookBuilder()
+                .name("book_name")
+                .title("book_title")
+                .content("book_content")
+                .price(0)
+                .stockQuantity(100)
+                .category(category)
+                .author("book_author")
+                .isbn("book_isbn")
+                .build();
+        return book;
+    }
+
     @Test
     public void createBookTest() throws Exception{
         //given
-        Book book = Book.createBuilder()
-                .name("test")
-                .author("test")
-                .build();
+        Category category = getCategory();
+        em.persist(category);
+        Book book = getBook(category);
 
         //when
         em.persist(book);
@@ -33,26 +54,27 @@ class BookTest {
 
         //then
         Book findBook = em.find(Book.class, book.getId());
-        assertThat(findBook.getName()).isEqualTo("test");
-        assertThat(findBook.getAuthor()).isEqualTo("test");
+        assertThat(findBook.getName()).isEqualTo("book_name");
+        assertThat(findBook.getAuthor()).isEqualTo("book_author");
         assertThat(findBook.getPrice()).isZero();
+        assertThat(findBook.getCategory().getName()).isEqualTo("category_name");
     }
 
     @Test
     public void updateBookTest() throws Exception{
         //given
-        Book book = Book.createBuilder()
-                .name("test")
-                .author("test")
-                .build();
+        Category category = getCategory();
+        em.persist(category);
+        Book book = getBook(category);
         em.persist(book);
         em.flush();
         em.clear();
 
+
         //when
         Book findBook = em.find(Book.class, book.getId());
-        findBook.updateBuilder()
-                .name("changeName")
+        findBook.updateBookBuilder()
+                .name("update_category_name")
                 .price(11000)
                 .stockQuantity(10)
                 .build();
@@ -61,7 +83,7 @@ class BookTest {
 
         //then
         Book updateBook = em.find(Book.class, book.getId());
-        assertThat(updateBook.getName()).isEqualTo("changeName");
+        assertThat(updateBook.getName()).isEqualTo("update_category_name");
         assertThat(updateBook.getPrice()).isEqualTo(11000);
         assertThat(updateBook.getStockQuantity()).isEqualTo(10);
     }
@@ -69,10 +91,9 @@ class BookTest {
     @Test
     public void addStockTest() throws Exception{
         //given
-        Book book = Book.createBuilder()
-                .name("test")
-                .author("test")
-                .build();
+        Category category = getCategory();
+        em.persist(category);
+        Book book = getBook(category);
         em.persist(book);
         em.flush();
         em.clear();
@@ -82,27 +103,25 @@ class BookTest {
         findBook.addStock(10);
 
         //then
-        assertThat(findBook.getStockQuantity()).isEqualTo(10);
+        assertThat(findBook.getStockQuantity()).isEqualTo(110);
     }
 
     @Test
     public void removeStockTest() throws Exception{
         //given
-        Book book = Book.createBuilder()
-                .name("test")
-                .author("test")
-                .stockQuantity(5)
-                .build();
+        Category category = getCategory();
+        em.persist(category);
+        Book book = getBook(category);
         em.persist(book);
         em.flush();
         em.clear();
 
         //when
         Book findBook = em.find(Book.class, book.getId());
-        findBook.removeStock(3);
+        findBook.removeStock(10);
 
         //then
-        assertThat(findBook.getStockQuantity()).isEqualTo(2);
+        assertThat(findBook.getStockQuantity()).isEqualTo(90);
         assertThatThrownBy(() -> findBook.removeStock(100))
                 .isInstanceOf(NotEnoghStockException.class)
                 .hasMessageContaining("need");
