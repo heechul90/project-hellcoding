@@ -1,5 +1,7 @@
 package com.heech.hellcoding.api.shop.category;
 
+import com.heech.hellcoding.api.shop.category.request.CreateCategoryRequest;
+import com.heech.hellcoding.api.shop.category.response.CreateCategoryResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategoryDto;
@@ -9,10 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,4 +67,35 @@ public class ApiCategoryController {
         );
         return JsonResult.OK(category);
     }
+
+    /**
+     * 카테고리 저장
+     */
+    @PostMapping
+    public JsonResult saveCategory(@RequestBody @Validated CreateCategoryRequest request, BindingResult bindingResult) {
+
+        //TODO validation check
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        Category category;
+        if (request.getParentId() == null) {
+            category = Category.createRootCategoryBuilder()
+                    .name(request.getCategoryName())
+                    .categoryOrder(request.getCategoryOrder())
+                    .build();
+        } else {
+            category = Category.createChildCategoryBuilder()
+                    .parent(categoryService.findCategory(request.getParentId()))
+                    .name(request.getCategoryName())
+                    .categoryOrder(request.getCategoryOrder())
+                    .build();
+        }
+        Long savedId = categoryService.saveCategory(category);
+
+        return JsonResult.OK(new CreateCategoryResponse(savedId));
+    }
+
+
 }
