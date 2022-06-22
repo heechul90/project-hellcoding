@@ -51,7 +51,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "char")
     private GenderCode genderCode; //F, M
-
     /** 휴대폰번호 */
     @Embedded
     private Mobile mobile;

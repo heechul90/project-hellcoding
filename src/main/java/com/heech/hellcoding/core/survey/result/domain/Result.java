@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.forms.result.domain;
+package com.heech.hellcoding.core.survey.result.domain;
 
-import com.heech.hellcoding.core.forms.option.domain.Option;
+import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "forms_result")
+@Table(name = "questionnaire_result")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Result {

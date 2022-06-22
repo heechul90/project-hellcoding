@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.forms.question.domain;
+package com.heech.hellcoding.core.survey.question.domain;
 
-import com.heech.hellcoding.core.forms.form.domain.Form;
+import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "forms_question")
+@Table(name = "questionnaire_question")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Question {
@@ -18,8 +18,8 @@ public class Question {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "form_id")
-    private Form form;
+    @JoinColumn(name = "questionnaire_id")
+    private Questionnaire questionnaire;
 
     @Column(name = "question_title")
     private String title;

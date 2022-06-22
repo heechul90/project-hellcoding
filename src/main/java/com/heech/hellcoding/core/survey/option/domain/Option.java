@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.forms.option.domain;
+package com.heech.hellcoding.core.survey.option.domain;
 
-import com.heech.hellcoding.core.forms.question.domain.Question;
+import com.heech.hellcoding.core.survey.question.domain.Question;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "forms_option")
+@Table(name = "questionnaire_option")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Option {
