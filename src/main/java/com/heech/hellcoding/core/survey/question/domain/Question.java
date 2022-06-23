@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -58,5 +59,18 @@ public class Question {
         this.title = title;
         this.questionOrder = questionOrder;
         this.setting = setting;
+        options.forEach(option -> option.addQuestion(this));
+    }
+
+    /**
+     * 업데이트 question id 없을때
+     */
+    @Builder(builderClassName = "addQuestionBuilder", builderMethodName = "addQuestionBuilder")
+    public Question(Questionnaire questionnaire, String title, int questionOrder, Setting setting) {
+        this.questionnaire = questionnaire;
+        this.title = title;
+        this.questionOrder = questionOrder;
+        this.setting = setting;
+        this.questionnaire.getQuestions().add(this);
     }
 }

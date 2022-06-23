@@ -49,8 +49,13 @@ public class Questionnaire extends BaseEntity {
         this.title = title;
         this.description = description;
         this.periodAt = periodAt;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+        if ("Y".equals(periodAt)) {
+            this.beginDate = beginDate;
+            this.endDate = endDate;
+        } else {
+            this.beginDate = null;
+            this.endDate = null;
+        }
         this.useAt = "Y";
         this.questions = questions;
         questions.forEach(question -> question.addQuestionnaire(this));
@@ -69,6 +74,7 @@ public class Questionnaire extends BaseEntity {
             this.beginDate = null;
             this.endDate = null;
         }
+
     }
 
     //=== 삭제 로직===//

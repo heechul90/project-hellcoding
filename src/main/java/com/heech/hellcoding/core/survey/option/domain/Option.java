@@ -40,10 +40,24 @@ public class Option {
     }
 
     //===수정 메서드===//
+    /**
+     *
+     */
     @Builder(builderClassName = "updateOptionBuilder", builderMethodName = "updateOptionBuilder")
     public void updateOption(Question question, int optionOrder, String content) {
         this.question = question;
         this.optionOrder = optionOrder;
         this.content = content;
+    }
+
+    /**
+     * 항목 추가
+     */
+    @Builder(builderClassName = "addOptionBuilder", builderMethodName = "addOptionBuilder")
+    public Option(Question question, int optionOrder, String content) {
+        this.question = question;
+        this.optionOrder = optionOrder;
+        this.content = content;
+        this.question.getOptions().add(this);
     }
 }

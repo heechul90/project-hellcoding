@@ -1,8 +1,8 @@
 package com.heech.hellcoding.core.survey.questionnaire.dto;
 
 import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class QuestionnaireDto {
 
     private String questionnaireTitle;
@@ -26,5 +26,14 @@ public class QuestionnaireDto {
         this.periodAt = periodAt;
         this.beginDate = beginDate;
         this.endDate = endDate;
+    }
+
+    public QuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDto> questions) {
+        this.questionnaireTitle = questionnaireTitle;
+        this.questionnaireDescription = questionnaireDescription;
+        this.periodAt = periodAt;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.questions = questions;
     }
 }

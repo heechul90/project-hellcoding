@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -81,7 +82,6 @@ public class QuestionnaireService {
      */
     @Transactional
     public void updateQuestionnaire(Long id, QuestionnaireDto updateParam) {
-
         Questionnaire findQuestionnaire = questionnaireRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
 
@@ -93,41 +93,51 @@ public class QuestionnaireService {
                 .endDate(updateParam.getEndDate())
                 .build();
 
-        for (QuestionDto question : updateParam.getQuestions()) {
-            Question findQuestion = questionRepository.findById(question.getQuestionId()).orElse(null);
-            if (findQuestion != null) {
-                findQuestion.updateQuestionBuilder()
-                        .questionnaire(findQuestionnaire)
-                        .title(question.getQuestionTitle())
-                        .questionOrder(question.getQuestionOrder())
-                        .setting(question.getSetting())
-                        .build();
-            } else {
-                Question addQuestion = Question.createQuestionBuilder()
-                        .title(question.getQuestionTitle())
-                        .questionOrder(question.getQuestionOrder())
-                        .setting(question.getSetting())
-                        .build();
-                findQuestion = questionRepository.save(addQuestion);
-            }
+        updateParam.getQuestions().stream()
+                .forEach(questionDto -> {
+                    Question updatedQuestion;
+                    if (questionDto.getQuestionId() != null) {
+                        updatedQuestion = findQuestionnaire.getQuestions().stream()
+                                .filter(question -> question.getId().equals(questionDto.getQuestionId()))
+                                .findAny()
+                                .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+                        updatedQuestion.updateQuestionBuilder()
+                                .questionnaire(findQuestionnaire)
+                                .title(questionDto.getQuestionTitle())
+                                .questionOrder(questionDto.getQuestionOrder())
+                                .setting(questionDto.getSetting())
+                                .build();
+                    } else {
+                        updatedQuestion = Question.addQuestionBuilder()
+                                .questionnaire(findQuestionnaire)
+                                .title(questionDto.getQuestionTitle())
+                                .questionOrder(questionDto.getQuestionOrder())
+                                .setting(questionDto.getSetting())
+                                .build();
+                    }
 
-            for (OptionDto option : question.getOptions()) {
-                Option findOption = optionRepository.findById(option.getOptionId()).orElse(null);
-                if (findOption != null) {
-                    findOption.updateOptionBuilder()
-                            .question(findQuestion)
-                            .optionOrder(option.getOptionOrder())
-                            .content(option.getOptionContent())
-                            .build();
-                } else {
-                    Option addOption = Option.createOptionBuilder()
-                            .optionOrder(option.getOptionOrder())
-                            .content(option.getOptionContent())
-                            .build();
-                    optionRepository.save(addOption);
-                }
-            }
-        }
+                    questionDto.getOptions().stream()
+                            .forEach(optionDto -> {
+                                Option updatedOption;
+                                if (optionDto.getOptionId() != null) {
+                                    updatedOption = updatedQuestion.getOptions().stream()
+                                            .filter(option -> option.getId().equals(optionDto.getOptionId()))
+                                            .findAny()
+                                            .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+                                    updatedOption.updateOptionBuilder()
+                                            .question(updatedQuestion)
+                                            .optionOrder(optionDto.getOptionOrder())
+                                            .content(optionDto.getOptionContent())
+                                            .build();
+                                } else {
+                                    updatedOption = Option.addOptionBuilder()
+                                            .question(updatedQuestion)
+                                            .optionOrder(optionDto.getOptionOrder())
+                                            .content(optionDto.getOptionContent())
+                                            .build();
+                                }
+                            });
+                });
     }
 
     /**
