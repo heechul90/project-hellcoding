@@ -1,6 +1,8 @@
 package com.heech.hellcoding.core.survey.questionnaire.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseEntity;
+import com.heech.hellcoding.core.survey.question.domain.Question;
+import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.util.StringUtils.*;
 
@@ -36,15 +40,20 @@ public class Questionnaire extends BaseEntity {
     @Column(columnDefinition = "char")
     private String useAt; //Y, N
 
+    @OneToMany(mappedBy = "questionnaire")
+    private List<Question> questions = new ArrayList<>();
+
     //===생성 메서드===//
     @Builder(builderClassName = "createQuestionnaireBuilder", builderMethodName = "createQuestionnaireBuilder")
-    public Questionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+    public Questionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
         this.title = title;
         this.description = description;
         this.periodAt = periodAt;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.useAt = "Y";
+        this.questions = questions;
+        questions.forEach(question -> question.addQuestionnaire(this));
     }
 
     //===수정 메서드===//

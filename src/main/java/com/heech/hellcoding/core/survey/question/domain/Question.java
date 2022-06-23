@@ -1,11 +1,15 @@
 package com.heech.hellcoding.core.survey.question.domain;
 
+import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questionnaire_question")
@@ -29,7 +33,24 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private Setting setting;
 
+    @OneToMany(mappedBy = "question")
+    private List<Option> options = new ArrayList<>();
+
+    //===연관관계 메서드===//
+    public void addQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
     //===생성 메서드===//
+    @Builder(builderClassName = "createQuestionBuilder", builderMethodName = "createQuestionBuilder")
+    public Question(String title, int questionOrder, Setting setting, List<Option> options) {
+        this.title = title;
+        this.questionOrder = questionOrder;
+        this.setting = setting;
+        this.options = options;
+        options.forEach(option -> option.addQuestion(this));
+    }
+
 
     //===수정 메서드===//
 }
