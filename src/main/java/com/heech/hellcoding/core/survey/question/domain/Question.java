@@ -33,7 +33,7 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private Setting setting;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();
 
     //===연관관계 메서드===//

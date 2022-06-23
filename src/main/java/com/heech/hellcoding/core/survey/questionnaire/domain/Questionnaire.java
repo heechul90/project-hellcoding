@@ -40,7 +40,7 @@ public class Questionnaire extends BaseEntity {
     @Column(columnDefinition = "char")
     private String useAt; //Y, N
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     //===생성 메서드===//
@@ -57,29 +57,18 @@ public class Questionnaire extends BaseEntity {
     }
 
     //===수정 메서드===//
-    /*@Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
-    public void updateQuestionnaire(UpdateQuestionnaireParam param) {
-        if (hasText(param.getTitle())) this.title = param.getTitle();
-        if (hasText(param.getDescription())) this.description = param.getDescription();
-        if (hasText(param.getPeriodAt())) this.periodAt = param.getPeriodAt();
-        if ("Y".equals(param.getPeriodAt())) {
-            this.beginDate = param.getBeginDate();
-            this.endDate = param.getEndDate();
+    @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
+    public void updateQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+        this.title = title;
+        this.description = description;
+        this.periodAt = periodAt;
+        if ("Y".equals(periodAt)) {
+            this.beginDate = beginDate;
+            this.endDate = endDate;
         } else {
             this.beginDate = null;
             this.endDate = null;
         }
-    }*/
-
-    @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
-    public void updateQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
-        this.title = title;
-        this.description = description;
-        this.periodAt = periodAt;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.questions = questions;
-        questions.forEach(question -> question.addQuestionnaire(this));
     }
 
     //=== 삭제 로직===//

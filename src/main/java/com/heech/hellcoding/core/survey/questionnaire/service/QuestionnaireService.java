@@ -10,7 +10,6 @@ import com.heech.hellcoding.core.survey.question.repository.QuestionRepository;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
-import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import com.heech.hellcoding.core.survey.questionnaire.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -128,10 +127,7 @@ public class QuestionnaireService {
                     optionRepository.save(addOption);
                 }
             }
-
         }
-
-
     }
 
     /**
@@ -143,6 +139,5 @@ public class QuestionnaireService {
                 .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
         findQuestionnarie.deleteQuestionnaire();
     }
-
 
 }
