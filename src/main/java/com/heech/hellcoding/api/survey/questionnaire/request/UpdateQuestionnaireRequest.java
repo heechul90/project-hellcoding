@@ -8,27 +8,29 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CreateQuestionnaireRequest {
+public class UpdateQuestionnaireRequest {
 
     private String questionnaireTitle;
     private String questionnaireDescription;
     private String periodAt;
-    private String beginDate = "20220623000000";
-    private String endDate = "20220722235959";
-    private List<CreateQuestion> questions;
+    private String beginDate;
+    private String endDate;
+    private List<UpdateQuestion> questions;
 
     @Getter
     @Setter
-    public static class CreateQuestion {
+    public static class UpdateQuestion {
+        private Long questionId;
         private String questionTitle;
         private Integer questionOrder;
         private Setting setting;
-        private List<CreateOption> options;
+        private List<UpdateOption> options;
     }
 
     @Getter
     @Setter
-    public static class CreateOption {
+    public static class UpdateOption {
+        private Long optionId;
         private Integer optionOrder;
         private String optionContent;
     }
