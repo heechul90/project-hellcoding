@@ -57,7 +57,7 @@ public class Questionnaire extends BaseEntity {
     }
 
     //===수정 메서드===//
-    @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
+    /*@Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
     public void updateQuestionnaire(UpdateQuestionnaireParam param) {
         if (hasText(param.getTitle())) this.title = param.getTitle();
         if (hasText(param.getDescription())) this.description = param.getDescription();
@@ -69,6 +69,21 @@ public class Questionnaire extends BaseEntity {
             this.beginDate = null;
             this.endDate = null;
         }
+    }*/
+
+    @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
+    public void updateQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
+        this.title = title;
+        this.description = description;
+        this.periodAt = periodAt;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.questions = questions;
+        questions.forEach(question -> question.addQuestionnaire(this));
     }
 
+    //=== 삭제 로직===//
+    public void deleteQuestionnaire() {
+        this.useAt = "N";
+    }
 }

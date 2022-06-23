@@ -51,6 +51,12 @@ public class Question {
         options.forEach(option -> option.addQuestion(this));
     }
 
-
     //===수정 메서드===//
+    @Builder(builderClassName = "updateQuestionBuilder", builderMethodName = "updateQuestionBuilder")
+    public void updateQuestion(Questionnaire questionnaire, String title, int questionOrder, Setting setting) {
+        this.questionnaire = questionnaire;
+        this.title = title;
+        this.questionOrder = questionOrder;
+        this.setting = setting;
+    }
 }

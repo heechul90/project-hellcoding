@@ -9,9 +9,20 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class OptionDto {
 
+    private Long optionId;
     private Integer optionOrder;
     private String optionContent;
+
+    public OptionDto(Integer optionOrder, String optionContent) {
+        this.optionOrder = optionOrder;
+        this.optionContent = optionContent;
+    }
+
+    public OptionDto(Long optionId, Integer optionOrder, String optionContent) {
+        this.optionId = optionId;
+        this.optionOrder = optionOrder;
+        this.optionContent = optionContent;
+    }
 }
