@@ -34,7 +34,7 @@ public class Questionnaire extends BaseEntity {
     private LocalDateTime endDate;
 
     @Column(columnDefinition = "char")
-    private String useAt; //Y, N
+    private String isDelete; //Y, N
 
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
@@ -55,7 +55,7 @@ public class Questionnaire extends BaseEntity {
             this.beginDate = null;
             this.endDate = null;
         }
-        this.useAt = "Y";
+        this.isDelete = "N";
         if (questions != null) {
             this.questions = questions;
             questions.forEach(question -> question.addQuestionnaire(this));
@@ -83,9 +83,10 @@ public class Questionnaire extends BaseEntity {
 
     //=== 삭제 로직===//
     /**
-     * 설문 삭제(사용여부 N으로 업데이트)
+     * 설문 삭제(isDelete Y으로 업데이트)
      */
     public void deleteQuestionnaire() {
-        this.useAt = "N";
+        this.isDelete = "Y";
     }
+
 }

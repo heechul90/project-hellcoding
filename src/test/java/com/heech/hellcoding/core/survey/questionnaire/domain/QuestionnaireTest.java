@@ -55,7 +55,6 @@ class QuestionnaireTest {
         //when
         em.persist(questionnaire);
 
-
         //then
         assertThat(questionnaire.getQuestions().get(0).getTitle()).isEqualTo("test_title");
         assertThat(question1.getQuestionnaire().getTitle()).isEqualTo("test_title");

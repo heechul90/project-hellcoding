@@ -263,6 +263,6 @@ class QuestionnaireServiceTest {
 
         //then
         com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
-        assertThat(findQuestionnaire.getUseAt()).isEqualTo("N");
+        assertThat(findQuestionnaire.getIsDelete()).isEqualTo("N");
     }
 }

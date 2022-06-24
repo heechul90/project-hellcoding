@@ -41,7 +41,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepositoryQuery
                 .select(questionnaire)
                 .from(questionnaire)
                 .where(
-                        questionnaire.useAt.eq("Y"),
+                        questionnaire.isDelete.eq("N"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
                 .offset(pageable.getOffset())
@@ -58,7 +58,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepositoryQuery
                 .select(questionnaire.count())
                 .from(questionnaire)
                 .where(
-                        questionnaire.useAt.eq("Y"),
+                        questionnaire.isDelete.eq("N"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 );
         return count;

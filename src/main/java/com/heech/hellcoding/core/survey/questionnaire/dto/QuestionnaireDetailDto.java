@@ -19,10 +19,11 @@ public class QuestionnaireDetailDto {
     private String beginDate;
     private String endDate;
     private QuestionnaireStatus questionnaireStatus;
+    private String isDelete;
 
     private List<QuestionDetailDto> questions;
 
-    public QuestionnaireDetailDto(Long questionnaireId, String questionnaireTitle, String questionnaireDescription, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDetailDto> questions) {
+    public QuestionnaireDetailDto(Long questionnaireId, String questionnaireTitle, String questionnaireDescription, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate, String isDelete, List<QuestionDetailDto> questions) {
         this.questionnaireId = questionnaireId;
         this.questionnaireTitle = questionnaireTitle;
         this.questionnaireDescription = questionnaireDescription;
@@ -43,6 +44,7 @@ public class QuestionnaireDetailDto {
         } else if (endDate.isAfter(LocalDateTime.now())) {
             this.questionnaireStatus = QuestionnaireStatus.ST03;
         }
+        this.isDelete = isDelete;
         this.questions = questions;
     }
 

@@ -62,7 +62,7 @@ public class ApiQuestionnaireController {
      */
     @GetMapping(value = "/{id}")
     public JsonResult findQuestionnaire(@PathVariable("id") Long questionnaireId) {
-        com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(questionnaireId);
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(questionnaireId);
         QuestionnaireDetailDto questionnaire = new QuestionnaireDetailDto(
                 findQuestionnaire.getId(),
                 findQuestionnaire.getTitle(),
@@ -70,6 +70,7 @@ public class ApiQuestionnaireController {
                 findQuestionnaire.getIsPeriod(),
                 findQuestionnaire.getBeginDate(),
                 findQuestionnaire.getEndDate(),
+                findQuestionnaire.getIsDelete(),
                 findQuestionnaire.getQuestions().stream()
                         .map(question -> new QuestionDetailDto(
                                 question.getId(),
