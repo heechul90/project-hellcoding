@@ -52,7 +52,7 @@ public class ApiCategoryController {
                         category.getId(),
                         category.getName(),
                         category.getCategoryOrder(),
-                        category.getActivation(),
+                        category.getIsActivate(),
                         category.getParent() != null ? new CategoryDto(category.getParent().getId(), category.getParent().getName(), category.getParent().getCategoryOrder()) : null,
                         category.getCreatedDate(),
                         category.getCreatedBy()
@@ -71,7 +71,7 @@ public class ApiCategoryController {
                 findCategory.getId(),
                 findCategory.getName(),
                 findCategory.getCategoryOrder(),
-                findCategory.getActivation(),
+                findCategory.getIsActivate(),
                 findCategory.getParent() != null ? new CategoryDto(
                         findCategory.getParent().getId(),
                         findCategory.getParent().getName(),

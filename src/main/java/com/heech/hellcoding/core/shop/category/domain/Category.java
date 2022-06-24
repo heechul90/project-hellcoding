@@ -30,7 +30,7 @@ public class Category extends BaseEntity {
     private String name;
 
     private int categoryOrder;
-    private String activation;
+    private String isActivate;
 
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
@@ -46,7 +46,7 @@ public class Category extends BaseEntity {
 
         this.name = name;
         this.categoryOrder = categoryOrder;
-        this.activation = "Y";
+        this.isActivate = "Y";
     }
 
     /**
@@ -61,7 +61,7 @@ public class Category extends BaseEntity {
         this.parent = parent;
         this.name = name;
         this.categoryOrder = categoryOrder;
-        this.activation = "Y";
+        this.isActivate = "Y";
         this.parent.getChildren().add(this);
     }
 
@@ -79,14 +79,14 @@ public class Category extends BaseEntity {
      * 카테고리 활성화
      */
     public void activateCategory() {
-        this.activation = "Y";
+        this.isActivate = "Y";
     }
 
     /**
      * 카테고리 비활성화
      */
     public void deactivateCategory() {
-        this.activation = "N";
+        this.isActivate = "N";
     }
 
     //===비즈니스 로직===//

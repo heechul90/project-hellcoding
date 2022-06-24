@@ -3,20 +3,17 @@ package com.heech.hellcoding.core.shop.category.service;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategorySearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -124,7 +121,7 @@ class CategoryServiceTest {
 
         //then
         Category findCategory = categoryService.findCategory(bookCategory.getId());
-        assertThat(findCategory.getActivation()).isEqualTo("Y");
+        assertThat(findCategory.getIsActivate()).isEqualTo("Y");
     }
 
     @Test
@@ -141,7 +138,7 @@ class CategoryServiceTest {
 
         //then
         Category findCategory = categoryService.findCategory(bookCategory.getId());
-        assertThat(findCategory.getActivation()).isEqualTo("N");
+        assertThat(findCategory.getIsActivate()).isEqualTo("N");
     }
 
     @Test

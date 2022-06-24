@@ -49,7 +49,7 @@ class CategoryTest {
         List<Category> resultList =
                 em.createQuery("select c from Category c", Category.class).getResultList();
         assertThat(resultList).extracting("name").contains("도서", "음반", "영화");
-        assertThat(resultList).extracting("categoryOrder").containsExactly(1, 2, 3);
+        assertThat(resultList).extracting("categoryOrder").contains(1, 2, 3);
     }
 
     @Test
@@ -107,12 +107,12 @@ class CategoryTest {
 
         //when //then
         Category findCategory = em.find(Category.class, bookCategory.getId());
-        assertThat(findCategory.getActivation()).isEqualTo("Y");
+        assertThat(findCategory.getIsActivate()).isEqualTo("Y");
 
         findCategory.deactivateCategory();
-        assertThat(findCategory.getActivation()).isEqualTo("N");
+        assertThat(findCategory.getIsActivate()).isEqualTo("N");
 
         findCategory.activateCategory();
-        assertThat(findCategory.getActivation()).isEqualTo("Y");
+        assertThat(findCategory.getIsActivate()).isEqualTo("Y");
     }
 }
