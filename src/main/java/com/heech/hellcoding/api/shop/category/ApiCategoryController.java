@@ -40,7 +40,7 @@ public class ApiCategoryController {
                         category.getId(),
                         category.getName(),
                         category.getCategoryOrder(),
-                        category.getActivation(),
+                        category.getIsActivate(),
                         null,
                         category.getCreatedDate(),
                         category.getCreatedBy()

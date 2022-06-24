@@ -12,7 +12,7 @@ public class CategoryDto {
     private Long categoryId;
     private String categoryName;
     private int categoryOrder;
-    private String activation;
+    private String isActivate;
     private CategoryDto parentCategory;
     private LocalDateTime createdDate;
     private String createdBy;
@@ -23,11 +23,11 @@ public class CategoryDto {
         this.categoryOrder = categoryOrder;
     }
 
-    public CategoryDto(Long categoryId, String categoryName, int categoryOrder, String activation, CategoryDto parentCategory, LocalDateTime createdDate, String createdBy) {
+    public CategoryDto(Long categoryId, String categoryName, int categoryOrder, String isActivate, CategoryDto parentCategory, LocalDateTime createdDate, String createdBy) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryOrder = categoryOrder;
-        this.activation = activation;
+        this.isActivate = isActivate;
         this.parentCategory = parentCategory;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
