@@ -51,8 +51,10 @@ public class Question {
         this.title = title;
         this.questionOrder = questionOrder;
         this.setting = setting;
-        this.options = options;
-        options.forEach(option -> option.addQuestion(this));
+        if (options != null) {
+            this.options = options;
+            options.forEach(option -> option.addQuestion(this));
+        }
     }
 
     //===수정 메서드===//
