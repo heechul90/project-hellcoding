@@ -1,15 +1,16 @@
 package com.heech.hellcoding.core.survey.questionnaire.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.heech.hellcoding.core.survey.question.dto.QuestionDetailDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Getter
 @Setter
-public class QuestionnaireDto {
+public class QuestionnaireDetailDto {
 
     private Long questionnaireId;
     private String questionnaireTitle;
@@ -19,7 +20,9 @@ public class QuestionnaireDto {
     private String endDate;
     private QuestionnaireStatus questionnaireStatus;
 
-    public QuestionnaireDto(Long questionnaireId, String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+    private List<QuestionDetailDto> questions;
+
+    public QuestionnaireDetailDto(Long questionnaireId, String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDetailDto> questions) {
         this.questionnaireId = questionnaireId;
         this.questionnaireTitle = questionnaireTitle;
         this.questionnaireDescription = questionnaireDescription;
@@ -40,5 +43,7 @@ public class QuestionnaireDto {
         } else if (endDate.isAfter(LocalDateTime.now())) {
             this.questionnaireStatus = QuestionnaireStatus.ST03;
         }
+        this.questions = questions;
     }
+
 }

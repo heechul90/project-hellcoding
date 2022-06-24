@@ -5,10 +5,13 @@ import com.heech.hellcoding.api.survey.questionnaire.request.UpdateQuestionnaire
 import com.heech.hellcoding.api.survey.questionnaire.response.CreateQuestionnaireResponse;
 import com.heech.hellcoding.api.survey.questionnaire.response.UpdateQuestionnaireResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
+import com.heech.hellcoding.core.survey.option.dto.OptionDetailDto;
 import com.heech.hellcoding.core.survey.option.dto.OptionDto;
+import com.heech.hellcoding.core.survey.question.dto.QuestionDetailDto;
 import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
+import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDetailDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import com.heech.hellcoding.core.survey.questionnaire.service.QuestionnaireService;
@@ -55,11 +58,33 @@ public class ApiQuestionnaireController {
     /**
      * 설문 단건 조회
      */
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public JsonResult findQuestionnaire(@PathVariable("id") Long questionnaireId) {
         Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(questionnaireId);
-        //TODO dto로 변환하기
-        return JsonResult.OK(findQuestionnaire);
+        QuestionnaireDetailDto questionnaire = new QuestionnaireDetailDto(
+                findQuestionnaire.getId(),
+                findQuestionnaire.getTitle(),
+                findQuestionnaire.getDescription(),
+                findQuestionnaire.getPeriodAt(),
+                findQuestionnaire.getBeginDate(),
+                findQuestionnaire.getEndDate(),
+                findQuestionnaire.getQuestions().stream()
+                        .map(question -> new QuestionDetailDto(
+                                question.getId(),
+                                question.getTitle(),
+                                question.getQuestionOrder(),
+                                question.getSetting(),
+                                question.getOptions().stream()
+                                        .map(option -> new OptionDetailDto(
+                                                option.getId(),
+                                                option.getOptionOrder(),
+                                                option.getContent()
+                                        ))
+                                        .collect(Collectors.toList())
+                        ))
+                        .collect(Collectors.toList())
+        );
+        return JsonResult.OK(questionnaire);
     }
 
     /**
