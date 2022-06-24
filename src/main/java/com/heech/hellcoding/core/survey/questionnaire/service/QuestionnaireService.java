@@ -2,13 +2,11 @@ package com.heech.hellcoding.core.survey.questionnaire.service;
 
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.survey.option.domain.Option;
-import com.heech.hellcoding.core.survey.option.dto.OptionDto;
 import com.heech.hellcoding.core.survey.option.repository.OptionRepository;
 import com.heech.hellcoding.core.survey.question.domain.Question;
-import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.question.repository.QuestionRepository;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
-import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
+import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import com.heech.hellcoding.core.survey.questionnaire.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,7 +47,7 @@ public class QuestionnaireService {
      * 설문 저장
      */
     @Transactional
-    public Long saveQuestionnaire(QuestionnaireDto saveParam) {
+    public Long saveQuestionnaire(CreateUpdateQuestionnaireDto saveParam) {
         Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                 .title(saveParam.getQuestionnaireTitle())
                 .description(saveParam.getQuestionnaireDescription())
@@ -81,7 +78,7 @@ public class QuestionnaireService {
      * 설문 수정
      */
     @Transactional
-    public void updateQuestionnaire(Long id, QuestionnaireDto updateParam) {
+    public void updateQuestionnaire(Long id, CreateUpdateQuestionnaireDto updateParam) {
         Questionnaire findQuestionnaire = questionnaireRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
 

@@ -5,14 +5,13 @@ import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
 import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
-import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
+import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -34,7 +33,7 @@ class QuestionnaireServiceTest {
     @Autowired
     QuestionnaireService questionnaireService;
 
-    private QuestionnaireDto getQuestionnaireDto() {
+    private CreateUpdateQuestionnaireDto getQuestionnaireDto() {
         List<OptionDto> options1 = new ArrayList<>();
         OptionDto option1 = new OptionDto(1, "test_content1");
         OptionDto option2 = new OptionDto(2, "test_content2");
@@ -64,7 +63,7 @@ class QuestionnaireServiceTest {
         questions.add(question1);
         questions.add(question2);
 
-        QuestionnaireDto saveParam = new QuestionnaireDto(
+        CreateUpdateQuestionnaireDto saveParam = new CreateUpdateQuestionnaireDto(
                 "test_title",
                 "test_description",
                 "Y",
@@ -103,7 +102,7 @@ class QuestionnaireServiceTest {
     @Test
     void findQuestionnaireTest() {
         //given
-        QuestionnaireDto saveParam = getQuestionnaireDto();
+        CreateUpdateQuestionnaireDto saveParam = getQuestionnaireDto();
         Long savedId = questionnaireService.saveQuestionnaire(saveParam);
         em.flush();
         em.clear();
@@ -120,7 +119,7 @@ class QuestionnaireServiceTest {
     @Test
     void saveQuestionnaireTest() {
         //given
-        QuestionnaireDto saveParam = getQuestionnaireDto();
+        CreateUpdateQuestionnaireDto saveParam = getQuestionnaireDto();
 
         //when
         Long savedId = questionnaireService.saveQuestionnaire(saveParam);
@@ -145,7 +144,7 @@ class QuestionnaireServiceTest {
     @Test
     void updateQuestionnaireTest() {
         //given
-        QuestionnaireDto saveParam = getQuestionnaireDto();
+        CreateUpdateQuestionnaireDto saveParam = getQuestionnaireDto();
         Long savedId = questionnaireService.saveQuestionnaire(saveParam);
 
         Questionnaire savedQuestionnaire = em.find(Questionnaire.class, savedId);
@@ -204,7 +203,7 @@ class QuestionnaireServiceTest {
         questions.add(question2);
         questions.add(question3);
 
-        QuestionnaireDto updateParam = new QuestionnaireDto(
+        CreateUpdateQuestionnaireDto updateParam = new CreateUpdateQuestionnaireDto(
                 "update_title",
                 "update_description",
                 "N",
@@ -258,7 +257,7 @@ class QuestionnaireServiceTest {
     @Test
     void deleteQuestionnaireTest() {
         //given
-        QuestionnaireDto saveParam = getQuestionnaireDto();
+        CreateUpdateQuestionnaireDto saveParam = getQuestionnaireDto();
         Long savedId = questionnaireService.saveQuestionnaire(saveParam);
 
         //when

@@ -8,6 +8,7 @@ import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.survey.option.dto.OptionDto;
 import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
+import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import com.heech.hellcoding.core.survey.questionnaire.service.QuestionnaireService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,15 +33,23 @@ public class ApiQuestionnaireController {
 
     private final QuestionnaireService questionnaireService;
 
-
     /**
      * 설문 목록 조회
      */
     @GetMapping
     public JsonResult findQuestionnaires(QuestionnaireSearchCondition condition, Pageable pageable) {
         Page<Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageable);
-        //TODO dto로 변환하기
-        return JsonResult.OK(content.getContent());
+        List<QuestionnaireDto> collect = content.getContent().stream()
+                .map(questionnaire -> new QuestionnaireDto (
+                        questionnaire.getId(),
+                        questionnaire.getTitle(),
+                        questionnaire.getDescription(),
+                        questionnaire.getPeriodAt(),
+                        questionnaire.getBeginDate(),
+                        questionnaire.getEndDate()
+                ))
+                .collect(Collectors.toList());
+        return JsonResult.OK(collect);
     }
 
     /**
@@ -62,7 +72,7 @@ public class ApiQuestionnaireController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        QuestionnaireDto questionnaireDto = new QuestionnaireDto (
+        CreateUpdateQuestionnaireDto questionnaireDto = new CreateUpdateQuestionnaireDto(
                 request.getQuestionnaireTitle(),
                 request.getQuestionnaireDescription(),
                 request.getPeriodAt(),
@@ -98,7 +108,7 @@ public class ApiQuestionnaireController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        QuestionnaireDto questionnaireDto = new QuestionnaireDto(
+        CreateUpdateQuestionnaireDto questionnaireDto = new CreateUpdateQuestionnaireDto(
                 request.getQuestionnaireTitle(),
                 request.getQuestionnaireDescription(),
                 request.getPeriodAt(),

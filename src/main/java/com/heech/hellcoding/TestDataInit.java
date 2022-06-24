@@ -4,15 +4,15 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.shop.category.domain.Category;
-import com.heech.hellcoding.core.shop.category.repository.CategoryRepository;
 import com.heech.hellcoding.core.shop.item.album.domain.Album;
-import com.heech.hellcoding.core.shop.item.album.repository.AlbumRepository;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.member.domain.Member;
-import com.heech.hellcoding.core.member.repository.MemberRepository;
-import com.heech.hellcoding.core.shop.item.book.repository.BookRepository;
 import com.heech.hellcoding.core.shop.item.movie.domain.Movie;
-import com.heech.hellcoding.core.shop.item.movie.repository.MovieRepository;
+import com.heech.hellcoding.core.survey.option.dto.OptionDto;
+import com.heech.hellcoding.core.survey.question.domain.Setting;
+import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
+import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
+import com.heech.hellcoding.core.survey.questionnaire.service.QuestionnaireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -34,6 +36,7 @@ public class TestDataInit {
         initService.categoryInit();
         initService.memberInit();
         initService.itemInit();
+        initService.questionnaireInit();
 
     }
 
@@ -43,6 +46,24 @@ public class TestDataInit {
     static class InitService {
 
         private final EntityManager em;
+        private final QuestionnaireService questionnaireService;
+
+        private static Category getRootCategory(String name, Integer order) {
+            Category rootCategory = Category.createRootCategoryBuilder()
+                    .name(name)
+                    .categoryOrder(order)
+                    .build();
+            return rootCategory;
+        }
+
+        private static Category getChildCategory(Category parent, String name, Integer order) {
+            Category childCategory = Category.createChildCategoryBuilder()
+                    .parent(parent)
+                    .name(name)
+                    .categoryOrder(order)
+                    .build();
+            return childCategory;
+        }
 
         public void memberInit() {
             Mobile mobile = new Mobile("010", "4250", "4296");
@@ -138,28 +159,52 @@ public class TestDataInit {
 
             em.persist(bookCategory);
             em.persist(albumCategory);
+            em.persist(movieCategory);
             em.persist(developCategory);
             em.persist(languageCategory);
             em.persist(kpopCategory);
             em.persist(balladCategory);
         }
 
-        private static Category getRootCategory(String name, Integer order) {
-            Category rootCategory = Category.createRootCategoryBuilder()
-                    .name(name)
-                    .categoryOrder(order)
-                    .build();
-            return rootCategory;
-        }
+        public void questionnaireInit() {
+            List<OptionDto> options1 = new ArrayList<>();
+            OptionDto option1 = new OptionDto(1, "test_content1");
+            OptionDto option2 = new OptionDto(2, "test_content2");
+            options1.add(option1);
+            options1.add(option2);
 
-        private static Category getChildCategory(Category parent, String name, Integer order) {
-            Category childCategory = Category.createChildCategoryBuilder()
-                    .parent(parent)
-                    .name(name)
-                    .categoryOrder(order)
-                    .build();
-            return childCategory;
-        }
+            List<OptionDto> options2 = new ArrayList<>();
+            OptionDto option3 = new OptionDto(3, "test_content3");
+            OptionDto option4 = new OptionDto(4, "test_content4");
+            options2.add(option3);
+            options2.add(option4);
 
+            List<QuestionDto> questions = new ArrayList<>();
+            QuestionDto question1 = QuestionDto.createQuestionBuiler()
+                    .questionTitle("test_title1")
+                    .questionOrder(1)
+                    .setting(Setting.OBJECTIVE)
+                    .options(options1)
+                    .build();
+
+            QuestionDto question2 = QuestionDto.createQuestionBuiler()
+                    .questionTitle("test_title2")
+                    .questionOrder(2)
+                    .setting(Setting.OBJECTIVE)
+                    .options(options2)
+                    .build();
+            questions.add(question1);
+            questions.add(question2);
+
+            CreateUpdateQuestionnaireDto saveParam = new CreateUpdateQuestionnaireDto(
+                    "test_title",
+                    "test_description",
+                    "Y",
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    questions
+            );
+            questionnaireService.saveQuestionnaire(saveParam);
+        }
     }
 }

@@ -1,10 +1,8 @@
 package com.heech.hellcoding.core.survey.questionnaire.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
-import com.heech.hellcoding.core.survey.questionnaire.domain.QQuestionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;

@@ -1,39 +1,43 @@
 package com.heech.hellcoding.core.survey.questionnaire.dto;
 
-import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class QuestionnaireDto {
 
+    private Long questionnaireId;
     private String questionnaireTitle;
     private String questionnaireDescription;
     private String periodAt;
-    private LocalDateTime beginDate;
-    private LocalDateTime endDate;
-    private List<QuestionDto> questions;
+    private String beginDate;
+    private String endDate;
+    private QuestionnaireStatus questionnaireStatus;
 
-    public QuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+    public QuestionnaireDto(Long questionnaireId, String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+        this.questionnaireId = questionnaireId;
         this.questionnaireTitle = questionnaireTitle;
         this.questionnaireDescription = questionnaireDescription;
         this.periodAt = periodAt;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-    }
-
-    public QuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDto> questions) {
-        this.questionnaireTitle = questionnaireTitle;
-        this.questionnaireDescription = questionnaireDescription;
-        this.periodAt = periodAt;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.questions = questions;
+        if ("Y".equals(periodAt)) {
+            this.beginDate = beginDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            this.endDate = endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        } else {
+            this.beginDate = null;
+            this.endDate = null;
+        }
+        if ("N".equals(periodAt)) {
+            this.questionnaireStatus = QuestionnaireStatus.ST01;
+        } else if (beginDate.isBefore(LocalDateTime.now())) {
+            this.questionnaireStatus = QuestionnaireStatus.ST01;
+        } else if (LocalDateTime.now().isAfter(beginDate) && LocalDateTime.now().isBefore(endDate)) {
+            this.questionnaireStatus = QuestionnaireStatus.ST02;
+        } else if (endDate.isAfter(LocalDateTime.now())) {
+            this.questionnaireStatus = QuestionnaireStatus.ST03;
+        }
     }
 }
