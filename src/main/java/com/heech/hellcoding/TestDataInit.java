@@ -8,11 +8,10 @@ import com.heech.hellcoding.core.shop.item.album.domain.Album;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.shop.item.movie.domain.Movie;
-import com.heech.hellcoding.core.survey.option.dto.OptionDto;
+import com.heech.hellcoding.core.survey.option.domain.Option;
+import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
-import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
-import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
-import com.heech.hellcoding.core.survey.questionnaire.service.QuestionnaireService;
+import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +45,6 @@ public class TestDataInit {
     static class InitService {
 
         private final EntityManager em;
-        private final QuestionnaireService questionnaireService;
 
         private static Category getRootCategory(String name, Integer order) {
             Category rootCategory = Category.createRootCategoryBuilder()
@@ -167,28 +165,28 @@ public class TestDataInit {
         }
 
         public void questionnaireInit() {
-            List<OptionDto> options1 = new ArrayList<>();
-            OptionDto option1 = new OptionDto(1, "test_content1");
-            OptionDto option2 = new OptionDto(2, "test_content2");
+            List<Option> options1 = new ArrayList<>();
+            Option option1 = new Option(1, "test_content1");
+            Option option2 = new Option(2, "test_content2");
             options1.add(option1);
             options1.add(option2);
 
-            List<OptionDto> options2 = new ArrayList<>();
-            OptionDto option3 = new OptionDto(3, "test_content3");
-            OptionDto option4 = new OptionDto(4, "test_content4");
+            List<Option> options2 = new ArrayList<>();
+            Option option3 = new Option(3, "test_content3");
+            Option option4 = new Option(4, "test_content4");
             options2.add(option3);
             options2.add(option4);
 
-            List<QuestionDto> questions = new ArrayList<>();
-            QuestionDto question1 = QuestionDto.createQuestionBuiler()
-                    .questionTitle("test_title1")
+            List<Question> questions = new ArrayList<>();
+            Question question1 = Question.createQuestionBuilder()
+                    .title("test_title1")
                     .questionOrder(1)
                     .setting(Setting.OBJECTIVE)
                     .options(options1)
                     .build();
 
-            QuestionDto question2 = QuestionDto.createQuestionBuiler()
-                    .questionTitle("test_title2")
+            Question question2 = Question.createQuestionBuilder()
+                    .title("test_title2")
                     .questionOrder(2)
                     .setting(Setting.OBJECTIVE)
                     .options(options2)
@@ -196,7 +194,7 @@ public class TestDataInit {
             questions.add(question1);
             questions.add(question2);
 
-            CreateUpdateQuestionnaireDto saveParam = new CreateUpdateQuestionnaireDto(
+            Questionnaire questionnaire = new Questionnaire(
                     "test_title",
                     "test_description",
                     "Y",
@@ -204,7 +202,7 @@ public class TestDataInit {
                     LocalDateTime.now(),
                     questions
             );
-            questionnaireService.saveQuestionnaire(saveParam);
+            em.persist(questionnaire);
         }
     }
 }

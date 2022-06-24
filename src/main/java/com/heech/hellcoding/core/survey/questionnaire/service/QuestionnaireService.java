@@ -6,7 +6,7 @@ import com.heech.hellcoding.core.survey.option.repository.OptionRepository;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.repository.QuestionRepository;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
-import com.heech.hellcoding.core.survey.questionnaire.dto.CreateUpdateQuestionnaireDto;
+import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import com.heech.hellcoding.core.survey.questionnaire.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -47,90 +45,67 @@ public class QuestionnaireService {
      * 설문 저장
      */
     @Transactional
-    public Long saveQuestionnaire(CreateUpdateQuestionnaireDto saveParam) {
-        Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
-                .title(saveParam.getQuestionnaireTitle())
-                .description(saveParam.getQuestionnaireDescription())
-                .isPeriod(saveParam.getIsPeriod())
-                .beginDate(saveParam.getBeginDate())
-                .endDate(saveParam.getEndDate())
-                .questions(saveParam.getQuestions().stream()
-                        .map(questionDto -> new Question(
-                                questionDto.getQuestionTitle(),
-                                questionDto.getQuestionOrder(),
-                                questionDto.getSetting(),
-                                questionDto.getOptions().stream()
-                                        .map(optionDto -> new Option(
-                                                optionDto.getOptionOrder(),
-                                                optionDto.getOptionContent()
-                                        ))
-                                        .collect(Collectors.toList())
-                        ))
-                        .collect(Collectors.toList())
-                )
-                .build();
-        Questionnaire savedQuestionnaire = questionnaireRepository.save(questionnaire);
-
-        return savedQuestionnaire.getId();
+    public Long saveQuestionnaire(Questionnaire questionnaire) {
+        return questionnaireRepository.save(questionnaire).getId();
     }
 
     /**
      * 설문 수정
      */
     @Transactional
-    public void updateQuestionnaire(Long id, CreateUpdateQuestionnaireDto updateParam) {
+    public void updateQuestionnaire(Long id, UpdateQuestionnaireParam questionnaireParam) {
         Questionnaire findQuestionnaire = questionnaireRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
 
         findQuestionnaire.updateQuestionnaireBuilder()
-                .title(updateParam.getQuestionnaireTitle())
-                .description(updateParam.getQuestionnaireDescription())
-                .isPeriod(updateParam.getIsPeriod())
-                .beginDate(updateParam.getBeginDate())
-                .endDate(updateParam.getEndDate())
+                .title(questionnaireParam.getQuestionnaireTitle())
+                .description(questionnaireParam.getQuestionnaireDescription())
+                .isPeriod(questionnaireParam.getIsPeriod())
+                .beginDate(questionnaireParam.getBeginDate())
+                .endDate(questionnaireParam.getEndDate())
                 .build();
 
-        updateParam.getQuestions().stream()
-                .forEach(questionDto -> {
+        questionnaireParam.getQuestions().stream()
+                .forEach(questionParam -> {
                     Question updatedQuestion;
-                    if (questionDto.getQuestionId() != null) {
+                    if (questionParam.getQuestionId() != null) {
                         updatedQuestion = findQuestionnaire.getQuestions().stream()
-                                .filter(question -> question.getId().equals(questionDto.getQuestionId()))
+                                .filter(question -> question.getId().equals(questionParam.getQuestionId()))
                                 .findAny()
                                 .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
                         updatedQuestion.updateQuestionBuilder()
                                 .questionnaire(findQuestionnaire)
-                                .title(questionDto.getQuestionTitle())
-                                .questionOrder(questionDto.getQuestionOrder())
-                                .setting(questionDto.getSetting())
+                                .title(questionParam.getQuestionTitle())
+                                .questionOrder(questionParam.getQuestionOrder())
+                                .setting(questionParam.getSetting())
                                 .build();
                     } else {
                         updatedQuestion = Question.addQuestionBuilder()
                                 .questionnaire(findQuestionnaire)
-                                .title(questionDto.getQuestionTitle())
-                                .questionOrder(questionDto.getQuestionOrder())
-                                .setting(questionDto.getSetting())
+                                .title(questionParam.getQuestionTitle())
+                                .questionOrder(questionParam.getQuestionOrder())
+                                .setting(questionParam.getSetting())
                                 .build();
                     }
 
-                    questionDto.getOptions().stream()
-                            .forEach(optionDto -> {
+                    questionParam.getOptions().stream()
+                            .forEach(optionParam -> {
                                 Option updatedOption;
-                                if (optionDto.getOptionId() != null) {
+                                if (optionParam.getOptionId() != null) {
                                     updatedOption = updatedQuestion.getOptions().stream()
-                                            .filter(option -> option.getId().equals(optionDto.getOptionId()))
+                                            .filter(option -> option.getId().equals(optionParam.getOptionId()))
                                             .findAny()
                                             .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
                                     updatedOption.updateOptionBuilder()
                                             .question(updatedQuestion)
-                                            .optionOrder(optionDto.getOptionOrder())
-                                            .content(optionDto.getOptionContent())
+                                            .optionOrder(optionParam.getOptionOrder())
+                                            .content(optionParam.getOptionContent())
                                             .build();
                                 } else {
                                     updatedOption = Option.addOptionBuilder()
                                             .question(updatedQuestion)
-                                            .optionOrder(optionDto.getOptionOrder())
-                                            .content(optionDto.getOptionContent())
+                                            .optionOrder(optionParam.getOptionOrder())
+                                            .content(optionParam.getOptionContent())
                                             .build();
                                 }
                             });
