@@ -24,11 +24,11 @@ class QuestionnaireTest {
     @PersistenceContext
     EntityManager em;
 
-    private Questionnaire getQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
+    private Questionnaire getQuestionnaire(String title, String description, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
         Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                 .title(title)
                 .description(description)
-                .periodAt(periodAt)
+                .isPeriod(isPeriod)
                 .beginDate(beginDate)
                 .endDate(endDate)
                 .questions(questions)
@@ -97,7 +97,7 @@ class QuestionnaireTest {
         findQuestionnire.updateQuestionnaireBuilder()
                 .title("update_title")
                 .description("update_description")
-                .periodAt("N")
+                .isPeriod("N")
                 .beginDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now())
                 .build();
@@ -108,7 +108,7 @@ class QuestionnaireTest {
         Questionnaire updatedQuestionnaire = em.find(Questionnaire.class, questionnaire.getId());
         assertThat(updatedQuestionnaire.getTitle()).isEqualTo("update_title");
         assertThat(updatedQuestionnaire.getDescription()).isEqualTo("update_description");
-        assertThat(updatedQuestionnaire.getPeriodAt()).isEqualTo("N");
+        assertThat(updatedQuestionnaire.getIsPeriod()).isEqualTo("N");
         assertThat(updatedQuestionnaire.getBeginDate()).isNull();
         assertThat(updatedQuestionnaire.getEndDate()).isNull();
     }

@@ -81,7 +81,7 @@ class QuestionnaireServiceTest {
             Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                     .title("test_title" + i)
                     .description("test_description" + i)
-                    .periodAt(i % 4 == 0 ? "N" : "Y")
+                    .isPeriod(i % 4 == 0 ? "N" : "Y")
                     .beginDate(LocalDateTime.now())
                     .endDate(LocalDateTime.now())
                     .questions(null)
@@ -130,7 +130,7 @@ class QuestionnaireServiceTest {
         Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
         assertThat(findQuestionnaire.getTitle()).isEqualTo("test_title");
         assertThat(findQuestionnaire.getDescription()).isEqualTo("test_description");
-        assertThat(findQuestionnaire.getPeriodAt()).isEqualTo("Y");
+        assertThat(findQuestionnaire.getIsPeriod()).isEqualTo("Y");
 
         assertThat(findQuestionnaire.getQuestions().size()).isEqualTo(2);
         assertThat(findQuestionnaire.getQuestions()).extracting("title").containsExactly("test_title1", "test_title2");
@@ -223,7 +223,7 @@ class QuestionnaireServiceTest {
         Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
         assertThat(findQuestionnaire.getTitle()).isEqualTo("update_title");
         assertThat(findQuestionnaire.getDescription()).isEqualTo("update_description");
-        assertThat(findQuestionnaire.getPeriodAt()).isEqualTo("N");
+        assertThat(findQuestionnaire.getIsPeriod()).isEqualTo("N");
         assertThat(findQuestionnaire.getBeginDate()).isNull();
         assertThat(findQuestionnaire.getEndDate()).isNull();
 

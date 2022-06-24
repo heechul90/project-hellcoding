@@ -12,7 +12,7 @@ public class UpdateQuestionnaireRequest {
 
     private String questionnaireTitle;
     private String questionnaireDescription;
-    private String periodAt;
+    private String isPeriod;
     private String beginDate;
     private String endDate;
     private List<UpdateQuestion> questions;

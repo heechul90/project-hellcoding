@@ -51,7 +51,7 @@ public class QuestionnaireService {
         Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                 .title(saveParam.getQuestionnaireTitle())
                 .description(saveParam.getQuestionnaireDescription())
-                .periodAt(saveParam.getPeriodAt())
+                .isPeriod(saveParam.getIsPeriod())
                 .beginDate(saveParam.getBeginDate())
                 .endDate(saveParam.getEndDate())
                 .questions(saveParam.getQuestions().stream()
@@ -85,7 +85,7 @@ public class QuestionnaireService {
         findQuestionnaire.updateQuestionnaireBuilder()
                 .title(updateParam.getQuestionnaireTitle())
                 .description(updateParam.getQuestionnaireDescription())
-                .periodAt(updateParam.getPeriodAt())
+                .isPeriod(updateParam.getIsPeriod())
                 .beginDate(updateParam.getBeginDate())
                 .endDate(updateParam.getEndDate())
                 .build();

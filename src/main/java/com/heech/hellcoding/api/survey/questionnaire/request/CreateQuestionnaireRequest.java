@@ -12,7 +12,7 @@ public class CreateQuestionnaireRequest {
 
     private String questionnaireTitle;
     private String questionnaireDescription;
-    private String periodAt;
+    private String isPeriod;
     private String beginDate = "20220623000000";
     private String endDate = "20220722235959";
     private List<CreateQuestion> questions;

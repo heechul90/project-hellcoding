@@ -27,7 +27,7 @@ public class Questionnaire extends BaseEntity {
     private String description;
 
     @Column(columnDefinition = "char")
-    private String periodAt; //Y,N
+    private String isPeriod; //Y,N
 
     private LocalDateTime beginDate;
 
@@ -44,11 +44,11 @@ public class Questionnaire extends BaseEntity {
      * 설문 생성
      */
     @Builder(builderClassName = "createQuestionnaireBuilder", builderMethodName = "createQuestionnaireBuilder")
-    public Questionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
+    public Questionnaire(String title, String description, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
         this.title = title;
         this.description = description;
-        this.periodAt = periodAt;
-        if ("Y".equals(periodAt)) {
+        this.isPeriod = isPeriod;
+        if ("Y".equals(isPeriod)) {
             this.beginDate = beginDate;
             this.endDate = endDate;
         } else {
@@ -67,11 +67,11 @@ public class Questionnaire extends BaseEntity {
      * 설문 수정
      */
     @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
-    public void updateQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+    public void updateQuestionnaire(String title, String description, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate) {
         this.title = title;
         this.description = description;
-        this.periodAt = periodAt;
-        if ("Y".equals(periodAt)) {
+        this.isPeriod = isPeriod;
+        if ("Y".equals(isPeriod)) {
             this.beginDate = beginDate;
             this.endDate = endDate;
         } else {

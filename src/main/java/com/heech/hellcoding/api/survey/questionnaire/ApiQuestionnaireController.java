@@ -47,7 +47,7 @@ public class ApiQuestionnaireController {
                         questionnaire.getId(),
                         questionnaire.getTitle(),
                         questionnaire.getDescription(),
-                        questionnaire.getPeriodAt(),
+                        questionnaire.getIsPeriod(),
                         questionnaire.getBeginDate(),
                         questionnaire.getEndDate()
                 ))
@@ -65,7 +65,7 @@ public class ApiQuestionnaireController {
                 findQuestionnaire.getId(),
                 findQuestionnaire.getTitle(),
                 findQuestionnaire.getDescription(),
-                findQuestionnaire.getPeriodAt(),
+                findQuestionnaire.getIsPeriod(),
                 findQuestionnaire.getBeginDate(),
                 findQuestionnaire.getEndDate(),
                 findQuestionnaire.getQuestions().stream()
@@ -100,7 +100,7 @@ public class ApiQuestionnaireController {
         CreateUpdateQuestionnaireDto questionnaireDto = new CreateUpdateQuestionnaireDto(
                 request.getQuestionnaireTitle(),
                 request.getQuestionnaireDescription(),
-                request.getPeriodAt(),
+                request.getIsPeriod(),
                 LocalDateTime.parse(request.getBeginDate(), DateTimeFormatter.ofPattern("yyyyMMddHHmmss")),
                 LocalDateTime.parse(request.getEndDate(), DateTimeFormatter.ofPattern("yyyyMMddHHmmss")),
                 request.getQuestions().stream()
@@ -136,7 +136,7 @@ public class ApiQuestionnaireController {
         CreateUpdateQuestionnaireDto questionnaireDto = new CreateUpdateQuestionnaireDto(
                 request.getQuestionnaireTitle(),
                 request.getQuestionnaireDescription(),
-                request.getPeriodAt(),
+                request.getIsPeriod(),
                 LocalDateTime.parse(request.getBeginDate(), DateTimeFormatter.ofPattern("yyyyMMddHHmmss")),
                 LocalDateTime.parse(request.getEndDate(), DateTimeFormatter.ofPattern("yyyyMMddHHmmss")),
                 request.getQuestions().stream()

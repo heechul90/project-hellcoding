@@ -36,7 +36,7 @@ class QuestionnaireRepositoryTest {
             Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                     .title("test_title" + i)
                     .description("test_description" + i)
-                    .periodAt("Y")
+                    .isPeriod("Y")
                     .beginDate(LocalDateTime.now())
                     .endDate(LocalDateTime.now())
                     .build();

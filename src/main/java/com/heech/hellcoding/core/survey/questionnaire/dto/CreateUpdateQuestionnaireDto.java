@@ -15,23 +15,23 @@ public class CreateUpdateQuestionnaireDto {
 
     private String questionnaireTitle;
     private String questionnaireDescription;
-    private String periodAt;
+    private String isPeriod;
     private LocalDateTime beginDate;
     private LocalDateTime endDate;
     private List<QuestionDto> questions;
 
-    public CreateUpdateQuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
+    public CreateUpdateQuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate) {
         this.questionnaireTitle = questionnaireTitle;
         this.questionnaireDescription = questionnaireDescription;
-        this.periodAt = periodAt;
+        this.isPeriod = isPeriod;
         this.beginDate = beginDate;
         this.endDate = endDate;
     }
 
-    public CreateUpdateQuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDto> questions) {
+    public CreateUpdateQuestionnaireDto(String questionnaireTitle, String questionnaireDescription, String isPeriod, LocalDateTime beginDate, LocalDateTime endDate, List<QuestionDto> questions) {
         this.questionnaireTitle = questionnaireTitle;
         this.questionnaireDescription = questionnaireDescription;
-        this.periodAt = periodAt;
+        this.isPeriod = isPeriod;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.questions = questions;
