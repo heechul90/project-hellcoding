@@ -79,7 +79,7 @@ class QuestionnaireServiceTest {
     void findQuestionnairesTest() {
         //given
         for (int i = 0; i < 50; i++) {
-            com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire questionnaire = com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire.createQuestionnaireBuilder()
+            Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                     .title("test_title" + i)
                     .description("test_description" + i)
                     .isPeriod(i % 4 == 0 ? "N" : "Y")
@@ -93,7 +93,7 @@ class QuestionnaireServiceTest {
         //when
         QuestionnaireSearchCondition condition = new QuestionnaireSearchCondition();
         PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageRequest);
+        Page<Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageRequest);
 
         //then
         assertThat(content.getContent().size()).isEqualTo(10);
@@ -108,7 +108,7 @@ class QuestionnaireServiceTest {
         em.clear();
 
         //when
-        com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
 
         //then
         assertThat(findQuestionnaire.getTitle()).isEqualTo("test_title");
@@ -220,7 +220,7 @@ class QuestionnaireServiceTest {
         em.clear();
 
         //then
-        com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
         assertThat(findQuestionnaire.getTitle()).isEqualTo("update_title");
         assertThat(findQuestionnaire.getDescription()).isEqualTo("update_description");
         assertThat(findQuestionnaire.getIsPeriod()).isEqualTo("N");
@@ -262,7 +262,7 @@ class QuestionnaireServiceTest {
         em.clear();
 
         //then
-        com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
-        assertThat(findQuestionnaire.getIsDelete()).isEqualTo("N");
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
+        assertThat(findQuestionnaire.getIsDelete()).isEqualTo("Y");
     }
 }

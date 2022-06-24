@@ -43,7 +43,7 @@ public class ApiQuestionnaireController {
      */
     @GetMapping
     public JsonResult findQuestionnaires(QuestionnaireSearchCondition condition, Pageable pageable) {
-        Page<com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageable);
+        Page<Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageable);
         List<QuestionnaireDto> collect = content.getContent().stream()
                 .map(questionnaire -> new QuestionnaireDto (
                         questionnaire.getId(),
@@ -100,7 +100,7 @@ public class ApiQuestionnaireController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Questionnaire questionnaire = com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire.createQuestionnaireBuilder()
+        Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                 .title(request.getQuestionnaireTitle())
                 .description(request.getQuestionnaireDescription())
                 .isPeriod(request.getIsPeriod())

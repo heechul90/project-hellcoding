@@ -2,7 +2,6 @@ package com.heech.hellcoding.core.survey.questionnaire.repository;
 
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,7 +50,7 @@ class QuestionnaireRepositoryTest {
         Page<Questionnaire> content = questionnaireRepository.findQuestionnaires(condition, pageRequest);
 
         //then
-        assertThat(content.getTotalElements()).isEqualTo(10);
+        assertThat(content.getContent().size()).isEqualTo(10);
     }
 
 }
