@@ -34,6 +34,19 @@ public class ApiCategoryController {
     @GetMapping
     public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
         Page<Category> content = categoryService.findCategories(condition, Pageable);
+        /*List<CategoryDto> collect = content.getContent().stream()
+                .filter(category -> category.getParent() == null)
+                .map(category -> new CategoryDto(
+                        category.getId(),
+                        category.getName(),
+                        category.getCategoryOrder(),
+                        category.getActivation(),
+                        null,
+                        category.getCreatedDate(),
+                        category.getCreatedBy()
+                ))
+                .collect(Collectors.toList());*/
+
         List<CategoryDto> collect = content.getContent().stream()
                 .map(category -> new CategoryDto(
                         category.getId(),
