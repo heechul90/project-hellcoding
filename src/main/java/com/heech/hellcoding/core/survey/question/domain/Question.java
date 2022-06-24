@@ -43,6 +43,9 @@ public class Question {
     }
 
     //===생성 메서드===//
+    /**
+     * 질문 생성
+     */
     @Builder(builderClassName = "createQuestionBuilder", builderMethodName = "createQuestionBuilder")
     public Question(String title, int questionOrder, Setting setting, List<Option> options) {
         this.title = title;
@@ -53,6 +56,9 @@ public class Question {
     }
 
     //===수정 메서드===//
+    /**
+     * 질문 수정(question_id 있을때)
+     */
     @Builder(builderClassName = "updateQuestionBuilder", builderMethodName = "updateQuestionBuilder")
     public void updateQuestion(Questionnaire questionnaire, String title, int questionOrder, Setting setting) {
         this.questionnaire = questionnaire;
@@ -63,7 +69,7 @@ public class Question {
     }
 
     /**
-     * 업데이트 question id 없을때
+     * 질문 추가(question_id 없을때)
      */
     @Builder(builderClassName = "addQuestionBuilder", builderMethodName = "addQuestionBuilder")
     public Question(Questionnaire questionnaire, String title, int questionOrder, Setting setting) {

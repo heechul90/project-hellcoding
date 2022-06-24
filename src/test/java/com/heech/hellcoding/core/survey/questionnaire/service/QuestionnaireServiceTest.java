@@ -1,16 +1,17 @@
 package com.heech.hellcoding.core.survey.questionnaire.service;
 
-import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.option.dto.OptionDto;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
 import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireDto;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -78,23 +78,46 @@ class QuestionnaireServiceTest {
     @Test
     void findQuestionnairesTest() {
         //given
+        for (int i = 0; i < 50; i++) {
+            Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
+                    .title("test_title" + i)
+                    .description("test_description" + i)
+                    .periodAt(i % 4 == 0 ? "N" : "Y")
+                    .beginDate(LocalDateTime.now())
+                    .endDate(LocalDateTime.now())
+                    .questions(null)
+                    .build();
+            em.persist(questionnaire);
+        }
 
         //when
+        QuestionnaireSearchCondition condition = new QuestionnaireSearchCondition();
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageRequest);
 
         //then
+        assertThat(content.getTotalElements()).isEqualTo(50);
+        assertThat(content.getContent().size()).isEqualTo(10);
     }
 
     @Test
     void findQuestionnaireTest() {
         //given
+        QuestionnaireDto saveParam = getQuestionnaireDto();
+        Long savedId = questionnaireService.saveQuestionnaire(saveParam);
+        em.flush();
+        em.clear();
 
         //when
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
 
         //then
+        assertThat(findQuestionnaire.getTitle()).isEqualTo("test_title");
+        assertThat(findQuestionnaire.getDescription()).isEqualTo("test_description");
+        assertThat(findQuestionnaire.getQuestions().size()).isEqualTo(2);
     }
 
     @Test
-    @Rollback(value = false)
     void saveQuestionnaireTest() {
         //given
         QuestionnaireDto saveParam = getQuestionnaireDto();
@@ -120,23 +143,24 @@ class QuestionnaireServiceTest {
     }
 
     @Test
-    @Rollback(value = false)
     void updateQuestionnaireTest() {
         //given
         QuestionnaireDto saveParam = getQuestionnaireDto();
         Long savedId = questionnaireService.saveQuestionnaire(saveParam);
 
+        Questionnaire savedQuestionnaire = em.find(Questionnaire.class, savedId);
+
         List<OptionDto> options1 = new ArrayList<>();
-        OptionDto option1 = new OptionDto(1L, 1, "update_content1");
-        OptionDto option2 = new OptionDto(2L, 2, "update_content2");
+        OptionDto option1 = new OptionDto(savedQuestionnaire.getQuestions().get(0).getOptions().get(0).getId(), 1, "update_content1");
+        OptionDto option2 = new OptionDto(savedQuestionnaire.getQuestions().get(0).getOptions().get(1).getId(), 2, "update_content2");
         OptionDto option5 = new OptionDto(5, "test_content5");
         options1.add(option1);
         options1.add(option2);
         options1.add(option5);
 
         List<OptionDto> options2 = new ArrayList<>();
-        OptionDto option3 = new OptionDto(3L, 3, "update_content3");
-        OptionDto option4 = new OptionDto(4L, 4, "update_content4");
+        OptionDto option3 = new OptionDto(savedQuestionnaire.getQuestions().get(1).getOptions().get(0).getId(), 3, "update_content3");
+        OptionDto option4 = new OptionDto(savedQuestionnaire.getQuestions().get(1).getOptions().get(1).getId(), 4, "update_content4");
         OptionDto option6 = new OptionDto(6, "test_content6");
         options2.add(option3);
         options2.add(option4);
@@ -153,7 +177,7 @@ class QuestionnaireServiceTest {
 
         List<QuestionDto> questions = new ArrayList<>();
         QuestionDto question1 = QuestionDto.updateQuestionBuilder()
-                .questionId(1L)
+                .questionId(savedQuestionnaire.getQuestions().get(0).getId())
                 .questionTitle("update_title1")
                 .questionOrder(1)
                 .setting(Setting.OBJECTIVE)
@@ -161,7 +185,7 @@ class QuestionnaireServiceTest {
                 .build();
 
         QuestionDto question2 = QuestionDto.updateQuestionBuilder()
-                .questionId(2L)
+                .questionId(savedQuestionnaire.getQuestions().get(1).getId())
                 .questionTitle("update_title2")
                 .questionOrder(2)
                 .setting(Setting.OBJECTIVE)
@@ -188,6 +212,8 @@ class QuestionnaireServiceTest {
                 LocalDateTime.now(),
                 questions
         );
+        em.flush();
+        em.clear();
 
         //when
         questionnaireService.updateQuestionnaire(savedId, updateParam);

@@ -2,8 +2,6 @@ package com.heech.hellcoding.core.survey.questionnaire.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.heech.hellcoding.core.survey.question.domain.Question;
-import com.heech.hellcoding.core.survey.question.dto.QuestionDto;
-import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.util.StringUtils.*;
 
 @Entity
 @Getter
@@ -44,6 +40,9 @@ public class Questionnaire extends BaseEntity {
     private List<Question> questions = new ArrayList<>();
 
     //===생성 메서드===//
+    /**
+     * 설문 생성
+     */
     @Builder(builderClassName = "createQuestionnaireBuilder", builderMethodName = "createQuestionnaireBuilder")
     public Questionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate, List<Question> questions) {
         this.title = title;
@@ -57,11 +56,16 @@ public class Questionnaire extends BaseEntity {
             this.endDate = null;
         }
         this.useAt = "Y";
-        this.questions = questions;
-        questions.forEach(question -> question.addQuestionnaire(this));
+        if (questions != null) {
+            this.questions = questions;
+            questions.forEach(question -> question.addQuestionnaire(this));
+        }
     }
 
     //===수정 메서드===//
+    /**
+     * 설문 수정
+     */
     @Builder(builderClassName = "updateQuestionnaireBuilder", builderMethodName = "updateQuestionnaireBuilder")
     public void updateQuestionnaire(String title, String description, String periodAt, LocalDateTime beginDate, LocalDateTime endDate) {
         this.title = title;
@@ -78,6 +82,9 @@ public class Questionnaire extends BaseEntity {
     }
 
     //=== 삭제 로직===//
+    /**
+     * 설문 삭제(사용여부 N으로 업데이트)
+     */
     public void deleteQuestionnaire() {
         this.useAt = "N";
     }

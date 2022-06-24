@@ -33,6 +33,9 @@ public class Option {
     }
 
     //===생성 메서드===//
+    /**
+     * 항목 생성
+     */
     @Builder(builderClassName = "createOptionBuilder", builderMethodName = "createOptionBuilder")
     public Option(int optionOrder, String content) {
         this.optionOrder = optionOrder;
@@ -41,7 +44,7 @@ public class Option {
 
     //===수정 메서드===//
     /**
-     *
+     * 항목 수정(option_id 있을때)
      */
     @Builder(builderClassName = "updateOptionBuilder", builderMethodName = "updateOptionBuilder")
     public void updateOption(Question question, int optionOrder, String content) {
@@ -51,7 +54,7 @@ public class Option {
     }
 
     /**
-     * 항목 추가
+     * 항목 추가(option_id 없을때)
      */
     @Builder(builderClassName = "addOptionBuilder", builderMethodName = "addOptionBuilder")
     public Option(Question question, int optionOrder, String content) {

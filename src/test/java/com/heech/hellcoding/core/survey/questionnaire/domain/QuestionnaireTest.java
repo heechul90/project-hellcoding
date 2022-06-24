@@ -3,7 +3,6 @@ package com.heech.hellcoding.core.survey.questionnaire.domain;
 import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
-import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
