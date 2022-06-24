@@ -195,7 +195,6 @@ class QuestionnaireServiceTest {
         em.clear();
 
         //then
-        System.out.println("======================================");
         Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
         assertThat(findQuestionnaire.getTitle()).isEqualTo("update_title");
         assertThat(findQuestionnaire.getDescription()).isEqualTo("update_description");
@@ -233,9 +232,16 @@ class QuestionnaireServiceTest {
     @Test
     void deleteQuestionnaireTest() {
         //given
+        QuestionnaireDto saveParam = getQuestionnaireDto();
+        Long savedId = questionnaireService.saveQuestionnaire(saveParam);
 
         //when
+        questionnaireService.deleteQuestionnaire(savedId);
+        em.flush();
+        em.clear();
 
         //then
+        Questionnaire findQuestionnaire = questionnaireService.findQuestionnaire(savedId);
+        assertThat(findQuestionnaire.getUseAt()).isEqualTo("N");
     }
 }
