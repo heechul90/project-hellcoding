@@ -14,4 +14,7 @@ public class Bank {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bank_id")
     private Long id;
+
+    @Column(name = "bank_name")
+    private String name;
 }
