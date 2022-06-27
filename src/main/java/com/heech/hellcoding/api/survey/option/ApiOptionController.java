@@ -1,6 +1,7 @@
 package com.heech.hellcoding.api.survey.option;
 
 import com.heech.hellcoding.core.common.json.JsonResult;
+import com.heech.hellcoding.core.survey.option.service.OptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/survey/options")
 public class ApiOptionController {
 
+    private final OptionService optionService;
+
     @DeleteMapping(value = "/{id}")
     public JsonResult deleteOption(@PathVariable("id") Long optionId) {
-
+        optionService.deleteOption(optionId);
         return JsonResult.OK();
     }
 }
