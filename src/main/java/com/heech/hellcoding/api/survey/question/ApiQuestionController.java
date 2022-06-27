@@ -17,6 +17,9 @@ public class ApiQuestionController {
 
     private final QuestionService questionService;
 
+    /**
+     * 질문 삭제
+     */
     @DeleteMapping(value = "/{id}")
     public JsonResult deleteQuestion(@PathVariable("id") Long questionId) {
         questionService.deleteQuestion(questionId);
