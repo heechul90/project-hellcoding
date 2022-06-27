@@ -17,6 +17,15 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     /**
+     * 질문 단건 조회
+     */
+    public Question findQuestion(Long id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+    }
+
+
+    /**
      * 질문 삭제
      */
     @Transactional
