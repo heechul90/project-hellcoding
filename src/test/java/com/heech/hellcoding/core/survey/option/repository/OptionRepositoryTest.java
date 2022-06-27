@@ -1,6 +1,6 @@
-package com.heech.hellcoding.core.survey.question.repository;
+package com.heech.hellcoding.core.survey.option.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,12 +9,19 @@ import javax.persistence.PersistenceContext;
 
 @SpringBootTest
 @Transactional
-class QuestionRepositoryTest {
+class OptionRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
 
-    @Autowired
-    QuestionRepository questionRepository;
+    @Test
+    public void saveOptionTest() throws Exception{
+        //given
+        System.out.println("test start!");
+
+        //when
+
+        //then
+    }
 
 }

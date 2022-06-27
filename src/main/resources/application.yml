@@ -41,4 +41,5 @@ server:
 
 logging:
   level:
+    root: info
     org.hibernate.SQL: debug
