@@ -10,11 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OptionService {
 
     private final OptionRepository optionRepository;
+
+    /**
+     * 옵션 단건 조회
+     */
+    public Option findOption(Long id) {
+        return optionRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
+    }
 
     /**
      * 옵션 삭제
