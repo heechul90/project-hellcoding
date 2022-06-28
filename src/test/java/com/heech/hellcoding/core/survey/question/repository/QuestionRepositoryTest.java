@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.survey.question.repository;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 @SpringBootTest
 @Transactional
-class QuestionRepositoryTest {
+public class QuestionRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
@@ -17,4 +18,12 @@ class QuestionRepositoryTest {
     @Autowired
     QuestionRepository questionRepository;
 
+    @Test
+    public void saveQuestionTest() throws Exception{
+        //given
+
+        //when
+
+        //then
+    }
 }
