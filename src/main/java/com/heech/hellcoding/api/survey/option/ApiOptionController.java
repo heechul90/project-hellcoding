@@ -17,6 +17,9 @@ public class ApiOptionController {
 
     private final OptionService optionService;
 
+    /**
+     * 옵션 삭제
+     */
     @DeleteMapping(value = "/{id}")
     public JsonResult deleteOption(@PathVariable("id") Long optionId) {
         optionService.deleteOption(optionId);

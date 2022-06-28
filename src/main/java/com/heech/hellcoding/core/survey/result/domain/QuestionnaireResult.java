@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.survey.result.domain;
 import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "questionnaire_result")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Result {
+public class QuestionnaireResult {
 
     @Id @GeneratedValue
     @Column(name = "result_id")
@@ -32,6 +33,14 @@ public class Result {
     private LocalDateTime responseDate;
 
     //===생성 메서드===//
+    @Builder(builderClassName = "createQuestionnaireResultBuilder", builderMethodName = "createQuestionnaireResultBuilder")
+    public QuestionnaireResult(Option option, Member member, String content) {
+        this.option = option;
+        this.member = member;
+        this.content = content;
+        this.responseDate = LocalDateTime.now();
+    }
+
 
     //===수정 메서드===//
 }
