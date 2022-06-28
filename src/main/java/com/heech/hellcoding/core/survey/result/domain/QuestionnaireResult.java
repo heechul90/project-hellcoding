@@ -21,12 +21,12 @@ public class QuestionnaireResult {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")
-    private Option option;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "option_id")
+    private Option option;
 
     @Column(name = "response_content")
     private String content;
@@ -34,13 +34,12 @@ public class QuestionnaireResult {
 
     //===생성 메서드===//
     @Builder(builderClassName = "createQuestionnaireResultBuilder", builderMethodName = "createQuestionnaireResultBuilder")
-    public QuestionnaireResult(Option option, Member member, String content) {
-        this.option = option;
+    public QuestionnaireResult(Member member, Option option, String content) {
         this.member = member;
+        this.option = option;
         this.content = content;
         this.responseDate = LocalDateTime.now();
     }
-
 
     //===수정 메서드===//
 }

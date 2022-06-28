@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,17 +12,21 @@ import java.util.List;
 @Setter
 public class CreateQuestionnaireResultRequest {
 
+    @NotNull
     private Long memberId;
 
     @NotNull
     @Valid
     private List<QuestionnaireResult> questionnaireResults;
 
-    private static class QuestionnaireResult {
-        @NotEmpty
+    @Getter
+    @Setter
+    public static class QuestionnaireResult {
+        @NotNull
         private Setting setting;
-        private String responseContent;
+        @NotNull
         private Long optionId;
+        private String responseContent;
     }
 
 }
