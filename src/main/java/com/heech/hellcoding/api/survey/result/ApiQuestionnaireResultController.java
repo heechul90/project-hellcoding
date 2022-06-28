@@ -28,6 +28,7 @@ public class ApiQuestionnaireResultController {
     @PostMapping
     public JsonResult saveQuestionnaireResult(@RequestBody @Validated CreateQuestionnaireResultRequest request, BindingResult bindingResult) {
 
+
         //TODO object validate 있으면 추가하기
         //설문 응답했는지 안했는지 체크
         if (bindingResult.hasErrors()) {

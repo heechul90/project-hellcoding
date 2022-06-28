@@ -16,6 +16,9 @@ public class CreateQuestionnaireResultRequest {
     private Long memberId;
 
     @NotNull
+    private Long questionnaireId;
+
+    @NotNull
     @Valid
     private List<QuestionnaireResult> questionnaireResults;
 
