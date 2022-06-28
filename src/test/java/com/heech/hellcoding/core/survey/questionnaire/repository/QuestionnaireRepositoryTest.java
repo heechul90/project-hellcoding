@@ -28,7 +28,6 @@ class QuestionnaireRepositoryTest {
     QuestionnaireRepository questionnaireRepository;
 
     @Test
-    @Rollback(value = false)
     public void findQuestionnairesTest() throws Exception{
         //given
         for (int i = 0; i < 50; i++) {

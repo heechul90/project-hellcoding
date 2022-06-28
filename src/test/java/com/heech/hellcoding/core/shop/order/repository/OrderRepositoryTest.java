@@ -57,7 +57,6 @@ class OrderRepositoryTest {
     }
 
     @Test
-    @Rollback(value = false)
     void findOrdersTest() throws Exception {
         Address address = new Address("11111", "서울", "강남대로");
         Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);

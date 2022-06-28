@@ -72,7 +72,6 @@ class QuestionnaireTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void updateQuestionnaireTest() throws Exception{
         //given
         List<Question> questions = new ArrayList<>();
