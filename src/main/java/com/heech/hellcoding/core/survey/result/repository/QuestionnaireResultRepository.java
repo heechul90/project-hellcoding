@@ -7,11 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface QuestionnaireResultRepository extends JpaRepository<QuestionnaireResult, Long> {
 
-    @Query("select count(qr)" +
-            " from QuestionnaireResult qr" +
-            " join qr.option op" +
-            " join op.question qu" +
-            " join qu.questionnaire qt " +
-            " where qr.member.id = :memberId and qt.id = :questionnaireId")
+    @Query("select count(qtnr)" +
+            " from QuestionnaireResult qtnr" +
+            " join qtnr.option op" +
+            " join op.question qt" +
+            " join qt.questionnaire qtn " +
+            " where qtnr.member.id = :memberId and qtn.id = :questionnaireId")
     int countByMemberIdByQuestionnaireId(@Param("memberId") Long memberId, @Param("questionnaireId") Long questionnaireId);
 }

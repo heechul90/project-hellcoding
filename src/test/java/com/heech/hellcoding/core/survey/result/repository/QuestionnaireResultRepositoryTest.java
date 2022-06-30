@@ -46,7 +46,6 @@ class QuestionnaireResultRepositoryTest {
     }
 
     @Test
-    @Rollback(value = false)
     void countByMemberIdByQuestionnaireId() {
         //given
         List<Question> questions = new ArrayList<>();
