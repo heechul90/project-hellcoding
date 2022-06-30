@@ -1,9 +1,12 @@
 package com.heech.hellcoding.core.survey.result.repository;
 
+import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
+import com.heech.hellcoding.core.survey.result.domain.QuestionnaireResult;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -42,6 +46,7 @@ class QuestionnaireResultRepositoryTest {
     }
 
     @Test
+    @Rollback(value = false)
     void countByMemberIdByQuestionnaireId() {
         //given
         List<Question> questions = new ArrayList<>();
@@ -58,7 +63,26 @@ class QuestionnaireResultRepositoryTest {
         Questionnaire questionnaire = getQuestionnaire("test_title111", "test_description", "Y", LocalDateTime.now(), LocalDateTime.now(), questions);
         em.persist(questionnaire);
 
-        //when
+        Member member = Member.builder()
+                .name("test_member")
+                .loginId("test_member")
+                .password("test_password")
+                .email("test_email@google.com")
+                .build();
+        em.persist(member);
 
+        QuestionnaireResult questionnaireResult = QuestionnaireResult.createQuestionnaireResultBuilder()
+                .member(member)
+                .option(option1)
+                .build();
+        em.persist(questionnaireResult);
+        em.flush();
+        em.clear();
+
+        //when
+        int count = questionnaireResultRepository.countByMemberIdByQuestionnaireId(member.getId(), questionnaire.getId());
+
+        //then
+        assertThat(count).isGreaterThan(0);
     }
 }
