@@ -79,7 +79,7 @@ class QuestionnaireResultRepositoryTest {
         em.clear();
 
         //when
-        int count = questionnaireResultRepository.countByMemberIdByQuestionnaireId(member.getId(), questionnaire.getId());
+        int count = questionnaireResultRepository.countQuestionnaireResult(member.getId(), questionnaire.getId());
 
         //then
         assertThat(count).isGreaterThan(0);

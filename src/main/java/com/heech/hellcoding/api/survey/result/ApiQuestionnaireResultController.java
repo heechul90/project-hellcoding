@@ -28,8 +28,10 @@ public class ApiQuestionnaireResultController {
     @PostMapping
     public JsonResult saveQuestionnaireResult(@RequestBody @Validated CreateQuestionnaireResultRequest request, BindingResult bindingResult) {
 
+        if (questionnaireResultService.isJoinQuestionnaire(request.getMemberId(), request.getQuestionnaireId())) {
+            bindingResult.reject("already.join", "설문에 이미 참여했습니다.");
+        }
 
-        //TODO object validate 있으면 추가하기
         //설문 응답했는지 안했는지 체크
         if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());

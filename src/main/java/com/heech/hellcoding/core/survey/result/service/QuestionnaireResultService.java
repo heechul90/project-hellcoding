@@ -26,6 +26,13 @@ public class QuestionnaireResultService {
     private final OptionRepository optionRepository;
 
     /**
+     * 설문 참여 여부
+     */
+    public boolean isJoinQuestionnaire(Long memberId, Long questionnaireId) {
+        return questionnaireResultRepository.countQuestionnaireResult(memberId, questionnaireId) > 0;
+    }
+
+    /**
      * 설문 결과 저장
      */
     @Transactional
