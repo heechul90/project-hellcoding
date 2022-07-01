@@ -5,6 +5,8 @@ import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategorySearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +18,8 @@ import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CategoryRepositoryTest {
 
     @PersistenceContext
