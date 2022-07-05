@@ -66,7 +66,10 @@ public class Member {
     private LocalDateTime signinDate;
 
     //===생성 메서드===//
-    @Builder
+    /**
+     * 회원 생성
+     */
+    @Builder(builderClassName = "createMemberBuilder", builderMethodName = "createMemberBuilder")
     public Member(String name, String loginId, String password, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address, LocalDateTime signupDate, LocalDateTime signinDate) {
         Assert.hasText(name, "name은 필수값입니다.");
         Assert.hasText(loginId, "loginId는 필수값입니다.");
@@ -85,7 +88,10 @@ public class Member {
         this.signinDate = signinDate;
     }
 
-    //=== 변경 메서드 ===//
+    /**
+     * 회원 수정
+     */
+    @Builder(builderClassName = "updateMemberBuilder", builderMethodName = "updateMemberBuilder")
     public void updateMember(String name, String password, String email) {
         if (hasText(name)) {
             this.name = name;
@@ -98,6 +104,7 @@ public class Member {
         }
     }
 
+    //=== 변경 메서드 ===//
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
