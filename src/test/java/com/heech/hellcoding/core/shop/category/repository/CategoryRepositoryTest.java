@@ -48,25 +48,6 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void findCategoriesTest() throws Exception{
-        //given
-        Category bookCategory = getRootCategory("도서", 1);
-        Category albumCategory = getRootCategory("음반", 2);
-        Category developCategory = getChildCategory(bookCategory, "개발", 1);
-        Category languageCategory = getChildCategory(bookCategory, "언어", 2);
-        Category kpopCategory = getChildCategory(albumCategory, "케이팝", 1);
-        Category balladCategory = getChildCategory(albumCategory, "발라드", 2);
-
-        //when
-        CategorySearchCondition condition = new CategorySearchCondition();
-        PageRequest pageRequest = PageRequest.of(0, Integer.MAX_VALUE);
-        Page<Category> content = categoryRepository.findCategories(condition, pageRequest);
-
-        //then
-        assertThat(content.getTotalElements()).isEqualTo(6);
-    }
-
-    @Test
     public void saveTest() throws Exception{
         //given
         Category bookCategory = new Category("도서", 1);

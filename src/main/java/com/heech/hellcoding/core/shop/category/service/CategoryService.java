@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.shop.category.service;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategorySearchCondition;
+import com.heech.hellcoding.core.shop.category.repository.CategoryQueryRepository;
 import com.heech.hellcoding.core.shop.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryQueryRepository categoryQueryRepository;
 
     /**
      * 카테고리 목록 조회
      */
     public Page<Category> findCategories(CategorySearchCondition condition, Pageable pageable) {
-        return categoryRepository.findCategories(condition, pageable);
+        return categoryQueryRepository.findCategories(condition, pageable);
     }
 
 

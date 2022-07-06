@@ -9,22 +9,25 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.category.domain.QCategory.*;
+import static com.heech.hellcoding.core.shop.category.domain.QCategory.category;
 
-public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
+@Repository
+public class CategoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public CategoryRepositoryImpl(EntityManager em) {
+    public CategoryQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * 카테고리 목록 조회
+     */
     public Page<Category> findCategories(CategorySearchCondition condition, Pageable pageable) {
         List<Category> content = getCategoryList(condition, pageable);
 
@@ -37,7 +40,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
      * 카테고리 목록
      */
     private List<Category> getCategoryList(CategorySearchCondition condition, Pageable pageable) {
-        List<Category> content = queryFactory
+        return queryFactory
                 .select(category)
                 .from(category)
                 .where(
@@ -47,21 +50,19 @@ public class CategoryRepositoryImpl implements CategoryRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
     }
 
     /**
      * 카테고리 목록 카운트
      */
     private JPAQuery<Long> getCategoryListCount(CategorySearchCondition condition) {
-        JPAQuery<Long> count = queryFactory
+        return queryFactory
                 .select(category.count())
                 .from(category)
                 .where(
                         category.isActivate.eq("Y"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 );
-        return count;
     }
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
