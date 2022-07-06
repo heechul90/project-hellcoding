@@ -16,7 +16,7 @@ class SessionManagerTest {
     void sessionTest() {
         //세션생성
         MockHttpServletResponse response = new MockHttpServletResponse();
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .loginId("loginId")
                 .password("loginPassword")
                 .name("loginName")

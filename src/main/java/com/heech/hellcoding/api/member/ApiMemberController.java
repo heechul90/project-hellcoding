@@ -71,7 +71,7 @@ public class ApiMemberController {
     @PostMapping
     public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
         //TODO error return 처리필요
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name(request.getMemberName())
                 .loginId(request.getLoginId())
                 .password(request.getPassword())

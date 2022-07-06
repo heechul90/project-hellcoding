@@ -30,7 +30,7 @@ class LoginServiceTest {
     @Test
     void login() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .loginId("spring1")
                 .password("spring1")
                 .name("spring1")

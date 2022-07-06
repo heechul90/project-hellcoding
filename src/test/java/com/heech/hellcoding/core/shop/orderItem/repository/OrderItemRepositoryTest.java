@@ -35,7 +35,7 @@ class OrderItemRepositoryTest {
     OrderItemRepository orderItemRepository;
 
     private Member addMember(String memberName, String loginId, String password, String email, Address address) {
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name(memberName)
                 .loginId(loginId)
                 .password(password)

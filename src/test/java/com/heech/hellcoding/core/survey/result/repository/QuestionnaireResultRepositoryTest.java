@@ -62,7 +62,7 @@ class QuestionnaireResultRepositoryTest {
         Questionnaire questionnaire = getQuestionnaire("test_title111", "test_description", "Y", LocalDateTime.now(), LocalDateTime.now(), questions);
         em.persist(questionnaire);
 
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test_member")
                 .loginId("test_member")
                 .password("test_password")

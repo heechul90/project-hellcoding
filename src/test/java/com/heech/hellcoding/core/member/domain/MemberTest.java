@@ -27,14 +27,14 @@ class MemberTest {
     @Test
     void createMemberTest() {
         //given
-        Member member1 = Member.builder()
+        Member member1 = Member.createMemberBuilder()
                 .loginId("spring1")
                 .password("1234")
                 .name("스프링")
                 .email("spring@spring@.com")
                 .build();
 
-        Member member2 = Member.builder()
+        Member member2 = Member.createMemberBuilder()
                 .loginId("spring2")
                 .password("1234")
                 .name("스프링2")
@@ -63,7 +63,7 @@ class MemberTest {
     @Test
     public void updateMemberTest() throws Exception{
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .loginId("spring1")
                 .password("1234")
                 .name("스프링1")
@@ -99,7 +99,7 @@ class MemberTest {
     @Test
     void changePasswordTest() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .loginId("spring1")
                 .password("1234")
                 .name("스프링1")

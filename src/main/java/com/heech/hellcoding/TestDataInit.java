@@ -67,7 +67,7 @@ public class TestDataInit {
             Mobile mobile = new Mobile("010", "4250", "4296");
             Address address = new Address("12345", "Sejong", "hanuridaero");
 
-            Member admin = Member.builder()
+            Member admin = Member.createMemberBuilder()
                     .name("스프링관리자")
                     .loginId("admin")
                     .password("1234")
@@ -80,7 +80,7 @@ public class TestDataInit {
                     .signinDate(LocalDateTime.now())
                     .build();
 
-            Member spring = Member.builder()
+            Member spring = Member.createMemberBuilder()
                     .name("스프링유저")
                     .loginId("spring")
                     .password("1234")

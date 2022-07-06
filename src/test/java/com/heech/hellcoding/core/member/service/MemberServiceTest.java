@@ -31,7 +31,7 @@ class MemberServiceTest {
     @Test
     void findMembers() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test")
                 .loginId("test")
                 .password("test")
@@ -52,7 +52,7 @@ class MemberServiceTest {
     @Test
     void saveMember() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test")
                 .loginId("test")
                 .password("test")
@@ -72,7 +72,7 @@ class MemberServiceTest {
     @Test
     void updateMmeber() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test")
                 .loginId("test")
                 .password("test")
@@ -93,7 +93,7 @@ class MemberServiceTest {
     @Test
     void deleteMember() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test")
                 .loginId("test")
                 .password("test")
@@ -114,7 +114,7 @@ class MemberServiceTest {
     @Test
     void findById() {
         //given
-        Member member = Member.builder()
+        Member member = Member.createMemberBuilder()
                 .name("test")
                 .loginId("test")
                 .password("test")
