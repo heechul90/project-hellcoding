@@ -4,6 +4,7 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.dto.DeliverySearchCondition;
+import com.heech.hellcoding.core.shop.delivery.repository.DeliveryQueryRepository;
 import com.heech.hellcoding.core.shop.delivery.repository.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+    private final DeliveryQueryRepository deliveryQueryRepository;
 
     /**
      * 배송 목록 조회
      */
     public Page<Delivery> findDeliveries(DeliverySearchCondition condition, Pageable pageable) {
-        return deliveryRepository.findDeliveries(condition, pageable);
+        return deliveryQueryRepository.findDeliveries(condition, pageable);
     }
 
     /**

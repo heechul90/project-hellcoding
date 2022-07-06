@@ -9,22 +9,25 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.delivery.domain.QDelivery.*;
+import static com.heech.hellcoding.core.shop.delivery.domain.QDelivery.delivery;
 
-public class DeliveryRepositoryImpl implements DeliveryRepositoryQuerydsl {
+@Repository
+public class DeliveryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public DeliveryRepositoryImpl(EntityManager em) {
+    public DeliveryQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * 배송 목록 조회
+     */
     public Page<Delivery> findDeliveries(DeliverySearchCondition condition, Pageable pageable) {
         List<Delivery> content = getDeliveryList(condition, pageable);
 
@@ -37,7 +40,7 @@ public class DeliveryRepositoryImpl implements DeliveryRepositoryQuerydsl {
      * 배송 목록
      */
     private List<Delivery> getDeliveryList(DeliverySearchCondition condition, Pageable pageable) {
-        List<Delivery> content = queryFactory
+        return queryFactory
                 .select(delivery)
                 .from(delivery)
                 .where(
@@ -46,20 +49,18 @@ public class DeliveryRepositoryImpl implements DeliveryRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
     }
 
     /**
      * 배송 목록 카운트
      */
     private JPAQuery<Long> getDeliveryListCount(DeliverySearchCondition condition) {
-        JPAQuery<Long> count = queryFactory
+        return queryFactory
                 .select(delivery.count())
                 .from(delivery)
                 .where(
                         searchDeliveryStatusEq(condition.getSearchDeliveryStatus())
                 );
-        return count;
     }
 
     /**
