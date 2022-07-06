@@ -58,9 +58,7 @@ public class JoinController {
                 form.getBirthYear() + form.getBirthMonth() + form.getBirthDay(),
                 "M".equals(form.getGenderCode()) ? GenderCode.M : GenderCode.F,
                 new Mobile(form.getMobileNumberFirst(), form.getMobileNumberMiddle(), form.getMobileNumberLast()),
-                new Address(form.getZipcode(), form.getAddress(), form.getDetailAddress()),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                new Address(form.getZipcode(), form.getAddress(), form.getDetailAddress())
         );
 
         Member savedMember = joinService.save(member);

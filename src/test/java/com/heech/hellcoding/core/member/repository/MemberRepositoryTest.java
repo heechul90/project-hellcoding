@@ -8,155 +8,142 @@ import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @Transactional
 class MemberRepositoryTest {
 
-    @Autowired
-    MemberRepository memberRepository;
+    @PersistenceContext EntityManager em;
+
+    @Autowired MemberRepository memberRepository;
+
+    @Autowired MemberQueryRepository memberQueryRepository;
+
+    private Member getMember(Mobile mobile, Address address) {
+        Member member = Member.createMemberBuilder()
+                .name("test_name")
+                .loginId("test_loginId")
+                .password("test_password")
+                .email("test_email@email.com")
+                .birthDate("19901009")
+                .genderCode(GenderCode.M)
+                .mobile(mobile)
+                .address(address)
+                .build();
+        return member;
+    }
 
     @Test
     void save() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
+        Member member = getMember(mobile, address);
 
         //when
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        memberRepository.save(member);
+        em.flush();
+        em.clear();
 
         //then
-        Member findMember1 = memberRepository.findById(member1.getId()).orElse(null);
-        Member findMember2 = memberRepository.findById(member2.getId()).orElse(null);
-        assertThat(findMember1).isEqualTo(member1);
-        assertThat(findMember2).isEqualTo(member2);
-        assertThat(findMember1.getName()).isEqualTo("member1");
-        assertThat(findMember2.getName()).isEqualTo("member2");
-        assertThat(findMember1.getMobile().getMobileNumberFirst()).isEqualTo("010");
-        assertThat(findMember1.getMobile().getMobileNumberMiddle()).isEqualTo("4250");
-        assertThat(findMember1.getMobile().getMobileNumberLast()).isEqualTo("4296");
+        Member findMember = memberRepository.findById(member.getId()).orElse(null);
+        assertThat(findMember.getName()).isEqualTo("test_name");
+        assertThat(findMember.getLoginId()).isEqualTo("test_loginId");
+        assertThat(findMember.getPassword()).isEqualTo("test_password");
+        assertThat(findMember.getEmail()).isEqualTo("test_email@email.com");
+        assertThat(findMember.getBirthDate()).isEqualTo("19901009");
+        assertThat(findMember.getGenderCode()).isEqualTo(GenderCode.M);
+        assertThat(findMember.getMobile().getMobileNumberFirst()).isEqualTo("010");
+        assertThat(findMember.getMobile().getMobileNumberMiddle()).isEqualTo("4250");
+        assertThat(findMember.getMobile().getMobileNumberLast()).isEqualTo("4296");
+        assertThat(findMember.getAddress().getZipcode()).isEqualTo(address.getZipcode());
+        assertThat(findMember.getAddress().getAddress()).isEqualTo(address.getAddress());
+        assertThat(findMember.getAddress().getDetailAddress()).isEqualTo(address.getDetailAddress());
     }
 
     @Test
     void findById() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
 
         //when
-        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
+        Member findMember = memberRepository.findById(member.getId()).orElse(null);
 
         //then
-        assertThat(findMember).isEqualTo(member1);
-    }
-
-    @Test
-    void findAll() {
-        //given
-        Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-
-        //when
-        List<Member> resultList = memberRepository.findAll();
-
-        //then
-        //assertThat(resultList.size()).isEqualTo(4);
+        assertThat(findMember).isEqualTo(member);
     }
 
     @Test
     void findByName() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
 
         //when
-        List<Member> resultList = memberRepository.findByName("member1");
+        List<Member> resultList1 = memberRepository.findByName("test");
+        List<Member> resultList2 = memberRepository.findByName("test_name");
 
         //then
-        assertThat(resultList.size()).isEqualTo(1);
-        assertThat(resultList).extracting("name").containsExactly("member1");
+        assertThat(resultList1.size()).isEqualTo(0);
+        assertThat(resultList2.size()).isEqualTo(1);
+        assertThat(resultList2).extracting("name").containsExactly("test_name");
     }
 
     @Test
     void update() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
 
         //when
-        member1.changePassword("4321");
+        Member findMember = memberRepository.findById(member.getId()).orElse(null);
+        findMember.updateMemberBuilder()
+                .name("update_name")
+                .email("update_email")
+                .build();
+        em.flush();
+        em.clear();
 
         //then
-        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
-        assertThat(findMember.getPassword()).isEqualTo("4321");
+        Member updatedMember = memberRepository.findById(member.getId()).orElse(null);
+        assertThat(updatedMember.getName()).isEqualTo("update_name");
+        assertThat(updatedMember.getEmail()).isEqualTo("update_email");
     }
 
     @Test
     void delete() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
 
         //when
-        memberRepository.delete(member1);
+        memberRepository.delete(member);
 
         //then
-        Member findMember = memberRepository.findById(member1.getId()).orElse(null);
+        Member findMember = memberRepository.findById(member.getId()).orElse(null);
         assertThat(findMember).isNull();
     }
 
@@ -164,38 +151,36 @@ class MemberRepositoryTest {
     void findByLoginId() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
-        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601gh");
-
-        Member member1 = new Member("loginId1", "1234", "member1", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-        Member member2 = new Member("loginId2", "1234", "member2", "coding1234@coding.com", "19900101",
-                GenderCode.M, mobile, address, LocalDateTime.now(), LocalDateTime.now());
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
 
         //when
-        Member findMember = memberRepository.findByLoginId("loginId2").orElse(null);
+        Member findMember = memberRepository.findByLoginId("test_loginId").orElse(null);
 
         //then
-        assertThat(findMember.getName()).isEqualTo("member2");
+        assertThat(findMember.getName()).isEqualTo("test_name");
     }
 
     @Test
     void findMembersTest() {
         //given
+        Mobile mobile = new Mobile("010", "4250", "4296");
+        Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
+        Member member = getMember(mobile, address);
+        memberRepository.save(member);
+
         MemberSearchCondition condition = new MemberSearchCondition();
         condition.setSearchCondition(SearchCondition.NAME);
-        condition.setSearchKeyword("스프");
+        condition.setSearchKeyword("test");
         condition.setSearchGender(GenderCode.M);
 
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         //when
-        Page<Member> resultList = memberRepository.findMembers(condition, pageRequest);
+        Page<Member> resultList = memberQueryRepository.findMembers(condition, pageRequest);
 
         //then
-        assertThat(resultList).extracting("name").containsExactly("스프링관리자", "스프링유저");
+        assertThat(resultList).extracting("name").containsExactly("test_name");
     }
-
 }

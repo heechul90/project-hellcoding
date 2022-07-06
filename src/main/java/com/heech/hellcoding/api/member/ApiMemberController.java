@@ -80,8 +80,6 @@ public class ApiMemberController {
                 .genderCode(request.getGender().equals("M") ? GenderCode.M : GenderCode.F)
                 .mobile(new Mobile(request.getMobileNumberFirst(), request.getMobileNumberMiddle(), request.getMobileNumberLast()))
                 .address(new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress()))
-                .signupDate(LocalDateTime.now())
-                .signinDate(LocalDateTime.now())
                 .build();
         Member savedMember = memberService.saveMember(member);
         return JsonResult.OK(new CreateMemberResponse(savedMember.getId()));

@@ -43,8 +43,6 @@ class MemberTest {
                 .genderCode(GenderCode.M)
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("12345", "Sejong", "hanuridaero"))
-                .signupDate(LocalDateTime.now())
-                .signinDate(LocalDateTime.now())
                 .build();
 
         //when
@@ -72,8 +70,6 @@ class MemberTest {
                 .genderCode(GenderCode.M)
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("12345", "Sejong", "hanuridaero"))
-                .signupDate(LocalDateTime.now())
-                .signinDate(LocalDateTime.now())
                 .build();
         Member savedMember = memberRepository.save(member);
         em.flush();
@@ -85,7 +81,7 @@ class MemberTest {
 
         //when
         Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        findMember.updateMember(updateParmaName, updateParamPassword, updateParamEmail);
+        findMember.updateMember(updateParmaName, updateParamEmail);
         em.flush();
         em.clear();
 
@@ -108,8 +104,6 @@ class MemberTest {
                 .genderCode(GenderCode.M)
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("12345", "Sejong", "hanuridaero"))
-                .signupDate(LocalDateTime.now())
-                .signinDate(LocalDateTime.now())
                 .build();
         Member savedMember = memberRepository.save(member);
 

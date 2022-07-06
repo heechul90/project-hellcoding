@@ -76,8 +76,6 @@ public class TestDataInit {
                     .genderCode(GenderCode.M)
                     .mobile(mobile)
                     .address(address)
-                    .signupDate(LocalDateTime.now())
-                    .signinDate(LocalDateTime.now())
                     .build();
 
             Member spring = Member.createMemberBuilder()
@@ -89,8 +87,6 @@ public class TestDataInit {
                     .genderCode(GenderCode.M)
                     .mobile(mobile)
                     .address(address)
-                    .signupDate(LocalDateTime.now())
-                    .signinDate(LocalDateTime.now())
                     .build();
 
             em.persist(admin);
