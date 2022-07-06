@@ -7,8 +7,6 @@ import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -21,7 +19,6 @@ import static com.heech.hellcoding.core.member.domain.QMember.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
-//@RequiredArgsConstructor
 public class MemberQueryRepository {
 
     private final JPAQueryFactory queryFactory;
