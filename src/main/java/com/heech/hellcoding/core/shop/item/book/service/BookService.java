@@ -4,6 +4,7 @@ import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
+import com.heech.hellcoding.core.shop.item.book.repository.BookQueryRepository;
 import com.heech.hellcoding.core.shop.item.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookQueryRepository bookQueryRepository;
 
     /**
      * 상품 > Book 목록 조회
      */
     public Page<Book> findBooks(BookSearchCondition condition, Pageable pageable) {
-        return bookRepository.findBooks(condition, pageable);
+        return bookQueryRepository.findBooks(condition, pageable);
     }
 
     /**

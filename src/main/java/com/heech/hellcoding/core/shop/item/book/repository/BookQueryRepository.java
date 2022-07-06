@@ -9,23 +9,25 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.item.book.domain.QBook.*;
-import static org.springframework.util.StringUtils.hasText;
+import static com.heech.hellcoding.core.shop.item.book.domain.QBook.book;
 
-public class BookRepositoryImpl implements BookRepositoryQuerydsl{
+@Repository
+public class BookQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public BookRepositoryImpl(EntityManager em) {
+    public BookQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * item > book 목록 조회
+     */
     public Page<Book> findBooks(BookSearchCondition condition, Pageable pageable) {
         List<Book> content = getBookList(condition, pageable);
 
@@ -35,10 +37,10 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
     }
 
     /**
-     * Book 목록
+     * item > book 목록
      */
     private List<Book> getBookList(BookSearchCondition condition, Pageable pageable) {
-        List<Book> content = queryFactory
+        return queryFactory
                 .select(book)
                 .from(book)
                 .leftJoin(book.category)
@@ -51,14 +53,13 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
     }
 
     /**
-     * Book 목록 카운트
+     * item > book 목록 카운트
      */
     private JPAQuery<Long> getBookListCount(BookSearchCondition condition) {
-        JPAQuery<Long> count = queryFactory
+        return queryFactory
                 .select(book.count())
                 .from(book)
                 .where(
@@ -66,7 +67,6 @@ public class BookRepositoryImpl implements BookRepositoryQuerydsl{
                         searchPriceGoe(condition.getSearchPriceGoe()),
                         searchPriceLoe(condition.getSearchPriceLoe())
                 );
-        return count;
     }
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
