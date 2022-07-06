@@ -98,6 +98,9 @@ public class Member {
     }
 
     //=== 변경 메서드 ===//
+    /**
+     * 비밀번호 변경
+     */
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
