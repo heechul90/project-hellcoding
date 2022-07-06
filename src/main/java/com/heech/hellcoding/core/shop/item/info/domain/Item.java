@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.shop.item.info.domain;
 
+import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import lombok.AccessLevel;
@@ -17,7 +18,7 @@ import static org.springframework.util.StringUtils.*;
 @DiscriminatorColumn(name = "dtype")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Item {
+public abstract class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
