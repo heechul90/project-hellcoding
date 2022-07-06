@@ -10,6 +10,7 @@ import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
+import com.heech.hellcoding.core.shop.order.repository.OrderQueryRepository;
 import com.heech.hellcoding.core.shop.order.repository.OrderRepository;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderQueryRepository orderQueryRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
@@ -35,7 +37,7 @@ public class OrderService {
      * 주문 목록 조회
      */
     public Page<Order> findOrders(OrderSearchCondition condition, Pageable pageable) {
-        return orderRepository.findOrders(condition, pageable);
+        return orderQueryRepository.findOrders(condition, pageable);
     }
 
     /**

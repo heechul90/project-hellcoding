@@ -3,32 +3,33 @@ package com.heech.hellcoding.core.shop.order.repository;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
-import com.heech.hellcoding.core.shop.order.domain.QOrder;
 import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.order.domain.QOrder.*;
-import static org.springframework.util.StringUtils.*;
+import static com.heech.hellcoding.core.shop.order.domain.QOrder.order;
+import static org.springframework.util.StringUtils.hasText;
 
-public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
+@Repository
+public class OrderQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public OrderRepositoryImpl(EntityManager em) {
+    public OrderQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * 주문 목록 조회
+     */
     public Page<Order> findOrders(OrderSearchCondition condition, Pageable pageable) {
         List<Order> content = getOrderList(condition, pageable);
 
@@ -37,12 +38,13 @@ public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
+    /**
+     * 주문 목록
+     */
     private List<Order> getOrderList(OrderSearchCondition condition, Pageable pageable) {
-        List<Order> content = queryFactory
+        return queryFactory
                 .select(order)
                 .from(order)
-                //.leftJoin(order.orderItems)
-                //.fetchJoin()
                 .where(
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword()),
                         searchOrderStatusEq(condition.getSearchOrderStatus())
@@ -50,21 +52,23 @@ public class OrderRepositoryImpl implements OrderRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
-    }
-
-    private JPAQuery<Long> getOrderListCount(OrderSearchCondition condition) {
-        JPAQuery<Long> count = queryFactory
-                .select(order.count())
-                .from(order)
-                .where(
-                        searchOrderStatusEq(condition.getSearchOrderStatus())
-                );
-        return count;
     }
 
     /**
-     *
+     * 주문 목록 카운트
+     */
+    private JPAQuery<Long> getOrderListCount(OrderSearchCondition condition) {
+        return queryFactory
+                .select(order.count())
+                .from(order)
+                .where(
+                        searchCondition(condition.getSearchCondition(), condition.getSearchKeyword()),
+                        searchOrderStatusEq(condition.getSearchOrderStatus())
+                );
+    }
+
+    /**
+     * 조건생기면 추가
      */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
         if (searchCondition == null || !hasText(searchKeyword)) {
