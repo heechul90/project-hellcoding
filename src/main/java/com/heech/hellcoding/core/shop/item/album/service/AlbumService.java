@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.shop.item.album.service;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.item.album.domain.Album;
 import com.heech.hellcoding.core.shop.item.album.dto.AlbumSearchCondition;
+import com.heech.hellcoding.core.shop.item.album.repository.AlbumQueryRepository;
 import com.heech.hellcoding.core.shop.item.album.repository.AlbumRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
+    private final AlbumQueryRepository albumQueryRepository;
 
     /**
      * 상품 > Album 목록 조회
      */
     public Page<Album> findAlbums(AlbumSearchCondition condition, Pageable pageable) {
-        return albumRepository.findAlbums(condition, pageable);
+        return albumQueryRepository.findAlbums(condition, pageable);
     }
 
     /**
