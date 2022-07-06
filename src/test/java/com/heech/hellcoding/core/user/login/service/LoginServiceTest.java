@@ -31,9 +31,10 @@ class LoginServiceTest {
     void login() {
         //given
         Member member = Member.createMemberBuilder()
-                .loginId("spring1")
-                .password("spring1")
-                .name("spring1")
+                .name("test_name")
+                .loginId("test_loginId")
+                .password("test_password")
+                .email("test_email@spring.com")
                 .build();
         Member savedMember = memberRepository.save(member);
         em.flush();
@@ -41,12 +42,12 @@ class LoginServiceTest {
 
         //when
         Member loginMember = loginService.login(member.getLoginId(), member.getPassword());
-        Member loginFailMember = loginService.login("spring2", "spring1");
+        Member loginFailMember = loginService.login("test_loginId1", "test_password");
 
         //then
-        assertThat(loginMember.getLoginId()).isEqualTo("spring1");
-        assertThat(loginMember.getName()).isEqualTo("spring1");
-        assertThat(loginMember.getPassword()).isEqualTo("spring1");
+        assertThat(loginMember.getLoginId()).isEqualTo("test_loginId");
+        assertThat(loginMember.getName()).isEqualTo("test_name");
+        assertThat(loginMember.getPassword()).isEqualTo("test_password");
         assertThat(loginFailMember).isNull();
     }
 }
