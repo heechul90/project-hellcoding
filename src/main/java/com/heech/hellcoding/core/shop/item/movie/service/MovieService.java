@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.shop.item.movie.service;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.item.movie.domain.Movie;
 import com.heech.hellcoding.core.shop.item.movie.dto.MovieSearchCondition;
+import com.heech.hellcoding.core.shop.item.movie.repository.MovieQueryRepository;
 import com.heech.hellcoding.core.shop.item.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final MovieQueryRepository movieQueryRepository;
 
     /**
      * 상품 > Movie 목록 조회
      */
     public Page<Movie> findMovies(MovieSearchCondition condition, Pageable pageable) {
-        return movieRepository.findMovies(condition, pageable);
+        return movieQueryRepository.findMovies(condition, pageable);
     }
 
     /**

@@ -9,24 +9,27 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
 import static com.heech.hellcoding.core.shop.item.book.domain.QBook.book;
-import static com.heech.hellcoding.core.shop.item.movie.domain.QMovie.*;
+import static com.heech.hellcoding.core.shop.item.movie.domain.QMovie.movie;
 import static org.springframework.util.StringUtils.hasText;
 
-public class MovieRepositoryImpl implements MovieRepositoryQuerydsl {
+@Repository
+public class MovieQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public MovieRepositoryImpl(EntityManager em) {
+    public MovieQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * item > movie 목록 조회
+     */
     public Page<Movie> findMovies(MovieSearchCondition condition, Pageable pageable) {
         List<Movie> content = getMovieList(condition, pageable);
 
@@ -35,10 +38,10 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl {
     }
 
     /**
-     * Movie 목록
+     * item > movie 목록
      */
     private List<Movie> getMovieList(MovieSearchCondition condition, Pageable pageable) {
-        List<Movie> content = queryFactory
+        return queryFactory
                 .select(movie)
                 .from(movie)
                 .where(
@@ -49,14 +52,13 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
     }
 
     /**
-     * Movie 목록 카운트
+     * item > movie 목록 카운트
      */
     private JPAQuery<Long> getMovieListCount(MovieSearchCondition condition) {
-        JPAQuery<Long> count = queryFactory
+        return queryFactory
                 .select(movie.count())
                 .from(movie)
                 .where(
@@ -64,7 +66,6 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl {
                         searchPriceGoe(condition.getSearchPriceGoe()),
                         searchPriceLoe(condition.getSearchPriceLoe())
                 );
-        return count;
     }
 
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
