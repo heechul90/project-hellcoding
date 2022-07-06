@@ -8,26 +8,29 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.orderItem.domain.QOrderItem.*;
+import static com.heech.hellcoding.core.shop.orderItem.domain.QOrderItem.orderItem;
 
-public class OrderItemRepositoryImpl implements OrderItemRepositoryQuerydsl {
+@Repository
+public class OrderItemQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public OrderItemRepositoryImpl(EntityManager em) {
+    public OrderItemQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    @Override
+    /**
+     * 주문상품 목록 조회
+     */
     public Page<OrderItem> findOrderItems(OrderItemSearchCondition condition, Pageable pageable) {
         List<OrderItem> content = getOrderItemList(condition, pageable);
 
-        JPAQuery<Integer> count = getOrderitemListCount(condition);
+        JPAQuery<Long> count = getOrderitemListCount(condition);
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
@@ -36,7 +39,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryQuerydsl {
      * 주문상품 목록
      */
     private List<OrderItem> getOrderItemList(OrderItemSearchCondition condition, Pageable pageable) {
-        List<OrderItem> content = queryFactory
+        return queryFactory
                 .select(orderItem)
                 .from(orderItem)
                 .leftJoin(orderItem.item)
@@ -49,23 +52,21 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryQuerydsl {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return content;
     }
 
     /**
      * 주문상품 목록 카운트
      * @return
      */
-    private JPAQuery<Integer> getOrderitemListCount(OrderItemSearchCondition condition) {
-        JPAQuery<Integer> count = queryFactory
-                .select(orderItem.count)
+    private JPAQuery<Long> getOrderitemListCount(OrderItemSearchCondition condition) {
+        return queryFactory
+                .select(orderItem.count())
                 .from(orderItem)
                 .where(
                         searchOrderIdEq(condition.getSearchOrderId()),
                         searchOrderPriceGoe(condition.getSearchOrderPriceGoe()),
                         searchOrderPriceLoe(condition.getSearchOrderPriceLoe())
                 );
-        return count;
     }
 
     /**
@@ -88,5 +89,4 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryQuerydsl {
     private BooleanExpression searchOrderPriceLoe(Integer searchOrderPriceLoe) {
         return searchOrderPriceLoe != null ? orderItem.orderPrice.loe(searchOrderPriceLoe) : null;
     }
-
 }

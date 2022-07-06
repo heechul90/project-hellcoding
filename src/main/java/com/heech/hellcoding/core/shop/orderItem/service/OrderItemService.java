@@ -7,6 +7,7 @@ import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.order.repository.OrderRepository;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemSearchCondition;
+import com.heech.hellcoding.core.shop.orderItem.repository.OrderItemQueryRepository;
 import com.heech.hellcoding.core.shop.orderItem.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
+    private final OrderItemQueryRepository orderItemQueryRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
 
@@ -29,7 +31,7 @@ public class OrderItemService {
      * 주문상품 목록 조회
      */
     public Page<OrderItem> findOrderItems(OrderItemSearchCondition condition, Pageable pageable) {
-        return orderItemRepository.findOrderItems(condition, pageable);
+        return orderItemQueryRepository.findOrderItems(condition, pageable);
     }
 
     /**
