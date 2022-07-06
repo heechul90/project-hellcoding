@@ -1,5 +1,6 @@
-package com.heech.hellcoding.core.user.login.service;
+package com.heech.hellcoding.core.user.info.service;
 
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,19 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class LoginService {
+public class InfoService {
 
     private final MemberRepository memberRepository;
 
     /**
-     * 로그인
-     * @param loginId
-     * @param password
-     * @return
+     * 멤버 조회
      */
-    public Member login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
-                .filter(member -> member.getPassword().equals(password))
-                .orElse(null);
+    public Member findMember(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다."));
     }
 }
