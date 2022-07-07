@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.education.content.repository;
+package com.heech.hellcoding.core.education.lesson.repository;
 
 import com.heech.hellcoding.core.education.lesson.domain.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;

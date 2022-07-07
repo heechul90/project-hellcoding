@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.education.content.service;
+package com.heech.hellcoding.core.education.lesson.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

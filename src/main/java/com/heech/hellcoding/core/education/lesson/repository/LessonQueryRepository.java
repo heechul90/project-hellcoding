@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.education.content.repository;
+package com.heech.hellcoding.core.education.lesson.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
