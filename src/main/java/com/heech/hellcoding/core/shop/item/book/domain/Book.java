@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.shop.item.book.domain;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import static org.springframework.util.StringUtils.*;
 @Entity
 @DiscriminatorValue(value = "BOOK")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book extends Item {
 
     private String author;
