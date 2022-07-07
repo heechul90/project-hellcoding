@@ -12,7 +12,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "contentType")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Content {
+public abstract class Content {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "education_content_id")
