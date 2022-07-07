@@ -2,12 +2,11 @@ package com.heech.hellcoding.core.survey.questionnaire.service;
 
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.survey.option.domain.Option;
-import com.heech.hellcoding.core.survey.option.repository.OptionRepository;
 import com.heech.hellcoding.core.survey.question.domain.Question;
-import com.heech.hellcoding.core.survey.question.repository.QuestionRepository;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
+import com.heech.hellcoding.core.survey.questionnaire.repository.QuestionnaireQueryRepository;
 import com.heech.hellcoding.core.survey.questionnaire.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionnaireService {
 
     private final QuestionnaireRepository questionnaireRepository;
-    private final QuestionRepository questionRepository;
-    private final OptionRepository optionRepository;
+    private final QuestionnaireQueryRepository questionnaireQueryRepository;
 
     /**
      * 설문 목록 조회
      */
     public Page<Questionnaire> findQuestionnaires(QuestionnaireSearchCondition condition, Pageable pageable) {
-        return questionnaireRepository.findQuestionnaires(condition, pageable);
+        return questionnaireQueryRepository.findQuestionnaires(condition, pageable);
     }
 
     /**

@@ -1,24 +1,15 @@
 package com.heech.hellcoding.core.survey.questionnaire.repository;
 
-import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
-import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.*;
-
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class QuestionnaireRepositoryTest {
 
     @PersistenceContext
@@ -28,28 +19,13 @@ class QuestionnaireRepositoryTest {
     QuestionnaireRepository questionnaireRepository;
 
     @Test
-    public void findQuestionnairesTest() throws Exception{
+    public void saveTest() throws Exception{
         //given
-        for (int i = 0; i < 50; i++) {
-            Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
-                    .title("test_title" + i)
-                    .description("test_description" + i)
-                    .isPeriod("Y")
-                    .beginDate(LocalDateTime.now())
-                    .endDate(LocalDateTime.now())
-                    .build();
-            questionnaireRepository.save(questionnaire);
-        }
-        em.flush();
-        em.clear();
 
         //when
-        QuestionnaireSearchCondition condition = new QuestionnaireSearchCondition();
-        PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<Questionnaire> content = questionnaireRepository.findQuestionnaires(condition, pageRequest);
 
         //then
-        assertThat(content.getContent().size()).isEqualTo(10);
     }
+
 
 }
