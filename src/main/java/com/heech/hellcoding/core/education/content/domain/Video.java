@@ -18,4 +18,13 @@ public class Video extends Content {
 
     @Column(name = "video_content")
     private String content;
+
+    private int videoDuration;
+    private VideoUploadType videoUploadType;
+    private String videoUrl;
+
+    private String imageAttachFileId;
+    private String videoAttachFileId;
+    private String subtitleAttachFileId;
+    private String attachFileId;
 }
