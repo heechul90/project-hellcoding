@@ -14,6 +14,7 @@ import javax.persistence.*;
 import static org.springframework.util.StringUtils.*;
 
 @Entity
+@Table(name = "shop_item")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "dtype")
 @Getter
@@ -21,23 +22,23 @@ import static org.springframework.util.StringUtils.*;
 public abstract class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "shop_item_id")
     private Long id;
 
-    @Column(name = "item_name")
+    @Column(name = "shop_item_name")
     private String name;
 
-    @Column(name = "item_title")
+    @Column(name = "shop_item_title")
     private String title;
 
-    @Column(name = "item_content")
+    @Column(name = "shop_item_content")
     private String content;
 
     private int price;
     private int stockQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "shop_category_id")
     private Category category;
 
     //=== 생성메서드 ===//

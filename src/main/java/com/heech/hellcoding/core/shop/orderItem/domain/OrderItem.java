@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "shop_order_item")
 /*@SequenceGenerator(
         name = "orderItem_seq_generator",
         sequenceName = "orderItem_seq",
@@ -17,15 +18,15 @@ import javax.persistence.*;
 public class OrderItem {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_item_id")
+    @Column(name = "shop_order_item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "shop_item_id")
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "shop_order_id")
     private Order order;
 
     /** 주문가격 */

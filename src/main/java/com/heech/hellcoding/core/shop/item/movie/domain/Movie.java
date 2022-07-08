@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "shop_item_movie")
 @DiscriminatorValue(value = "MOVIE")
 @Getter
 @NoArgsConstructor

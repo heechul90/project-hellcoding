@@ -14,19 +14,20 @@ import java.util.List;
 import static org.springframework.util.StringUtils.*;
 
 @Entity
+@Table(name = "shop_category")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "shop_category_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @Column(name = "category_name")
+    @Column(name = "shop_category_name")
     private String name;
 
     private int categoryOrder;

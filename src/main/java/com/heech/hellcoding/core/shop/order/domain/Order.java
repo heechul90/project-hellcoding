@@ -13,21 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.orderItem.domain.QOrderItem.orderItem;
-
 @Entity
 /*@SequenceGenerator(
         name = "order_seq_generator",
         sequenceName = "order_seq",
         initialValue = 1, allocationSize = 100
 )*/
-@Table(name = "orders")
+@Table(name = "shop_orders")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
+    @Column(name = "shop_order_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,7 +33,7 @@ public class Order {
     private Member member;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "delivery_id")
+    @JoinColumn(name = "shop_delivery_id")
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

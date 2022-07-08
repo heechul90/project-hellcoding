@@ -11,10 +11,12 @@ import org.springframework.util.Assert;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import static org.springframework.util.StringUtils.*;
 
 @Entity
+@Table(name = "shop_item_book")
 @DiscriminatorValue(value = "BOOK")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
