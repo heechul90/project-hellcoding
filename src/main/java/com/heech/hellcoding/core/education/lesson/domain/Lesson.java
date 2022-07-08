@@ -1,6 +1,8 @@
 package com.heech.hellcoding.core.education.lesson.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseEntity;
+import com.heech.hellcoding.core.education.catetory.domain.EducationCategory;
+import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,9 @@ public class Lesson extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private LessonType lessonType;
 
-    private String category1;
-    private String category2;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "education_category_id")
+    private EducationCategory category;
 
     private boolean isCourse;
 
@@ -47,8 +50,9 @@ public class Lesson extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    private String teacherName;
-    private String teacherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member teacher;
     private String teacherIntroduction;
 
     private String copyright;
@@ -61,5 +65,7 @@ public class Lesson extends BaseEntity {
 
     private boolean isOpen;
     private boolean isDelete;
+
+
 
 }
