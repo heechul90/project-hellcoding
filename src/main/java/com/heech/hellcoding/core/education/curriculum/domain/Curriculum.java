@@ -16,5 +16,4 @@ public class Curriculum {
     @Column(name = "education_curriculum_id")
     private Long id;
 
-
 }
