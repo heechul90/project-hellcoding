@@ -1,7 +1,7 @@
 package com.heech.hellcoding.core.category.repository;
 
 import com.heech.hellcoding.core.category.domain.Category;
-import com.heech.hellcoding.core.category.domain.QCategory;
+import com.heech.hellcoding.core.category.domain.ServiceSection;
 import com.heech.hellcoding.core.category.dto.CategorySearchCondition;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.querydsl.core.types.Predicate;
@@ -12,13 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.heech.hellcoding.core.category.domain.QCategory.*;
-import static org.springframework.util.StringUtils.*;
+import static com.heech.hellcoding.core.category.domain.QCategory.category;
 
 @Repository
 public class CategoryQueryRepository {
@@ -48,6 +46,7 @@ public class CategoryQueryRepository {
                 .select(category)
                 .from(category)
                 .where(
+                        searchServiceSection(condition.getSearchServiceSection()),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
                 .offset(pageable.getOffset())
@@ -74,5 +73,12 @@ public class CategoryQueryRepository {
             return category.content.contains(searchKeyword);
         }
         return null;
+    }
+
+    /**
+     * category.serviceSection == serviceSection
+     */
+    private BooleanExpression searchServiceSection(ServiceSection serviceSection) {
+        return category.serviceSection.eq(serviceSection);
     }
 }

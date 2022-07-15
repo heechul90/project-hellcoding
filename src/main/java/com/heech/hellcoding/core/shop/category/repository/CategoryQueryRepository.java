@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.heech.hellcoding.core.shop.category.domain.QCategory.category;
 
-@Repository
+//@Repository
 public class CategoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
