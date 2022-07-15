@@ -1,9 +1,9 @@
-package com.heech.hellcoding.api.shop.category;
+package com.heech.hellcoding.api.category;
 
-import com.heech.hellcoding.api.shop.category.request.CreateCategoryRequest;
-import com.heech.hellcoding.api.shop.category.request.UpdateCategoryRequest;
-import com.heech.hellcoding.api.shop.category.response.CreateCategoryResponse;
-import com.heech.hellcoding.api.shop.category.response.UpdateCategoryResponse;
+import com.heech.hellcoding.api.category.request.CreateCategoryRequest;
+import com.heech.hellcoding.api.category.request.UpdateCategoryRequest;
+import com.heech.hellcoding.api.category.response.CreateCategoryResponse;
+import com.heech.hellcoding.api.category.response.UpdateCategoryResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.category.dto.CategoryDto;
