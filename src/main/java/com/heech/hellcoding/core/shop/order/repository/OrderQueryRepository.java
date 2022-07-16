@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.heech.hellcoding.core.member.domain.QMember.member;
 import static com.heech.hellcoding.core.shop.order.domain.QOrder.order;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -68,12 +69,12 @@ public class OrderQueryRepository {
     }
 
     /**
-     * 조건생기면 추가
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
      */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null || !hasText(searchKeyword)) {
-            return null;
-        }
+        if (!hasText(searchKeyword)) return null;
         return null;
     }
 

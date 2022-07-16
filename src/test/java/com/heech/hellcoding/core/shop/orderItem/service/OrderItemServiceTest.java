@@ -1,34 +1,35 @@
 package com.heech.hellcoding.core.shop.orderItem.service;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.shop.ShopTestConfig;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
-import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.order.domain.Order;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import com.heech.hellcoding.core.shop.orderItem.dto.OrderItemSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ShopTestConfig.class)
 class OrderItemServiceTest {
 
     @PersistenceContext
@@ -36,6 +37,18 @@ class OrderItemServiceTest {
 
     @Autowired
     OrderItemService orderItemService;
+
+    private Category getCategory() {
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
+                .name("category_name")
+                .content("category_name")
+                .build();
+        em.persist(category);
+        return category;
+    }
 
     private Member addMember(String memberName, String loginId, String password, String email, Address address) {
         Member member = Member.createMemberBuilder()
@@ -53,6 +66,7 @@ class OrderItemServiceTest {
                 .name(itemName)
                 .price(price)
                 .stockQuantity(stockQuantity)
+                .category(getCategory())
                 .author(author)
                 .build();
         return book;

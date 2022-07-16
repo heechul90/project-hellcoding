@@ -4,11 +4,13 @@ import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.shop.delivery.repository.DeliveryQueryRepository;
 import com.heech.hellcoding.core.shop.delivery.repository.DeliveryRepository;
 import com.heech.hellcoding.core.shop.delivery.service.DeliveryService;
-import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import com.heech.hellcoding.core.shop.item.info.repository.ItemRepository;
 import com.heech.hellcoding.core.shop.order.repository.OrderQueryRepository;
 import com.heech.hellcoding.core.shop.order.repository.OrderRepository;
 import com.heech.hellcoding.core.shop.order.service.OrderService;
+import com.heech.hellcoding.core.shop.orderItem.repository.OrderItemQueryRepository;
+import com.heech.hellcoding.core.shop.orderItem.repository.OrderItemRepository;
+import com.heech.hellcoding.core.shop.orderItem.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,8 @@ public class ShopTestConfig {
     @Autowired MemberRepository memberRepository;
 
     @Autowired ItemRepository itemRepository;
+
+    @Autowired OrderItemRepository orderItemRepository;
 
     @Bean
     public DeliveryQueryRepository deliveryQueryRepository() {
@@ -49,4 +53,13 @@ public class ShopTestConfig {
         return new OrderService(orderRepository, orderQueryRepository(), memberRepository, itemRepository);
     }
 
+    @Bean
+    public OrderItemQueryRepository orderItemQueryRepository() {
+        return new OrderItemQueryRepository(em);
+    }
+
+    @Bean
+    public OrderItemService orderItemService() {
+        return new OrderItemService(orderItemRepository, orderItemQueryRepository(), orderRepository, itemRepository);
+    }
 }

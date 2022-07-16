@@ -1,9 +1,10 @@
 package com.heech.hellcoding.core.shop.orderItem.repository;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.orderItem.domain.OrderItem;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -49,16 +50,19 @@ class OrderItemRepositoryTest {
     }
 
     private Category getCategory() {
-        Category category = Category.createRootCategoryBuilder()
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
                 .name("category_name")
-                .categoryOrder(1)
+                .content("category_name")
                 .build();
         em.persist(category);
         return category;
     }
 
     @Test
-    public void saveTest() throws Exception{
+    public void saveTest() {
         //given
         Address address = new Address("11111", "서울", "강남대로");
         Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
@@ -82,7 +86,7 @@ class OrderItemRepositoryTest {
     }
 
     @Test
-    public void updateTest() throws Exception{
+    public void updateTest() {
         //given
         Address address = new Address("11111", "서울", "강남대로");
         Member member = addMember("tester", "tester", "1234", "tester@spring.com", address);
