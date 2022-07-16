@@ -1,9 +1,12 @@
 package com.heech.hellcoding.core.shop.order.service;
 
 import com.heech.hellcoding.api.shop.order.request.ItemInfo;
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.shop.ShopTestConfig;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.order.domain.Order;
@@ -11,22 +14,23 @@ import com.heech.hellcoding.core.shop.order.domain.OrderStatus;
 import com.heech.hellcoding.core.shop.order.dto.OrderSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ShopTestConfig.class)
 class OrderServiceTest {
 
     @PersistenceContext
@@ -34,6 +38,18 @@ class OrderServiceTest {
 
     @Autowired
     OrderService orderService;
+
+    private Category getCategory() {
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
+                .name("category_name")
+                .content("category_name")
+                .build();
+        em.persist(category);
+        return category;
+    }
 
     private Member addMember(String memberName, String loginId, String password, String email, Address address) {
         Member member = Member.createMemberBuilder()
@@ -51,6 +67,7 @@ class OrderServiceTest {
                 .name(itemName)
                 .price(price)
                 .stockQuantity(stockQuantity)
+                .category(getCategory())
                 .author(author)
                 .build();
         return book;
@@ -119,6 +136,7 @@ class OrderServiceTest {
         Page<Order> content = orderService.findOrders(condition, pageRequest);
 
         //then
+        assertThat(content.getTotalElements()).isEqualTo(50);
         assertThat(content.getContent().size()).isEqualTo(10);
         assertThat(content.getContent().get(0).getOrderItems().get(0).getItem().getName()).isEqualTo("book1");
         assertThat(content.getTotalElements()).isEqualTo(50);
@@ -175,7 +193,7 @@ class OrderServiceTest {
         assertThat(findOrder.getId()).isEqualTo(savedId);
         assertThat(findOrder.getDelivery().getStatus()).isEqualTo(DeliveryStatus.READY);
         assertThat(findOrder.getMember().getName()).isEqualTo("tester");
-        assertThat(findOrder.getOrderItems().size()).isEqualTo(1);
+        assertThat(findOrder.getOrderItems().size()).isEqualTo(2);
     }
 
     @Test
