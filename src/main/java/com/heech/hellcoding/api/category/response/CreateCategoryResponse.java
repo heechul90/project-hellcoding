@@ -1,4 +1,4 @@
-package com.heech.hellcoding.api.shop.category.response;
+package com.heech.hellcoding.api.category.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

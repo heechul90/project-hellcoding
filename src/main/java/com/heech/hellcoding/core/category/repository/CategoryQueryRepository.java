@@ -1,8 +1,10 @@
-package com.heech.hellcoding.core.shop.category.repository;
+package com.heech.hellcoding.core.category.repository;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceSection;
+import com.heech.hellcoding.core.category.dto.CategorySearchCondition;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
-import com.heech.hellcoding.core.shop.category.domain.Category;
-import com.heech.hellcoding.core.shop.category.dto.CategorySearchCondition;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,9 +16,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.heech.hellcoding.core.shop.category.domain.QCategory.category;
+import static com.heech.hellcoding.core.category.domain.QCategory.category;
 
-//@Repository
+@Repository
 public class CategoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
@@ -44,7 +46,7 @@ public class CategoryQueryRepository {
                 .select(category)
                 .from(category)
                 .where(
-                        category.isActivate.eq("Y"),
+                        searchServiceSection(condition.getSearchServiceSection()),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
                 .offset(pageable.getOffset())
@@ -60,7 +62,6 @@ public class CategoryQueryRepository {
                 .select(category.count())
                 .from(category)
                 .where(
-                        category.isActivate.eq("Y"),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 );
     }
@@ -68,8 +69,16 @@ public class CategoryQueryRepository {
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
         if (SearchCondition.NAME.equals(searchCondition)) {
             return category.name.contains(searchKeyword);
-        } else {
-            return null;
+        } else if (SearchCondition.CONTENT.equals(searchCondition)) {
+            return category.content.contains(searchKeyword);
         }
+        return null;
+    }
+
+    /**
+     * category.serviceSection == serviceSection
+     */
+    private BooleanExpression searchServiceSection(ServiceSection serviceSection) {
+        return category.serviceSection.eq(serviceSection);
     }
 }
