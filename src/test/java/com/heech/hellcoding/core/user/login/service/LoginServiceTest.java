@@ -2,27 +2,25 @@ package com.heech.hellcoding.core.user.login.service;
 
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
+import com.heech.hellcoding.core.user.UserTestConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(UserTestConfig.class)
 class LoginServiceTest {
 
     @PersistenceContext
     EntityManager em;
-
-    @Autowired
-    MemberRepository memberRepository;
 
     @Autowired
     LoginService loginService;
@@ -36,7 +34,7 @@ class LoginServiceTest {
                 .password("test_password")
                 .email("test_email@spring.com")
                 .build();
-        Member savedMember = memberRepository.save(member);
+        em.persist(member);
         em.flush();
         em.clear();
 
