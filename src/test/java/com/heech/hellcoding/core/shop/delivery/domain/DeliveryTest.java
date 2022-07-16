@@ -2,23 +2,23 @@ package com.heech.hellcoding.core.shop.delivery.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DeliveryTest {
 
     @PersistenceContext
     EntityManager em;
 
     @Test
-    public void createDeliveryTest() throws Exception{
+    public void createDeliveryTest() {
         //given
         Delivery delivery = Delivery.createDeliveryBuilder()
                 .address(new Address("12345", "seoul", "gangnam-ro"))
@@ -36,7 +36,7 @@ class DeliveryTest {
     }
 
     @Test
-    public void deliveryTest() throws Exception{
+    public void deliveryTest() {
         //given
         Delivery delivery = Delivery.createDeliveryBuilder()
                 .address(new Address("12345", "seoul", "gangnam-ro"))
@@ -57,7 +57,7 @@ class DeliveryTest {
     }
 
     @Test
-    public void completeTest() throws Exception{
+    public void completeTest() {
         //given
         Delivery delivery = Delivery.createDeliveryBuilder()
                 .address(new Address("12345", "seoul", "gangnam-ro"))

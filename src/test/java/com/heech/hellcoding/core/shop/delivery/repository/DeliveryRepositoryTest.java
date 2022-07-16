@@ -4,21 +4,16 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
-import com.heech.hellcoding.core.shop.delivery.dto.DeliverySearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -37,7 +32,7 @@ class DeliveryRepositoryTest {
     }
 
     @Test
-    public void saveTest() throws Exception{
+    public void saveTest() {
         //given
         Delivery delivery = getDelivery("12345", "seoul", "gangnam-ro");
 
@@ -51,7 +46,7 @@ class DeliveryRepositoryTest {
     }
 
     @Test
-    public void updateTest() throws Exception{
+    public void updateTest() {
         //given
         Delivery delivery = getDelivery("12345", "seoul", "gangnam-ro");
         em.persist(delivery);
@@ -79,7 +74,7 @@ class DeliveryRepositoryTest {
     }
 
     @Test
-    public void deleteTest() throws Exception{
+    public void deleteTest() {
         //given
         Delivery delivery = getDelivery("12345", "seoul", "gangnam-ro");
         em.persist(delivery);

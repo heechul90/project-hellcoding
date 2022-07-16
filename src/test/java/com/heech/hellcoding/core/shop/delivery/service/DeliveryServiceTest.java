@@ -1,23 +1,26 @@
 package com.heech.hellcoding.core.shop.delivery.service;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.shop.ShopTestConfig;
 import com.heech.hellcoding.core.shop.delivery.domain.Delivery;
 import com.heech.hellcoding.core.shop.delivery.domain.DeliveryStatus;
 import com.heech.hellcoding.core.shop.delivery.dto.DeliverySearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ShopTestConfig.class)
 class DeliveryServiceTest {
 
     @PersistenceContext
