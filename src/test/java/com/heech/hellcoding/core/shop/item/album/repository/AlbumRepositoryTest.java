@@ -2,14 +2,14 @@ package com.heech.hellcoding.core.shop.item.album.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @DataJpaTest
-@Transactional
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AlbumRepositoryTest {
 
     @PersistenceContext EntityManager em;
@@ -17,7 +17,7 @@ class AlbumRepositoryTest {
     @Autowired AlbumRepository albumRepository;
 
     @Test
-    public void saveAlbumTest() throws Exception{
+    public void saveAlbumTest() {
         //given
 
         //when
