@@ -1,26 +1,21 @@
-package com.heech.hellcoding.core.category.repository;
+package com.heech.hellcoding.core.category.domain;
 
-import com.heech.hellcoding.core.category.domain.Category;
-import com.heech.hellcoding.core.category.domain.ServiceName;
-import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class CategoryRepositoryTest {
+class CategoryTest {
 
-    @PersistenceContext EntityManager em;
-
-    @Autowired CategoryRepository categoryRepository;
+    @PersistenceContext
+    EntityManager em;
 
     private Category getCategory(Category parent, ServiceName serviceName, int serialNumber, String name, String content) {
         Category category = Category.createCategoryBuilder()
@@ -30,12 +25,12 @@ class CategoryRepositoryTest {
                 .name(name)
                 .content(content)
                 .build();
-        categoryRepository.save(category);
+        em.persist(category);
         return category;
     }
 
     @Test
-    public void saveTest() throws Exception{
+    public void createCategoryTest() {
         //given
         Category bookCategory = getCategory(null, ServiceName.SHOP, 0, "book", "book");
         Category albumCategory = getCategory(null, ServiceName.SHOP, 1, "album", "album");
@@ -45,16 +40,18 @@ class CategoryRepositoryTest {
         //when
 
         //then
-        assertThat(bookCategory).isEqualTo(bookCategory);
-        assertThat(bookCategory.getParent()).isNull();
-        assertThat(bookCategory.getServiceName()).isEqualTo(ServiceName.SHOP);
-        assertThat(bookCategory.getSerialNumber()).isEqualTo(0);
-        assertThat(bookCategory.getName()).isEqualTo("book");
-        assertThat(bookCategory.getContent()).isEqualTo("book");
+        assertThat(bookCategory.getChildren().get(0)).isEqualTo(javaCategory);
+        assertThat(javaCategory.getParent()).isEqualTo(bookCategory);
+
+        List<Category> resultList =
+                em.createQuery("select c from Category c where c.parent is null", Category.class).getResultList();
+        assertThat(resultList.size()).isEqualTo(3);
+        assertThat(resultList).extracting("name").contains("book", "album", "movie");
+        assertThat(resultList).extracting("serialNumber").contains(0, 1, 2);
     }
 
     @Test
-    public void deleteTest() throws Exception{
+    public void updateCategorTest() {
         //given
         Category bookCategory = getCategory(null, ServiceName.SHOP, 0, "book", "book");
         Category albumCategory = getCategory(null, ServiceName.SHOP, 1, "album", "album");
@@ -62,14 +59,25 @@ class CategoryRepositoryTest {
         Category javaCategory = getCategory(bookCategory, ServiceName.SHOP, 0, "java", "java");
 
         //when
-        Category findCategory = categoryRepository.findById(bookCategory.getId()).orElse(null);
-        categoryRepository.delete(findCategory);
+        Category findCategory = em.find(Category.class, javaCategory.getId());
+        findCategory.updateCategoryBuilder()
+                .parent(movieCategory)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(10)
+                .name("update_java")
+                .content("update_java")
+                .build();
 
         //then
-        assertThatThrownBy(() -> categoryRepository.findById(bookCategory.getId())
-                .orElseThrow(() -> new NoSuchElementException("잘못된 접근입니다.")))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessageContaining("잘못된");
-    }
+        assertThat(findCategory.getParent()).isEqualTo(movieCategory);
+        assertThat(findCategory.getParent().getChildren().get(0)).isEqualTo(findCategory);
+        em.flush();
+        em.clear();
 
+        Category updatedCategory = em.find(Category.class, javaCategory.getId());
+        assertThat(updatedCategory.getParent().getName()).isEqualTo("movie");
+        assertThat(updatedCategory.getSerialNumber()).isEqualTo(10);
+        assertThat(updatedCategory.getName()).isEqualTo("update_java");
+        assertThat(updatedCategory.getContent()).isEqualTo("update_java");
+    }
 }

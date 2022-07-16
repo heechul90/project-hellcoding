@@ -1,10 +1,9 @@
 package com.heech.hellcoding.core.category.repository;
 
 import com.heech.hellcoding.core.category.domain.Category;
-import com.heech.hellcoding.core.category.domain.ServiceSection;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.category.dto.CategorySearchCondition;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.heech.hellcoding.core.category.domain.QCategory.category;
+import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 public class CategoryQueryRepository {
@@ -46,7 +46,7 @@ public class CategoryQueryRepository {
                 .select(category)
                 .from(category)
                 .where(
-                        searchServiceSection(condition.getSearchServiceSection()),
+                        searchServiceName(condition.getSearchServiceName()),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
                 .offset(pageable.getOffset())
@@ -66,7 +66,13 @@ public class CategoryQueryRepository {
                 );
     }
 
+    /**
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
+     */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
+        if (!hasText(searchKeyword)) return null;
         if (SearchCondition.NAME.equals(searchCondition)) {
             return category.name.contains(searchKeyword);
         } else if (SearchCondition.CONTENT.equals(searchCondition)) {
@@ -76,9 +82,9 @@ public class CategoryQueryRepository {
     }
 
     /**
-     * category.serviceSection == serviceSection
+     * category.serviceName == serviceName
      */
-    private BooleanExpression searchServiceSection(ServiceSection serviceSection) {
-        return category.serviceSection.eq(serviceSection);
+    private BooleanExpression searchServiceName(ServiceName serviceName) {
+        return category.serviceName.eq(serviceName);
     }
 }

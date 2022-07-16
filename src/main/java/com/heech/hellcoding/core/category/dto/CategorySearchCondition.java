@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.category.dto;
 
-import com.heech.hellcoding.core.category.domain.ServiceSection;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.dto.CommonSearchCondition;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class CategorySearchCondition extends CommonSearchCondition {
 
-    private ServiceSection searchServiceSection;
+    private ServiceName searchServiceName;
 }

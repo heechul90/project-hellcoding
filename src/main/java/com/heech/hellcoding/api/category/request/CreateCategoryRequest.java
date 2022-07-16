@@ -1,5 +1,6 @@
 package com.heech.hellcoding.api.category.request;
 
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,13 @@ import javax.validation.constraints.PositiveOrZero;
 @Setter
 public class CreateCategoryRequest {
 
-    private Long parentId;
-
-    @NotEmpty
-    private String categoryName;
-
+    private Long upperCategoryId;
+    private ServiceName serviceName;
     @NotNull
     @PositiveOrZero
-    private Integer categoryOrder;
+    private Integer categorySerialNumber;
+    @NotEmpty
+    private String categoryName;
+    private String categoryContent;
+
 }
