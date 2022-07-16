@@ -1,10 +1,14 @@
 package com.heech.hellcoding.core.survey.questionnaire.repository;
 
+import com.heech.hellcoding.core.survey.SurveyTestConfig;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +20,9 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(SurveyTestConfig.class)
 class QuestionnaireQueryRepositoryTest {
 
     @PersistenceContext EntityManager em;
@@ -46,6 +51,7 @@ class QuestionnaireQueryRepositoryTest {
         Page<Questionnaire> content = questionnaireQueryRepository.findQuestionnaires(condition, pageRequest);
 
         //then
+        assertThat(content.getTotalElements()).isEqualTo(50);
         assertThat(content.getContent().size()).isEqualTo(10);
     }
 }

@@ -1,31 +1,33 @@
 package com.heech.hellcoding.core.survey.questionnaire.service;
 
+import com.heech.hellcoding.core.survey.SurveyTestConfig;
 import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.option.dto.UpdateOptionParam;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
 import com.heech.hellcoding.core.survey.question.dto.UpdateQuestionParam;
 import com.heech.hellcoding.core.survey.questionnaire.domain.Questionnaire;
-import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import com.heech.hellcoding.core.survey.questionnaire.dto.QuestionnaireSearchCondition;
+import com.heech.hellcoding.core.survey.questionnaire.dto.UpdateQuestionnaireParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(SurveyTestConfig.class)
 class QuestionnaireServiceTest {
 
     @PersistenceContext
@@ -96,6 +98,7 @@ class QuestionnaireServiceTest {
         Page<Questionnaire> content = questionnaireService.findQuestionnaires(condition, pageRequest);
 
         //then
+        assertThat(content.getTotalElements()).isEqualTo(50);
         assertThat(content.getContent().size()).isEqualTo(10);
     }
 

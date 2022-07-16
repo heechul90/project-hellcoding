@@ -19,7 +19,7 @@ class QuestionnaireRepositoryTest {
     QuestionnaireRepository questionnaireRepository;
 
     @Test
-    public void saveTest() throws Exception{
+    public void saveTest() {
         //given
 
         //when

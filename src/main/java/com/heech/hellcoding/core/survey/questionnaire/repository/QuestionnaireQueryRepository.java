@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.heech.hellcoding.core.member.domain.QMember.member;
 import static com.heech.hellcoding.core.survey.questionnaire.domain.QQuestionnaire.questionnaire;
 import static org.springframework.util.StringUtils.*;
 
@@ -66,15 +67,16 @@ public class QuestionnaireQueryRepository {
                 );
     }
 
+    /**
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
+     */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null || !hasText(searchKeyword)) {
-            return null;
-        }
-
+        if (!hasText(searchKeyword)) return null;
         if (SearchCondition.TITLE.equals(searchCondition)) {
             return questionnaire.title.contains(searchKeyword);
-        } else {
-            return null;
         }
+        return null;
     }
 }

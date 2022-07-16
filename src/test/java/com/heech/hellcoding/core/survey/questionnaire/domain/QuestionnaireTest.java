@@ -4,21 +4,19 @@ import com.heech.hellcoding.core.survey.option.domain.Option;
 import com.heech.hellcoding.core.survey.question.domain.Question;
 import com.heech.hellcoding.core.survey.question.domain.Setting;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class QuestionnaireTest {
 
     @PersistenceContext
@@ -37,7 +35,7 @@ class QuestionnaireTest {
     }
 
     @Test
-    public void createQuestionnaireTest() throws Exception{
+    public void createQuestionnaireTest() {
         //given
         List<Question> questions = new ArrayList<>();
 
@@ -72,7 +70,7 @@ class QuestionnaireTest {
     }
 
     @Test
-    public void updateQuestionnaireTest() throws Exception{
+    public void updateQuestionnaireTest() {
         //given
         List<Question> questions = new ArrayList<>();
 
