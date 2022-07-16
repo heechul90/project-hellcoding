@@ -1,13 +1,11 @@
 package com.heech.hellcoding.core.shop.item.info.domain;
 
+import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -38,7 +36,7 @@ public abstract class Item extends BaseEntity {
     private int stockQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_category_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     //=== 생성메서드 ===//
