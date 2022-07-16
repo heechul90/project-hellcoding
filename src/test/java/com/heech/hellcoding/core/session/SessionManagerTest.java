@@ -1,12 +1,11 @@
 package com.heech.hellcoding.core.session;
 
-import com.heech.hellcoding.core.session.SessionManager;
 import com.heech.hellcoding.core.member.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SessionManagerTest {
 
@@ -17,9 +16,10 @@ class SessionManagerTest {
         //세션생성
         MockHttpServletResponse response = new MockHttpServletResponse();
         Member member = Member.createMemberBuilder()
+                .name("loginName")
                 .loginId("loginId")
                 .password("loginPassword")
-                .name("loginName")
+                .email("loginEmail")
                 .build();
         sessionManager.createSession(member, response);
 
