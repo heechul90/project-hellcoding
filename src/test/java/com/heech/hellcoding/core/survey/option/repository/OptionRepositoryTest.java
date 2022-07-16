@@ -1,7 +1,6 @@
 package com.heech.hellcoding.core.survey.option.repository;
 
 import com.heech.hellcoding.core.survey.option.domain.Option;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -23,7 +22,7 @@ class OptionRepositoryTest {
     OptionRepository optionRepository;
 
     @Test
-    public void saveOptionTest() throws Exception{
+    public void saveOptionTest() {
         //given
         Option option = Option.createOptionBuilder()
                 .optionOrder(1)

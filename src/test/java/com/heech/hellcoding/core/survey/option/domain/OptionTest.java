@@ -5,15 +5,13 @@ import com.heech.hellcoding.core.survey.question.domain.Setting;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -39,7 +37,7 @@ class OptionTest {
     }
 
     @Test
-    public void createOptionTest() throws Exception{
+    public void createOptionTest() {
         //given
         Option option = getOption();
 
@@ -55,7 +53,7 @@ class OptionTest {
     }
 
     @Test
-    public void updateOptionTest() throws Exception{
+    public void updateOptionTest() {
         //given
         List<Option> options = new ArrayList<>();
         Option option = getOption();
@@ -82,7 +80,7 @@ class OptionTest {
     }
 
     @Test
-    public void addOptionTest() throws Exception{
+    public void addOptionTest() {
         //given
         List<Option> options = new ArrayList<>();
         Option option = getOption();
