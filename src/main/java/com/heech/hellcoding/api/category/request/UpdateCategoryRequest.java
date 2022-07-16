@@ -1,5 +1,6 @@
 package com.heech.hellcoding.api.category.request;
 
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +10,10 @@ import javax.validation.constraints.PositiveOrZero;
 @Setter
 public class UpdateCategoryRequest {
 
-    private String categoryName;
-
+    private Long upperCategoryId;
+    private ServiceName serviceName;
     @PositiveOrZero
-    private Integer categoryOrder;
+    private Integer categorySerialNumber;
+    private String categoryName;
+    private String categoryContent;
 }

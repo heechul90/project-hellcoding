@@ -4,11 +4,10 @@ import com.heech.hellcoding.api.category.request.CreateCategoryRequest;
 import com.heech.hellcoding.api.category.request.UpdateCategoryRequest;
 import com.heech.hellcoding.api.category.response.CreateCategoryResponse;
 import com.heech.hellcoding.api.category.response.UpdateCategoryResponse;
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.dto.CategorySearchCondition;
+import com.heech.hellcoding.core.category.service.CategoryService;
 import com.heech.hellcoding.core.common.json.JsonResult;
-import com.heech.hellcoding.core.shop.category.domain.Category;
-import com.heech.hellcoding.core.shop.category.dto.CategoryDto;
-import com.heech.hellcoding.core.shop.category.dto.CategorySearchCondition;
-import com.heech.hellcoding.core.shop.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,9 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -47,18 +43,7 @@ public class ApiCategoryController {
                 ))
                 .collect(Collectors.toList());*/
 
-        List<CategoryDto> collect = content.getContent().stream()
-                .map(category -> new CategoryDto(
-                        category.getId(),
-                        category.getName(),
-                        category.getCategoryOrder(),
-                        category.getIsActivate(),
-                        category.getParent() != null ? new CategoryDto(category.getParent().getId(), category.getParent().getName(), category.getParent().getCategoryOrder()) : null,
-                        category.getCreatedDate(),
-                        category.getCreatedBy()
-                ))
-                .collect(Collectors.toList());
-        return JsonResult.OK(collect);
+        return JsonResult.OK(content);
     }
 
     /**
@@ -67,20 +52,7 @@ public class ApiCategoryController {
     @GetMapping(value = "/{id}")
     public JsonResult findCategory(@PathVariable("id") Long categoryId) {
         Category findCategory = categoryService.findCategory(categoryId);
-        CategoryDto category = new CategoryDto(
-                findCategory.getId(),
-                findCategory.getName(),
-                findCategory.getCategoryOrder(),
-                findCategory.getIsActivate(),
-                findCategory.getParent() != null ? new CategoryDto(
-                        findCategory.getParent().getId(),
-                        findCategory.getParent().getName(),
-                        findCategory.getParent().getCategoryOrder()
-                ) : null,
-                findCategory.getCreatedDate(),
-                findCategory.getCreatedBy()
-        );
-        return JsonResult.OK(category);
+        return JsonResult.OK(findCategory);
     }
 
     /**
@@ -94,19 +66,13 @@ public class ApiCategoryController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Category category;
-        if (request.getParentId() == null) {
-            category = Category.createRootCategoryBuilder()
-                    .name(request.getCategoryName())
-                    .categoryOrder(request.getCategoryOrder())
-                    .build();
-        } else {
-            category = Category.createChildCategoryBuilder()
-                    .parent(categoryService.findCategory(request.getParentId()))
-                    .name(request.getCategoryName())
-                    .categoryOrder(request.getCategoryOrder())
-                    .build();
-        }
+        Category category = Category.createCategoryBuilder()
+                .parent(categoryService.findCategory(request.getUpperCategoryId()))
+                .serviceName(request.getServiceName())
+                .serialNumber(request.getCategorySerialNumber())
+                .name(request.getCategoryName())
+                .content(request.getCategoryContent())
+                .build();
         Long savedId = categoryService.saveCategory(category);
 
         return JsonResult.OK(new CreateCategoryResponse(savedId));
@@ -116,7 +82,7 @@ public class ApiCategoryController {
      * 카테고리 수정
      */
     @PutMapping(value = "/{id}")
-    public JsonResult updateCategory(@PathVariable("id") Long categoryid,
+    public JsonResult updateCategory(@PathVariable("id") Long categoryId,
                                      @RequestBody @Validated UpdateCategoryRequest request, BindingResult bindingResult) {
 
         //TODO validation check
@@ -124,27 +90,15 @@ public class ApiCategoryController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        categoryService.updateCategory(categoryid, request.getCategoryName(), request.getCategoryOrder());
-        Category category = categoryService.findCategory(categoryid);
+        categoryService.updateCategory(
+                categoryId,
+                request.getUpperCategoryId(),
+                request.getServiceName(),
+                request.getCategorySerialNumber(),
+                request.getCategoryName(),
+                request.getCategoryContent());
+        Category category = categoryService.findCategory(categoryId);
         return JsonResult.OK(new UpdateCategoryResponse(category.getId()));
-    }
-
-    /**
-     * 카테고리 활성화
-     */
-    @PutMapping(value = "/{id}/activate")
-    public JsonResult activateCategory(@PathVariable("id") Long categoryId) {
-        categoryService.activateCategory(categoryId);
-        return JsonResult.OK();
-    }
-
-    /**
-     * 카테고리 비활성화
-     */
-    @PutMapping(value = "/{id}/deactivate")
-    public JsonResult deactivateCategory(@PathVariable("id") Long categoryId) {
-        categoryService.deactivateCategory(categoryId);
-        return JsonResult.OK();
     }
 
     /**

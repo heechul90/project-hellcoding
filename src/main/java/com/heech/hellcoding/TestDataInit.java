@@ -1,9 +1,10 @@
 package com.heech.hellcoding;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Mobile;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.album.domain.Album;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,23 +46,18 @@ public class TestDataInit {
     @RequiredArgsConstructor
     static class InitService {
 
+        @PersistenceContext
         private final EntityManager em;
 
-        private static Category getRootCategory(String name, Integer order) {
-            Category rootCategory = Category.createRootCategoryBuilder()
+        private static Category getCategory(Category parent, ServiceName serviceName, Integer serialNumber, String name, String content) {
+            Category rootCategory = Category.createCategoryBuilder()
+                    .parent(parent)
+                    .serviceName(serviceName)
+                    .serialNumber(serialNumber)
                     .name(name)
-                    .categoryOrder(order)
+                    .content(content)
                     .build();
             return rootCategory;
-        }
-
-        private static Category getChildCategory(Category parent, String name, Integer order) {
-            Category childCategory = Category.createChildCategoryBuilder()
-                    .parent(parent)
-                    .name(name)
-                    .categoryOrder(order)
-                    .build();
-            return childCategory;
         }
 
         public void memberInit() {
@@ -143,13 +140,13 @@ public class TestDataInit {
         }
 
         public void categoryInit() {
-            Category bookCategory = getRootCategory("도서", 1);
-            Category albumCategory = getRootCategory("음반", 2);
-            Category movieCategory = getRootCategory("영화", 3);
-            Category developCategory = getChildCategory(bookCategory, "개발", 1);
-            Category languageCategory = getChildCategory(bookCategory, "언어", 2);
-            Category kpopCategory = getChildCategory(albumCategory, "케이팝", 1);
-            Category balladCategory = getChildCategory(albumCategory, "발라드", 2);
+            Category bookCategory = getCategory(null, ServiceName.SHOP, 0, "도서", "도서 카테고리");
+            Category albumCategory = getCategory(null, ServiceName.SHOP, 1, "음반", "음반 카테고리");
+            Category movieCategory = getCategory(null, ServiceName.SHOP, 2, "영화", "영화 카테고리");
+            Category developCategory = getCategory(bookCategory, ServiceName.SHOP, 0, "개발", "개발 카테고리");
+            Category languageCategory = getCategory(bookCategory, ServiceName.SHOP, 1, "언어", "언어 카테고리");
+            Category kpopCategory = getCategory(albumCategory, ServiceName.SHOP, 0, "케이팝", "케이팝 카테고리");
+            Category balladCategory = getCategory(albumCategory, ServiceName.SHOP, 1, "발라드", "발라드 카테고리");
 
             em.persist(bookCategory);
             em.persist(albumCategory);

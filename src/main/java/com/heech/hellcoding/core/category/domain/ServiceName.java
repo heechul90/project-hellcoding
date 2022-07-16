@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.category.domain;
 
-public enum ServiceSection {
+public enum ServiceName {
 
     SHOP, LESSON
 }
