@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.heech.hellcoding.core.member.domain.QMember.member;
 import static com.heech.hellcoding.core.shop.item.book.domain.QBook.book;
 import static com.heech.hellcoding.core.shop.item.movie.domain.QMovie.movie;
 import static org.springframework.util.StringUtils.hasText;
@@ -68,19 +69,21 @@ public class MovieQueryRepository {
                 );
     }
 
+    /**
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
+     */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null || !hasText(searchKeyword)) {
-            return null;
-        }
+        if (!hasText(searchKeyword)) return null;
         if (SearchCondition.NAME.equals(searchCondition)) {
-            return book.name.contains(searchKeyword);
+            return movie.name.contains(searchKeyword);
         } else if (SearchCondition.TITLE.equals(searchCondition)) {
-            return book.title.contains(searchKeyword);
+            return movie.title.contains(searchKeyword);
         } else if (SearchCondition.CONTENT.equals(searchCondition)) {
-            return book.content.contains(searchKeyword);
-        } else {
-            return null;
+            return movie.content.contains(searchKeyword);
         }
+        return null;
     }
 
     /**

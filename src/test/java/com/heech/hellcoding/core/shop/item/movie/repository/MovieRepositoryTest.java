@@ -17,7 +17,7 @@ class MovieRepositoryTest {
     @Autowired MovieRepository movieRepository;
 
     @Test
-    public void saveMovieTest() throws Exception{
+    public void saveMovieTest() {
         //given
 
         //when

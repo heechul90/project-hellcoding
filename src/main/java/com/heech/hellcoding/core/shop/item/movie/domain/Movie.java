@@ -1,6 +1,6 @@
 package com.heech.hellcoding.core.shop.item.movie.domain;
 
-import com.heech.hellcoding.core.shop.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.info.domain.Item;
 import lombok.Builder;
 import lombok.Getter;
