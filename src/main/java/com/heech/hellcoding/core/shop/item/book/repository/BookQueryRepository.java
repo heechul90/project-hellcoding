@@ -14,7 +14,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.heech.hellcoding.core.member.domain.QMember.member;
 import static com.heech.hellcoding.core.shop.item.book.domain.QBook.book;
+import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 public class BookQueryRepository {
@@ -69,16 +71,21 @@ public class BookQueryRepository {
                 );
     }
 
+    /**
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
+     */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
+        if (!hasText(searchKeyword)) return null;
         if (SearchCondition.NAME.equals(searchCondition)) {
             return book.name.contains(searchKeyword);
         } else if (SearchCondition.TITLE.equals(searchCondition)) {
             return book.title.contains(searchKeyword);
         } else if (SearchCondition.CONTENT.equals(searchCondition)) {
             return book.content.contains(searchKeyword);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

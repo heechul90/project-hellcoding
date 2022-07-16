@@ -1,27 +1,31 @@
 package com.heech.hellcoding.core.shop.item.book.domain;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.exception.NotEnoghStockException;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookTest {
 
-    @PersistenceContext
-    EntityManager em;
+    @PersistenceContext EntityManager em;
 
     private Category getCategory() {
-        Category category = Category.createRootCategoryBuilder()
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
                 .name("category_name")
-                .categoryOrder(1)
+                .content("category_name")
                 .build();
         em.persist(category);
         return category;
@@ -42,7 +46,7 @@ class BookTest {
     }
 
     @Test
-    public void createBookTest() throws Exception{
+    public void createBookTest() {
         //given
         Category category = getCategory();
         Book book = getBook(category);
@@ -61,7 +65,7 @@ class BookTest {
     }
 
     @Test
-    public void updateBookTest() throws Exception{
+    public void updateBookTest() {
         //given
         Category category = getCategory();
         Book book = getBook(category);
@@ -88,7 +92,7 @@ class BookTest {
     }
 
     @Test
-    public void addStockTest() throws Exception{
+    public void addStockTest() {
         //given
         Category category = getCategory();
         Book book = getBook(category);
@@ -105,7 +109,7 @@ class BookTest {
     }
 
     @Test
-    public void removeStockTest() throws Exception{
+    public void removeStockTest() {
         //given
         Category category = getCategory();
         Book book = getBook(category);

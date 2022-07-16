@@ -1,7 +1,8 @@
 package com.heech.hellcoding.core.shop.item.book.repository;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +14,30 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest {
 
-    @PersistenceContext
-    EntityManager em;
+    @PersistenceContext EntityManager em;
 
-    @Autowired
-    BookRepository bookRepository;
+    @Autowired BookRepository bookRepository;
 
     private Category getCategory() {
-        Category category = Category.createRootCategoryBuilder()
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
                 .name("category_name")
-                .categoryOrder(1)
+                .content("category_name")
                 .build();
         em.persist(category);
         return category;
     }
 
     @Test
-    public void findByXxxTest() throws Exception{
+    public void findByXxxTest() {
         //given
         Category category = getCategory();
 

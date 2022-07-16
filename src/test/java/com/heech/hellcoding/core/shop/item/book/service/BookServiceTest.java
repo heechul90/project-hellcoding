@@ -1,45 +1,50 @@
 package com.heech.hellcoding.core.shop.item.book.service;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
-import com.heech.hellcoding.core.shop.category.domain.Category;
+import com.heech.hellcoding.core.shop.ShopTestConfig;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ShopTestConfig.class)
 class BookServiceTest {
 
-    @PersistenceContext
-    EntityManager em;
+    @PersistenceContext EntityManager em;
 
-    @Autowired
-    BookService bookService;
+    @Autowired BookService bookService;
 
     private Category getCategory() {
-        Category category = Category.createRootCategoryBuilder()
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
                 .name("category_name")
-                .categoryOrder(1)
+                .content("category_name")
                 .build();
         em.persist(category);
         return category;
     }
 
     @Test
-    void findBooks() {
+    void findBooksTest() {
         //given
         Category category = getCategory();
         for (int i = 0; i < 50; i++) {
@@ -72,7 +77,7 @@ class BookServiceTest {
     }
 
     @Test
-    void findBook() {
+    void findBookTest() {
         //given
         Category category = getCategory();
         Book book = Book.createBookBuilder()
@@ -98,7 +103,7 @@ class BookServiceTest {
     }
 
     @Test
-    void saveBook() {
+    void saveBookTest() {
         //given
         Category category = getCategory();
         Book book = Book.createBookBuilder()
@@ -124,7 +129,7 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook() {
+    void updateBookTest() {
         //given
         Category category = getCategory();
         Book book = Book.createBookBuilder()
@@ -164,7 +169,7 @@ class BookServiceTest {
     }
 
     @Test
-    void deleteBook() {
+    void deleteBookTest() {
         //given
         Category category = getCategory();
         Book book = Book.createBookBuilder()

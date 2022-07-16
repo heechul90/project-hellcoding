@@ -4,8 +4,8 @@ import com.heech.hellcoding.api.shop.item.book.request.CreateBookRequest;
 import com.heech.hellcoding.api.shop.item.book.request.UpdateBookRequest;
 import com.heech.hellcoding.api.shop.item.book.response.CreateBookResponse;
 import com.heech.hellcoding.api.shop.item.book.response.UpdateBookResponse;
+import com.heech.hellcoding.core.category.service.CategoryService;
 import com.heech.hellcoding.core.common.json.JsonResult;
-import com.heech.hellcoding.core.shop.category.service.CategoryService;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookDto;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
@@ -19,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j

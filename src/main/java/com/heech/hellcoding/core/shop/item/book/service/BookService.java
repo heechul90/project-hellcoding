@@ -1,7 +1,7 @@
 package com.heech.hellcoding.core.shop.item.book.service;
 
+import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
-import com.heech.hellcoding.core.shop.category.domain.Category;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import com.heech.hellcoding.core.shop.item.book.repository.BookQueryRepository;

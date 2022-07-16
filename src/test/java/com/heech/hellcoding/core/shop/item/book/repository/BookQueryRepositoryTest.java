@@ -1,25 +1,28 @@
 package com.heech.hellcoding.core.shop.item.book.repository;
 
+import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
-import com.heech.hellcoding.core.shop.category.domain.Category;
+import com.heech.hellcoding.core.shop.ShopTestConfig;
 import com.heech.hellcoding.core.shop.item.book.domain.Book;
 import com.heech.hellcoding.core.shop.item.book.dto.BookSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ShopTestConfig.class)
 class BookQueryRepositoryTest {
 
     @PersistenceContext EntityManager em;
@@ -27,9 +30,12 @@ class BookQueryRepositoryTest {
     @Autowired BookQueryRepository bookQueryRepository;
 
     private Category getCategory() {
-        Category category = Category.createRootCategoryBuilder()
+        Category category = Category.createCategoryBuilder()
+                .parent(null)
+                .serviceName(ServiceName.SHOP)
+                .serialNumber(1)
                 .name("category_name")
-                .categoryOrder(1)
+                .content("category_name")
                 .build();
         em.persist(category);
         return category;
