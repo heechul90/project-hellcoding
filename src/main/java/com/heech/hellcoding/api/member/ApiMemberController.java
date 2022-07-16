@@ -91,7 +91,7 @@ public class ApiMemberController {
     @PutMapping(value = "/{id}")
     public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
         //TODO validation 처리
-        memberService.updateMember(id, request.getMemberName(), request.getPassword(), request.getEmail());
+        memberService.updateMember(id, request.getMemberName(), request.getEmail());
         Member findMember = memberService.findMember(id);
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }

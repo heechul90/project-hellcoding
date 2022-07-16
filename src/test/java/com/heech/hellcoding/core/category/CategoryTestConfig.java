@@ -18,12 +18,12 @@ public class CategoryTestConfig {
     @Autowired CategoryRepository categoryRepository;
 
     @Bean
-    public CategoryService categoryService() {
-        return new CategoryService(categoryRepository, categoryQueryRepository());
+    public CategoryQueryRepository categoryQueryRepository() {
+        return new CategoryQueryRepository(em);
     }
 
     @Bean
-    public CategoryQueryRepository categoryQueryRepository() {
-        return new CategoryQueryRepository(em);
+    public CategoryService categoryService() {
+        return new CategoryService(categoryRepository, categoryQueryRepository());
     }
 }

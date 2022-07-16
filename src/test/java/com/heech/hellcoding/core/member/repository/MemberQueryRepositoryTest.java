@@ -2,29 +2,31 @@ package com.heech.hellcoding.core.member.repository;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.member.MemberTestConfig;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(MemberTestConfig.class)
 class MemberQueryRepositoryTest {
 
     @PersistenceContext EntityManager em;
+
     @Autowired MemberQueryRepository memberQueryRepository;
 
     private Member getMember(Mobile mobile, Address address) {
@@ -57,9 +59,10 @@ class MemberQueryRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         //when
-        Page<Member> resultList = memberQueryRepository.findMembers(condition, pageRequest);
+        Page<Member> content = memberQueryRepository.findMembers(condition, pageRequest);
 
         //then
-        assertThat(resultList).extracting("name").containsExactly("test_name");
+        assertThat(content.getTotalElements()).isEqualTo(1);
+        assertThat(content).extracting("name").containsExactly("test_name");
     }
 }

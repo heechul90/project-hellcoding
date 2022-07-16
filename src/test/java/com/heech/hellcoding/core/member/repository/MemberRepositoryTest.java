@@ -38,7 +38,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void save() {
+    void saveTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
@@ -66,7 +66,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findById() {
+    void findByIdTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
@@ -81,7 +81,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findByName() {
+    void findByNameTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
@@ -99,7 +99,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void update() {
+    void updateTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
@@ -122,7 +122,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void delete() {
+    void deleteTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");
@@ -138,7 +138,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findByLoginId() {
+    void findByLoginIdTest() {
         //given
         Mobile mobile = new Mobile("010", "4250", "4296");
         Address address = new Address("30152", "세종시 한누리대로 2135", "스타힐타워A 601호");

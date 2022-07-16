@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.heech.hellcoding.core.category.domain.QCategory.category;
 import static com.heech.hellcoding.core.member.domain.QMember.*;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -67,17 +68,17 @@ public class MemberQueryRepository {
                 );
     }
 
+    /**
+     * name like '%searchKeyword%'
+     * title like '%searchKeyword%'
+     * content like '%searchKeyword%'
+     */
     private BooleanExpression searchCondition(SearchCondition searchCondition, String searchKeyword) {
-        if (searchCondition == null || !hasText(searchKeyword)) {
-            return null;
-        }
-
+        if (!hasText(searchKeyword)) return null;
         if (SearchCondition.NAME.equals(searchCondition)) {
             return member.name.contains(searchKeyword);
-        } else {
-            return null;
         }
-
+        return null;
     }
 
     /**

@@ -1,28 +1,21 @@
 package com.heech.hellcoding.core.member.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
-import com.heech.hellcoding.core.common.exception.NoSuchElementException;
-import com.heech.hellcoding.core.member.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MemberTest {
 
     @PersistenceContext
     EntityManager em;
-
-    @Autowired
-    MemberRepository memberRepository;
 
     @Test
     void createMemberTest() {
@@ -46,12 +39,12 @@ class MemberTest {
                 .build();
 
         //when
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+        em.persist(member1);
+        em.persist(member2);
 
         //then
-        Member findMember1 = memberRepository.findById(member1.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        Member findMember2 = memberRepository.findById(member2.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        Member findMember1 = em.find(Member.class, member1.getId());
+        Member findMember2 = em.find(Member.class, member2.getId());
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
         assertThat(findMember2.getMobile()).isEqualTo(member2.getMobile());
@@ -59,7 +52,7 @@ class MemberTest {
     }
 
     @Test
-    public void updateMemberTest() throws Exception{
+    public void updateMemberTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .loginId("spring1")
@@ -71,24 +64,23 @@ class MemberTest {
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("12345", "Sejong", "hanuridaero"))
                 .build();
-        Member savedMember = memberRepository.save(member);
+        em.persist(member);
         em.flush();
         em.clear();
 
         String updateParmaName = "changeName";
-        String updateParamPassword = "1111";
         String updateParamEmail = "";
 
         //when
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        Member findMember = em.find(Member.class, member.getId());
         findMember.updateMember(updateParmaName, updateParamEmail);
         em.flush();
         em.clear();
 
         //then
-        Member updateMember = memberRepository.findById(member.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        Member updateMember = em.find(Member.class, member.getId());
         assertThat(updateMember.getName()).isEqualTo("changeName");
-        assertThat(updateMember.getPassword()).isEqualTo("1111");
+        assertThat(updateMember.getPassword()).isEqualTo("1234");
         assertThat(updateMember.getEmail()).isEqualTo(findMember.getEmail());
     }
 
@@ -105,16 +97,19 @@ class MemberTest {
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("12345", "Sejong", "hanuridaero"))
                 .build();
-        Member savedMember = memberRepository.save(member);
+        em.persist(member);
+        em.flush();
+        em.clear();
 
         //when
-        savedMember.changePassword("1111");
+        Member findMember = em.find(Member.class, member.getId());
+        findMember.changePassword("1111");
         em.flush();
         em.clear();
 
         //then
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        assertThat(findMember.getPassword()).isEqualTo("1111");
+        Member updatedMember = em.find(Member.class, member.getId());
+        assertThat(updatedMember.getPassword()).isEqualTo("1111");
     }
 
 }

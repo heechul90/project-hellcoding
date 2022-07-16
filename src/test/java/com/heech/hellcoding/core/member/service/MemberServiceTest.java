@@ -1,25 +1,24 @@
 package com.heech.hellcoding.core.member.service;
 
+import com.heech.hellcoding.core.member.MemberTestConfig;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({MemberTestConfig.class})
 class MemberServiceTest {
 
     @Autowired
@@ -29,7 +28,7 @@ class MemberServiceTest {
     EntityManager em;
 
     @Test
-    void findMembers() {
+    void findMembersTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .name("test")
@@ -46,11 +45,12 @@ class MemberServiceTest {
         Page<Member> content = memberService.findMembers(condition, pageRequest);
 
         //then
+        assertThat(content.getTotalElements()).isEqualTo(1);
         assertThat(content.getContent()).extracting("name").contains("test");
     }
 
     @Test
-    void saveMember() {
+    void saveMemberTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .name("test")
@@ -70,7 +70,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void updateMmeber() {
+    void updateMmeberTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .name("test")
@@ -79,19 +79,16 @@ class MemberServiceTest {
                 .email("test")
                 .build();
         Member savedMember = memberService.saveMember(member);
-        em.flush();
-        em.clear();
 
         //when
-        memberService.updateMember(savedMember.getId(), "", "1111", "");
+        memberService.updateMember(savedMember.getId(), "", "");
 
         //then
         Member findMember = em.find(Member.class, savedMember.getId());
-        assertThat(findMember.getPassword()).isEqualTo("1111");
     }
 
     @Test
-    void deleteMember() {
+    void deleteMemberTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .name("test")
@@ -112,7 +109,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void findById() {
+    void findMemberTest() {
         //given
         Member member = Member.createMemberBuilder()
                 .name("test")

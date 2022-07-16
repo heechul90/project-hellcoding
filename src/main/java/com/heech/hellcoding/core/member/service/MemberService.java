@@ -53,7 +53,7 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public void updateMember(Long id, String memberName, String password, String email) {
+    public void updateMember(Long id, String memberName, String email) {
         Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
         findMember.updateMember(memberName, email);
     }
