@@ -109,7 +109,6 @@ class ApiMemberControllerTest {
 
         //expected
         mockMvc.perform(MockMvcRequestBuilders.get("/api/members/{memberId}", 1L))
-                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
