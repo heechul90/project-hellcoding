@@ -52,9 +52,9 @@ public class ApiMemberController {
     /**
      * 회원 조회(단건)
      */
-    @GetMapping(value = "/{id}")
-    public JsonResult findMember(@PathVariable("id") Long id) {
-        Member findMember = memberService.findMember(id);
+    @GetMapping(value = "/{memberId}")
+    public JsonResult findMember(@PathVariable("memberId") Long memberId) {
+        Member findMember = memberService.findMember(memberId);
         MemberDto member = new MemberDto(
                 findMember.getName(),
                 findMember.getEmail(),

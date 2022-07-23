@@ -28,7 +28,7 @@ public class MemberTestConfig {
         return new MemberService(memberRepository, memberQueryRepository());
     }
 
-    @Bean
+    //@Bean
     public ApiMemberController apiMemberController() {
         return new ApiMemberController(memberService());
     }

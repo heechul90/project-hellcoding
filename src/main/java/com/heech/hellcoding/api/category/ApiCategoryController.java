@@ -73,9 +73,9 @@ public class ApiCategoryController {
                 .name(request.getCategoryName())
                 .content(request.getCategoryContent())
                 .build();
-        Long savedId = categoryService.saveCategory(category);
+        Long savedCategoryId = categoryService.saveCategory(category);
 
-        return JsonResult.OK(new CreateCategoryResponse(savedId));
+        return JsonResult.OK(new CreateCategoryResponse(savedCategoryId));
     }
 
     /**

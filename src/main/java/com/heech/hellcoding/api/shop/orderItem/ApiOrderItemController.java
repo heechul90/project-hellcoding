@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/orderItems")
+@RequestMapping(value = "/api/shop/orderItems")
 public class ApiOrderItemController {
 
     private final OrderItemService orderItemService;

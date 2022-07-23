@@ -45,6 +45,11 @@ public class CategoryService {
         return categoryRepository.save(category).getId();
     }
 
+    @Transactional
+    public Category saveCategoryTemp(Category category) {
+        return categoryRepository.save(category);
+    }
+
     /**
      * 카테고리 수정
      */

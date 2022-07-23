@@ -2,10 +2,7 @@ package com.heech.hellcoding.core.member.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

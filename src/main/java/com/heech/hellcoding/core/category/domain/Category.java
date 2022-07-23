@@ -1,10 +1,7 @@
 package com.heech.hellcoding.core.category.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

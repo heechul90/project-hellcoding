@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/item/books")
+@RequestMapping(value = "/api/shop/item/books")
 public class ApiBookController {
 
     private final BookService bookService;
