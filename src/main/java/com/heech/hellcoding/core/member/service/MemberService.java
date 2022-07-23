@@ -46,8 +46,8 @@ public class MemberService {
      * 회원 저장
      */
     @Transactional
-    public Member saveMember(Member member) {
-        return memberRepository.save(member);
+    public Long saveMember(Member member) {
+        return memberRepository.save(member).getId();
     }
 
     /**

@@ -85,8 +85,8 @@ public class ApiMemberController {
                 .mobile(new Mobile(request.getMobileNumberFirst(), request.getMobileNumberMiddle(), request.getMobileNumberLast()))
                 .address(new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress()))
                 .build();
-        Member savedMember = memberService.saveMember(member);
-        return JsonResult.OK(new CreateMemberResponse(savedMember.getId()));
+        Long savedMemberId = memberService.saveMember(member);
+        return JsonResult.OK(new CreateMemberResponse(savedMemberId));
     }
 
     /**

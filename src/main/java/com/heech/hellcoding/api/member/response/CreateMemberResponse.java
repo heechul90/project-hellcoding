@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class CreateMemberResponse {
 
-    private Long id;
+    private Long savedMemberId;
 
 
 }

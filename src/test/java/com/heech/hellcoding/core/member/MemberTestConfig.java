@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.member;
 
+import com.heech.hellcoding.api.member.ApiMemberController;
 import com.heech.hellcoding.core.member.repository.MemberQueryRepository;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import com.heech.hellcoding.core.member.service.MemberService;
@@ -25,5 +26,10 @@ public class MemberTestConfig {
     @Bean
     public MemberService memberService() {
         return new MemberService(memberRepository, memberQueryRepository());
+    }
+
+    @Bean
+    public ApiMemberController apiMemberController() {
+        return new ApiMemberController(memberService());
     }
 }

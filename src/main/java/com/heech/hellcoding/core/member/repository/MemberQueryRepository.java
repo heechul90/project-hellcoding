@@ -52,6 +52,7 @@ public class MemberQueryRepository {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(member.id.desc())
                 .fetch();
     }
 
