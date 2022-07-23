@@ -1,8 +1,12 @@
 package com.heech.hellcoding.core.member.service;
 
+import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.MemberTestConfig;
+import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
+import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -73,18 +77,33 @@ class MemberServiceTest {
     void updateMmeberTest() {
         //given
         Member member = Member.createMemberBuilder()
-                .name("test")
-                .loginId("test")
+                .name("name")
+                .loginId("loginId")
                 .password("test")
-                .email("test")
+                .email("email@mail.com")
                 .build();
         Member savedMember = memberService.saveMember(member);
 
         //when
-        memberService.updateMember(savedMember.getId(), "", "");
+        UpdateMemberParam param = UpdateMemberParam.builder()
+                .name("update_name")
+                .email("update_email@mail.com")
+                .birthDate("19901009")
+                .genderCode(GenderCode.M)
+                .mobile(new Mobile("010", "4250", "4296"))
+                .address(new Address("11112", "세종시", "601호"))
+                .build();
+        memberService.updateMember(savedMember.getId(), param);
 
         //then
         Member findMember = em.find(Member.class, savedMember.getId());
+        assertThat(findMember.getName()).isEqualTo("update_name");
+        assertThat(findMember.getLoginId()).isEqualTo("loginId");
+        assertThat(findMember.getEmail()).isEqualTo("update_email@mail.com");
+        assertThat(findMember.getBirthDate()).isEqualTo("19901009");
+        assertThat(findMember.getGenderCode()).isEqualTo(GenderCode.M);
+        assertThat(findMember.getMobile().fullPhoneNumber()).isEqualTo("010-4250-4296");
+        assertThat(findMember.getAddress().fullAddress()).isEqualTo("(11112) 세종시 601호");
     }
 
     @Test

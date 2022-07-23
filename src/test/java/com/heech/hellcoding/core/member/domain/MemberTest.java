@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.member.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -70,10 +71,14 @@ class MemberTest {
 
         String updateParmaName = "changeName";
         String updateParamEmail = "";
+        UpdateMemberParam param = UpdateMemberParam.builder()
+                .name(updateParmaName)
+                .email(updateParamEmail)
+                .build();
 
         //when
         Member findMember = em.find(Member.class, member.getId());
-        findMember.updateMember(updateParmaName, updateParamEmail);
+        findMember.updateMember(param);
         em.flush();
         em.clear();
 

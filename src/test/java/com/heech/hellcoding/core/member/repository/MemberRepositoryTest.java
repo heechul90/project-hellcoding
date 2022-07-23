@@ -4,6 +4,7 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -108,9 +109,12 @@ class MemberRepositoryTest {
 
         //when
         Member findMember = memberRepository.findById(member.getId()).orElse(null);
-        findMember.updateMemberBuilder()
+        UpdateMemberParam param = UpdateMemberParam.builder()
                 .name("update_name")
                 .email("update_email")
+                .build();
+        findMember.updateMemberBuilder()
+                .param(param)
                 .build();
         em.flush();
         em.clear();

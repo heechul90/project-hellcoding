@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,8 +69,12 @@ public class ApiMemberController {
      * 회원 저장
      */
     @PostMapping
-    public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
-        //TODO error return 처리필요
+    public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
         Member member = Member.createMemberBuilder()
                 .name(request.getMemberName())
                 .loginId(request.getLoginId())
@@ -88,9 +93,14 @@ public class ApiMemberController {
      * 회원 수정
      */
     @PutMapping(value = "/{id}")
-    public JsonResult updateMember(@PathVariable("id") Long id, @RequestBody @Validated UpdateMemberRequest request) {
-        //TODO validation 처리
-        memberService.updateMember(id, request.getMemberName(), request.getEmail());
+    public JsonResult updateMember(@PathVariable("id") Long id,
+                                   @RequestBody @Validated UpdateMemberRequest request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        memberService.updateMember(id, request.toUpdateMemberParam());
         Member findMember = memberService.findMember(id);
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }

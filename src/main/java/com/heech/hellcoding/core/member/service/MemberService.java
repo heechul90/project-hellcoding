@@ -3,6 +3,7 @@ package com.heech.hellcoding.core.member.service;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import com.heech.hellcoding.core.member.repository.MemberQueryRepository;
 import com.heech.hellcoding.core.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,11 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public void updateMember(Long id, String memberName, String email) {
+    public void updateMember(Long id, UpdateMemberParam param) {
         Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
-        findMember.updateMember(memberName, email);
+        findMember.updateMemberBuilder()
+                .param(param)
+                .build();
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.heech.hellcoding.core.member.domain;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,6 +61,7 @@ public class Member {
     private Address address;
 
     /** 가입일 */
+    @Column(updatable = false)
     private LocalDateTime signupDate;
 
     /** 접속일 */
@@ -92,9 +94,13 @@ public class Member {
      * 회원 수정
      */
     @Builder(builderClassName = "updateMemberBuilder", builderMethodName = "updateMemberBuilder")
-    public void updateMember(String name, String email) {
-        if (hasText(name)) this.name = name;
-        if (hasText(email)) this.email = email;
+    public void updateMember(UpdateMemberParam param) {
+        if (hasText(param.getName())) this.name = param.getName();
+        if (hasText(param.getEmail())) this.email = param.getEmail();
+        if (hasText(param.getBirthDate())) this.birthDate = param.getBirthDate();
+        if (param.getGenderCode() != null) this.genderCode = param.getGenderCode();
+        if (param.getMobile() != null) this.mobile = param.getMobile();
+        if (param.getAddress() != null) this.address = param.getAddress();
     }
 
     //=== 변경 메서드 ===//
