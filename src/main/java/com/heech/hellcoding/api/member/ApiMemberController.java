@@ -75,17 +75,7 @@ public class ApiMemberController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Member member = Member.createMemberBuilder()
-                .name(request.getMemberName())
-                .loginId(request.getLoginId())
-                .password(request.getPassword())
-                .email(request.getEmail())
-                .birthDate(request.getBirthDate())
-                .genderCode(request.getGender().equals("M") ? GenderCode.M : GenderCode.F)
-                .mobile(new Mobile(request.getMobileNumberFirst(), request.getMobileNumberMiddle(), request.getMobileNumberLast()))
-                .address(new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress()))
-                .build();
-        Long savedMemberId = memberService.saveMember(member);
+        Long savedMemberId = memberService.saveMember(request.toEntity());
         return JsonResult.OK(new CreateMemberResponse(savedMemberId));
     }
 

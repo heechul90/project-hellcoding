@@ -1,6 +1,8 @@
 package com.heech.hellcoding.api.member;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -99,7 +101,30 @@ class ApiMemberControllerTest {
     }
 
     @Test
-    void saveMemberTest() {
+    void saveMemberTest() throws Exception {
+        //given
+        CreateMemberRequest request = new CreateMemberRequest();
+        request.setMemberName("test_name");
+        request.setLoginId("test_loginId");
+        request.setPassword("test_password");
+        request.setEmail("test_email@mail.com");
+        request.setBirthDate("19901009");
+        request.setGender("M");
+        request.setPhoneNumber("01042504296");
+        request.setZipcode("11111");
+        request.setAddress("seoul");
+        request.setDetailAddress("101");
+
+        //expected
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/members")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNumber())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
