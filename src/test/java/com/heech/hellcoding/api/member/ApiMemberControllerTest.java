@@ -44,7 +44,7 @@ class ApiMemberControllerTest {
     public static final String API_UPDATE_MEMBER = "/api/members/{memberId}";
     public static final String API_DELETE_MEMBER = "/api/members/{memberId}";
 
-    //VERIFY_DATA
+    //MEMBER_DATA
     public static final String NAME = "test_name";
     public static final String LOGIN_ID = "test_loginId";
     public static final String PASSWORD = "test_password";
