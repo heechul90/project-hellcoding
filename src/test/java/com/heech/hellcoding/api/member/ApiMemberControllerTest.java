@@ -76,6 +76,7 @@ class ApiMemberControllerTest {
     }
 
     @Test
+    @DisplayName(value = "멤버 목록 조회")
     void findMembersTest() throws Exception {
         //given
         getMembers();
@@ -100,6 +101,7 @@ class ApiMemberControllerTest {
     }
 
     @Test
+    @DisplayName(value = "멤버 단건 조회")
     void findMemberTest() throws Exception {
         //given
         Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email", "19901009", GenderCode.M);
@@ -115,6 +117,7 @@ class ApiMemberControllerTest {
     }
 
     @Test
+    @DisplayName(value = "멤버 저장")
     void saveMemberTest() throws Exception {
         //given
         CreateMemberRequest request = new CreateMemberRequest();
@@ -142,6 +145,7 @@ class ApiMemberControllerTest {
     }
 
     @Test
+    @DisplayName(value = "멤버 수정")
     void updateMemberTest() throws Exception {
         Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email@mail.com", "19901009", GenderCode.M);
 
