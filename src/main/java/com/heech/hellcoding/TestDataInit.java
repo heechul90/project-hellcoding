@@ -150,6 +150,7 @@ public class TestDataInit {
             Category languageCategory = getCategory(bookCategory, ServiceName.SHOP, 1, "언어", "언어 카테고리");
             Category kpopCategory = getCategory(albumCategory, ServiceName.SHOP, 0, "케이팝", "케이팝 카테고리");
             Category balladCategory = getCategory(albumCategory, ServiceName.SHOP, 1, "발라드", "발라드 카테고리");
+            Category javaCategory = getCategory(developCategory, ServiceName.SHOP, 0, "JAVA", "JAVA 카테고리");
 
             em.persist(bookCategory);
             em.persist(albumCategory);
@@ -158,6 +159,7 @@ public class TestDataInit {
             em.persist(languageCategory);
             em.persist(kpopCategory);
             em.persist(balladCategory);
+            em.persist(javaCategory);
         }
 
         public void questionnaireInit() {

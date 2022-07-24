@@ -49,8 +49,8 @@ public class CategoryQueryRepository {
                         searchServiceName(condition.getSearchServiceName()),
                         searchCondition(condition.getSearchCondition(), condition.getSearchKeyword())
                 )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
                 .fetch();
     }
 

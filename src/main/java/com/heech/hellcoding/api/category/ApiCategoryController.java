@@ -5,6 +5,7 @@ import com.heech.hellcoding.api.category.request.UpdateCategoryRequest;
 import com.heech.hellcoding.api.category.response.CreateCategoryResponse;
 import com.heech.hellcoding.api.category.response.UpdateCategoryResponse;
 import com.heech.hellcoding.core.category.domain.Category;
+import com.heech.hellcoding.core.category.dto.CategoryDto;
 import com.heech.hellcoding.core.category.dto.CategorySearchCondition;
 import com.heech.hellcoding.core.category.service.CategoryService;
 import com.heech.hellcoding.core.common.json.JsonResult;
@@ -15,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -28,22 +32,55 @@ public class ApiCategoryController {
      * 카테고리 목록 조회
      */
     @GetMapping
-    public JsonResult findCategories(CategorySearchCondition condition, Pageable Pageable) {
-        Page<Category> content = categoryService.findCategories(condition, Pageable);
-        /*List<CategoryDto> collect = content.getContent().stream()
-                .filter(category -> category.getParent() == null)
-                .map(category -> new CategoryDto(
-                        category.getId(),
-                        category.getName(),
-                        category.getCategoryOrder(),
-                        category.getIsActivate(),
-                        null,
-                        category.getCreatedDate(),
-                        category.getCreatedBy()
-                ))
-                .collect(Collectors.toList());*/
+    public JsonResult findCategories(@Validated CategorySearchCondition condition, BindingResult bindingResult,
+                                     Pageable Pageable) {
 
-        return JsonResult.OK(content);
+        if (bindingResult.hasErrors()) {
+            return JsonResult.ERROR(bindingResult.getAllErrors());
+        }
+
+        Page<Category> content = categoryService.findCategories(condition, Pageable);
+        List<CategoryDto> collect = content.getContent().stream()
+                .filter(category -> category.getParent() == null)
+                .map(category -> CategoryDto.builder()
+                        .categoryId(category.getId())
+                        .serviceName(category.getServiceName().getName())
+                        .categoryName(category.getName())
+                        .categoryContent(category.getContent())
+                        .categorySerialNumber(category.getSerialNumber())
+                        .createdDate(category.getCreatedDate())
+                        .lastModifiedDate(category.getLastModifiedDate())
+                        .childCategories(category.getChildren().stream()
+                                .map(first -> CategoryDto.builder()
+                                        .categoryId(first.getId())
+                                        .serviceName(first.getServiceName().getName())
+                                        .categoryName(first.getName())
+                                        .categoryContent(first.getContent())
+                                        .categorySerialNumber(first.getSerialNumber())
+                                        .childCategories(first.getChildren().stream()
+                                                .map(second -> CategoryDto.builder()
+                                                        .categoryId(second.getId())
+                                                        .serviceName(second.getServiceName().getName())
+                                                        .categoryName(second.getName())
+                                                        .categoryContent(second.getContent())
+                                                        .categorySerialNumber(second.getSerialNumber())
+                                                        .childCategories(null)
+                                                        .createdDate(second.getCreatedDate())
+                                                        .lastModifiedDate(second.getLastModifiedDate())
+                                                        .build()
+                                                )
+                                                .collect(Collectors.toList())
+                                        )
+                                        .createdDate(first.getCreatedDate())
+                                        .lastModifiedDate(first.getLastModifiedDate())
+                                        .build()
+                                )
+                                .collect(Collectors.toList())
+                        )
+                        .build()
+                )
+                .collect(Collectors.toList());
+        return JsonResult.OK(collect);
     }
 
     /**
