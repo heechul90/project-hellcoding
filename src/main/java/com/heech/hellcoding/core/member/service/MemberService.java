@@ -39,7 +39,7 @@ public class MemberService {
      * 회원 조회 By Id
      */
     public Member findMember(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 멤버입니다."));
     }
 
     /**

@@ -86,7 +86,6 @@ class ApiMemberControllerTest {
 
         given(memberService.findMembers(any(MemberSearchCondition.class), any(PageRequest.class))).willReturn(new PageImpl(members));
 
-        //TODO search는 안됨.
         MemberSearchCondition condition = new MemberSearchCondition();
         condition.setSearchCondition(SearchCondition.NAME);
         condition.setSearchKeyword("test_name1");
