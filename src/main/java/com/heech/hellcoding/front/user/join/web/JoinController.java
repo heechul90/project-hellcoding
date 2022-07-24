@@ -29,7 +29,6 @@ public class JoinController {
 
     /**
      * 회원가입 폼
-     * @return
      */
     @GetMapping
     public String addForm(@ModelAttribute("joinForm") JoinForm form) {
@@ -38,8 +37,6 @@ public class JoinController {
 
     /**
      * 회원가입
-     * @param bindingResult
-     * @return
      */
     @PostMapping
     public String save(@Validated @ModelAttribute("joinForm") JoinForm form, BindingResult bindingResult,
@@ -50,16 +47,15 @@ public class JoinController {
             return "front/user/join/joinForm";
         }
 
-        Member member = new Member(
-                form.getLoginId(),
-                form.getPassword(),
-                form.getName(),
-                form.getEmail(),
-                form.getBirthYear() + form.getBirthMonth() + form.getBirthDay(),
-                "M".equals(form.getGenderCode()) ? GenderCode.M : GenderCode.F,
-                new Mobile(form.getMobileNumberFirst(), form.getMobileNumberMiddle(), form.getMobileNumberLast()),
-                new Address(form.getZipcode(), form.getAddress(), form.getDetailAddress())
-        );
+        Member member = Member.createMemberBuilder()
+                .name(form.getName())
+                .loginId(form.getLoginId())
+                .password(form.getPassword())
+                .email(form.getEmail())
+                .genderCode(form.getGenderCode().equals("M") ? GenderCode.M : GenderCode.F)
+                .mobile(new Mobile(form.getMobileNumberFirst(), form.getMobileNumberMiddle(), form.getMobileNumberLast()))
+                .address(new Address(form.getZipcode(), form.getAddress(), form.getDetailAddress()))
+                .build();
 
         Member savedMember = joinService.save(member);
         return "redirect:/";
