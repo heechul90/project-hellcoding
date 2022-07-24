@@ -5,6 +5,7 @@ import com.heech.hellcoding.api.category.request.CreateCategoryRequest;
 import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.category.service.CategoryService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,7 +18,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @WebMvcTest(ApiCategoryController.class)
 class ApiCategoryControllerTest {
@@ -37,19 +37,33 @@ class ApiCategoryControllerTest {
         //given
         Category category = Category.createCategoryBuilder()
                 .serviceName(ServiceName.SHOP)
+                .name("parent_name")
+                .content("parent_content")
                 .serialNumber(1)
-                .name("test_name")
-                .content("test_content")
+                .build();
+        Category child = Category.createCategoryBuilder()
+                .parent(category)
+                .serviceName(ServiceName.SHOP)
+                .name("child_name")
+                .content("child_content")
+                .serialNumber(1)
                 .build();
         given(categoryService.findCategory(any())).willReturn(category);
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/categories/{id}", 1L))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/categories/{id}", 0L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("searchServiceName", "SHOP")
+                )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.serviceName").value("SHOP"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.serialNumber").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.name").value("test_name"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.content").value("test_content"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.serviceName").value(ServiceName.SHOP.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.categoryName").value("parent_name"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.categoryContent").value("parent_content"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.categorySerialNumber").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.childCategories").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.childCategories").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.childCategories.length()", Matchers.is(1)))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -78,7 +92,6 @@ class ApiCategoryControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedCategoryId").exists())
                 .andDo(MockMvcResultHandlers.print());
-
     }
 
     @Test

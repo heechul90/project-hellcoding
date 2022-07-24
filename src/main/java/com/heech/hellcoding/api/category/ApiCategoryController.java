@@ -40,7 +40,7 @@ public class ApiCategoryController {
         }
 
         Page<Category> content = categoryService.findCategories(condition, Pageable);
-        List<CategoryDto> collect = content.getContent().stream()
+        List<CategoryDto> categories = content.getContent().stream()
                 .filter(category -> category.getParent() == null)
                 .map(category -> CategoryDto.builder()
                         .categoryId(category.getId())
@@ -80,7 +80,7 @@ public class ApiCategoryController {
                         .build()
                 )
                 .collect(Collectors.toList());
-        return JsonResult.OK(collect);
+        return JsonResult.OK(categories);
     }
 
     /**
@@ -89,7 +89,43 @@ public class ApiCategoryController {
     @GetMapping(value = "/{id}")
     public JsonResult findCategory(@PathVariable("id") Long categoryId) {
         Category findCategory = categoryService.findCategory(categoryId);
-        return JsonResult.OK(findCategory);
+        CategoryDto category = CategoryDto.builder()
+                .categoryId(findCategory.getId())
+                .serviceName(findCategory.getServiceName().getName())
+                .categoryName(findCategory.getName())
+                .categoryContent(findCategory.getContent())
+                .categorySerialNumber(findCategory.getSerialNumber())
+                .childCategories(findCategory.getChildren().stream()
+                        .map(first -> CategoryDto.builder()
+                                .categoryId(first.getId())
+                                .serviceName(first.getServiceName().getName())
+                                .categoryName(first.getName())
+                                .categoryContent(first.getContent())
+                                .categorySerialNumber(first.getSerialNumber())
+                                .childCategories(first.getChildren().stream()
+                                        .map(second -> CategoryDto.builder()
+                                                .categoryId(second.getId())
+                                                .serviceName(second.getServiceName().getName())
+                                                .categoryName(second.getName())
+                                                .categoryContent(second.getContent())
+                                                .categorySerialNumber(second.getSerialNumber())
+                                                .childCategories(null)
+                                                .createdDate(second.getCreatedDate())
+                                                .lastModifiedDate(second.getLastModifiedDate())
+                                                .build()
+                                        )
+                                        .collect(Collectors.toList())
+                                )
+                                .createdDate(first.getCreatedDate())
+                                .lastModifiedDate(first.getLastModifiedDate())
+                                .build()
+                        )
+                        .collect(Collectors.toList())
+                )
+                .createdDate(findCategory.getCreatedDate())
+                .lastModifiedDate(findCategory.getLastModifiedDate())
+                .build();
+        return JsonResult.OK(category);
     }
 
     /**
