@@ -45,6 +45,11 @@ public class Member {
     @Column(length = 8)
     private String birthDate;
 
+    /** 권한코드 */
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private AuthorCode authorCode;
+
     /** 성별 */
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "char")
@@ -69,7 +74,7 @@ public class Member {
      * 회원 생성
      */
     @Builder(builderClassName = "createMemberBuilder", builderMethodName = "createMemberBuilder")
-    public Member(String name, String loginId, String password, String email, String birthDate, GenderCode genderCode, Mobile mobile, Address address) {
+    public Member(String name, String loginId, String password, String email, String birthDate, AuthorCode authorCode, GenderCode genderCode, Mobile mobile, Address address) {
         Assert.hasText(name, "name은 필수값입니다.");
         Assert.hasText(loginId, "loginId는 필수값입니다.");
         Assert.hasText(password, "password는 필수값입니다.");
@@ -80,6 +85,7 @@ public class Member {
         this.password = password;
         this.email = email;
         this.birthDate = birthDate;
+        this.authorCode = authorCode;
         this.genderCode = genderCode;
         this.mobile = mobile;
         this.address = address;
@@ -95,6 +101,7 @@ public class Member {
         if (hasText(param.getName())) this.name = param.getName();
         if (hasText(param.getEmail())) this.email = param.getEmail();
         if (hasText(param.getBirthDate())) this.birthDate = param.getBirthDate();
+        if (param.getAuthorCode() != null) this.authorCode = param.getAuthorCode();
         if (param.getGenderCode() != null) this.genderCode = param.getGenderCode();
         if (param.getMobile() != null) this.mobile = param.getMobile();
         if (param.getAddress() != null) this.address = param.getAddress();

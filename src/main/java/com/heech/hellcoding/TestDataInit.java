@@ -3,6 +3,7 @@ package com.heech.hellcoding;
 import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.category.domain.ServiceName;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.shop.item.album.domain.Album;
@@ -70,6 +71,7 @@ public class TestDataInit {
                     .password("1234")
                     .email("admin@spring.com")
                     .birthDate("19901009")
+                    .authorCode(AuthorCode.ROLE_ADMIN)
                     .genderCode(GenderCode.M)
                     .mobile(mobile)
                     .address(address)
@@ -81,6 +83,7 @@ public class TestDataInit {
                     .password("1234")
                     .email("spring@spring.com")
                     .birthDate("19901009")
+                    .authorCode(AuthorCode.ROLE_USER)
                     .genderCode(GenderCode.M)
                     .mobile(mobile)
                     .address(address)

@@ -1,6 +1,7 @@
 package com.heech.hellcoding.api.member.request;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
@@ -29,6 +30,8 @@ public class CreateMemberRequest {
     @Size(min = 8, max = 8)
     private String birthDate;
     @NotEmpty
+    private AuthorCode authorCode;
+    @NotEmpty
     private String gender;
     @Length(min = 11, max = 11)
     private String phoneNumber;
@@ -46,6 +49,7 @@ public class CreateMemberRequest {
                 .password(this.password)
                 .email(this.email)
                 .birthDate(this.birthDate)
+                .authorCode(this.authorCode)
                 .genderCode(this.gender.equals("M") ? GenderCode.M : GenderCode.F)
                 .mobile(new Mobile(this.phoneNumber.substring(0, 3), this.phoneNumber.substring(3, 7), this.phoneNumber.substring(7, 11)))
                 .address(new Address(this.zipcode, this.address, this.detailAddress))
