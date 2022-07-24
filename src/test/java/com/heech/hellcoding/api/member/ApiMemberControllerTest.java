@@ -10,45 +10,41 @@ import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
-import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import com.heech.hellcoding.core.member.service.MemberService;
-import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @WebMvcTest(ApiMemberController.class)
 class ApiMemberControllerTest {
 
-    //url
+    //REQUEST_URL
     public static final String API_FIND_MEMBERS = "/api/members";
     public static final String API_FIND_MEMBER = "/api/members/{memberId}";
     public static final String API_SAVE_MEMBER = "/api/members";
     public static final String API_UPDATE_MEMBER = "/api/members/{memberId}";
     public static final String API_DELETE_MEMBER = "/api/members/{memberId}";
 
-    //test data
+    //VERIFY_DATA
     public static final String NAME = "test_name";
     public static final String LOGIN_ID = "test_loginId";
     public static final String PASSWORD = "test_password";
@@ -83,26 +79,38 @@ class ApiMemberControllerTest {
     @DisplayName(value = "멤버 목록 조회")
     void findMembersTest() throws Exception {
         //given
-        Page<Member> content = Mockito.mock(Page.class);
         ArrayList<Member> members = new ArrayList<>();
-        for (int i = 0; i <30; i++) {
-            content.getContent().add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS));
+        for (int i = 0; i <10; i++) {
+            members.add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS));
         }
 
-        given(memberService.findMembers(any(), any())).willReturn(content);
+        given(memberService.findMembers(any(MemberSearchCondition.class), any(PageRequest.class))).willReturn(new PageImpl(members));
 
+        //TODO search는 안됨.
         MemberSearchCondition condition = new MemberSearchCondition();
         condition.setSearchCondition(SearchCondition.NAME);
         condition.setSearchKeyword("test_name1");
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        //expected
-        mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBERS)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBERS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("page", String.valueOf(pageRequest.getOffset()))
+                .param("size", String.valueOf(pageRequest.getPageSize()))
+                .param("searchCondition", condition.getSearchCondition().name())
+                .param("searchKeyword", condition.getSearchKeyword())
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.length()", Matchers.is(10)))
                 .andDo(MockMvcResultHandlers.print());
+
+        //verify
+        verify(memberService).findMembers(any(), any());
+        verify(memberService, times(1)).findMembers(any(), any());
     }
 
     @Test
@@ -112,11 +120,13 @@ class ApiMemberControllerTest {
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS);
         given(memberService.findMember(any())).willReturn(member);
 
-        //expected
-        mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBER, 0L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBER, 0L)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.memberName").value(NAME))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value(EMAIL))
@@ -126,6 +136,10 @@ class ApiMemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value(MOBILE.fullPhoneNumber()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.address").value(ADDRESS.fullAddress()))
                 .andDo(MockMvcResultHandlers.print());
+
+        //verify
+        verify(memberService).findMember(any());
+        verify(memberService, times(1)).findMember(any());
     }
 
     @Test
@@ -148,20 +162,23 @@ class ApiMemberControllerTest {
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
         given(memberService.saveMember(member)).willReturn(member.getId());
 
-        //expected
-        mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNumber())
                 .andDo(MockMvcResultHandlers.print());
 
-        //then
-
+        //verify
+        verify(memberService).saveMember(any());
+        verify(memberService, times(1)).saveMember(any());
     }
 
     @Test
@@ -183,22 +200,23 @@ class ApiMemberControllerTest {
 
         given(memberService.findMember(any())).willReturn(member);
 
-        //expected
-        mockMvc.perform(MockMvcRequestBuilders.put(API_UPDATE_MEMBER, 0L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.put(API_UPDATE_MEMBER, 0L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
                 .andDo(MockMvcResultHandlers.print());
 
-        //then
-
-
         //verify
         verify(memberService).updateMember(any(), any());
         verify(memberService, times(1)).updateMember(any(), any());
+        verify(memberService).findMember(any());
+        verify(memberService, times(1)).findMember(any());
     }
 
     @Test
@@ -207,14 +225,14 @@ class ApiMemberControllerTest {
         //given
         //Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
 
-        //expected
-        mockMvc.perform(MockMvcRequestBuilders.delete(API_DELETE_MEMBER, 0L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete(API_DELETE_MEMBER, 0L)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
 
         //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
 
         //verify
         verify(memberService).deleteMember(any());
