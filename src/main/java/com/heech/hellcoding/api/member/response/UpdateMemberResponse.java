@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class UpdateMemberResponse {
 
-    private Long id;
+    private Long updatedMemberId;
 }

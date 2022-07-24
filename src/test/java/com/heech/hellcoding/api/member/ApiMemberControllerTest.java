@@ -3,16 +3,21 @@ package com.heech.hellcoding.api.member;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
+import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
+import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
+import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.service.MemberService;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import static org.assertj.core.api.Assertions.*;
 
 //@WebMvcTest(ApiMemberController.class)
 @SpringBootTest
@@ -73,10 +80,17 @@ class ApiMemberControllerTest {
         //given
         getMembers();
 
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setSearchCondition(SearchCondition.NAME);
+        condition.setSearchKeyword("test_name1");
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
         //expected
         mockMvc.perform(MockMvcRequestBuilders.get("/api/members")
-                        .param("page", "0")
-                        .param("size", "10")
+                        .param("page", String.valueOf(pageRequest.getOffset()))
+                        .param("size", String.valueOf(pageRequest.getPageSize()))
+                        .param("searchCondition", condition.getSearchCondition().toString())
+                        .param("searchKeyword", condition.getSearchKeyword())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
@@ -128,7 +142,41 @@ class ApiMemberControllerTest {
     }
 
     @Test
-    void updateMemberTest() {
+    void updateMemberTest() throws Exception {
+        Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email@mail.com", "19901009", GenderCode.M);
+
+        UpdateMemberRequest request = new UpdateMemberRequest();
+        request.setMemberName("update_name");
+        request.setEmail("");
+        request.setBirthDate("20001009");
+        request.setGender("F");
+        request.setPhoneNumber("01122223333");
+
+        //expected
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/members/{memberId}", savedMemberId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.updatedMemberId").isNumber())
+                .andDo(MockMvcResultHandlers.print());
+
+        //then
+        Member findMember = em.find(Member.class, savedMemberId);
+        assertThat(findMember.getName()).isEqualTo("update_name");
+        assertThat(findMember.getLoginId()).isEqualTo("test_loginId");
+        assertThat(findMember.getPassword()).isEqualTo("test_password");
+        assertThat(findMember.getEmail()).isEqualTo("test_email@mail.com");
+        assertThat(findMember.getBirthDate()).isEqualTo("20001009");
+        assertThat(findMember.getGenderCode()).isEqualTo(GenderCode.F);
+        assertThat(findMember.getMobile().getMobileNumberFirst()).isEqualTo("011");
+        assertThat(findMember.getMobile().getMobileNumberMiddle()).isEqualTo("2222");
+        assertThat(findMember.getMobile().getMobileNumberLast()).isEqualTo("3333");
+        assertThat(findMember.getAddress().getZipcode()).isEqualTo("11111");
+        assertThat(findMember.getAddress().getAddress()).isEqualTo("seoul");
+        assertThat(findMember.getAddress().getDetailAddress()).isEqualTo("601");
     }
 
     @Test

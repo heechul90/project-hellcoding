@@ -4,11 +4,9 @@ import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.api.member.response.UpdateMemberResponse;
-import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
-import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberDto;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.service.MemberService;
@@ -82,25 +80,25 @@ public class ApiMemberController {
     /**
      * 회원 수정
      */
-    @PutMapping(value = "/{id}")
-    public JsonResult updateMember(@PathVariable("id") Long id,
+    @PutMapping(value = "/{memberId}")
+    public JsonResult updateMember(@PathVariable("memberId") Long memberId,
                                    @RequestBody @Validated UpdateMemberRequest request, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        memberService.updateMember(id, request.toUpdateMemberParam());
-        Member findMember = memberService.findMember(id);
+        memberService.updateMember(memberId, request.toUpdateMemberParam());
+        Member findMember = memberService.findMember(memberId);
         return JsonResult.OK(new UpdateMemberResponse(findMember.getId()));
     }
 
     /**
      * 회원 삭제
      */
-    @DeleteMapping(value = "/{id}")
-    public JsonResult deleteMember(@PathVariable("id") Long id) {
-        memberService.deleteMember(id);
+    @DeleteMapping(value = "/{memberId}")
+    public JsonResult deleteMember(@PathVariable("memberId") Long memberId) {
+        memberService.deleteMember(memberId);
         return JsonResult.OK();
     }
 

@@ -30,7 +30,7 @@ public class Member {
     private String name;
 
     /** 로그인ID */
-    @Column(length = 80, unique = true)
+    @Column(length = 80, unique = true, updatable = false)
     private String loginId;
 
     /** 비밀번호 */

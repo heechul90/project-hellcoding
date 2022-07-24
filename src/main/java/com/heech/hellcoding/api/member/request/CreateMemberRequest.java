@@ -39,26 +39,15 @@ public class CreateMemberRequest {
     @NotEmpty
     private String detailAddress;
 
-    public String getMobileNumberFirst() {
-        return this.phoneNumber.substring(0, 3);
-    }
-
-    public String getMobileNumberMiddle() {
-        return this.phoneNumber.substring(3, 7);
-    }
-
-    public String getMobileNumberLast() {
-        return this.phoneNumber.substring(7, 11);
-    }
-
     public Member toEntity() {
         return Member.createMemberBuilder()
                 .name(this.memberName)
                 .loginId(this.loginId)
                 .password(this.password)
                 .email(this.email)
-                .genderCode(this.gender == "M" ? GenderCode.M : GenderCode.F)
-                .mobile(new Mobile(getMobileNumberFirst(), getMobileNumberMiddle(), getMobileNumberLast()))
+                .birthDate(this.birthDate)
+                .genderCode(this.gender.equals("M") ? GenderCode.M : GenderCode.F)
+                .mobile(new Mobile(this.phoneNumber.substring(0, 3), this.phoneNumber.substring(3, 7), this.phoneNumber.substring(7, 11)))
                 .address(new Address(this.zipcode, this.address, this.detailAddress))
                 .build();
     }
