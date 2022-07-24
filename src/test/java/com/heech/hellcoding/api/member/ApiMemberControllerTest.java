@@ -1,85 +1,95 @@
 package com.heech.hellcoding.api.member;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
-import com.heech.hellcoding.core.common.exception.NoSuchElementException;
+import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
+import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import com.heech.hellcoding.core.member.service.MemberService;
 import org.assertj.core.api.Assertions;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-//@WebMvcTest(ApiMemberController.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
+@WebMvcTest(ApiMemberController.class)
 class ApiMemberControllerTest {
 
-    @PersistenceContext EntityManager em;
+    //url
+    public static final String API_FIND_MEMBERS = "/api/members";
+    public static final String API_FIND_MEMBER = "/api/members/{memberId}";
+    public static final String API_SAVE_MEMBER = "/api/members";
+    public static final String API_UPDATE_MEMBER = "/api/members/{memberId}";
+    public static final String API_DELETE_MEMBER = "/api/members/{memberId}";
+
+    //test data
+    public static final String NAME = "test_name";
+    public static final String LOGIN_ID = "test_loginId";
+    public static final String PASSWORD = "test_password";
+    public static final String EMAIL = "test_email@mail.com";
+    public static final String BIRTH_DATE = "19901009";
+    public static final AuthorCode AUTHOR_CODE = AuthorCode.ROLE_USER;
+    public static final GenderCode GENDER_CODE = GenderCode.F;
+    public static final Mobile MOBILE = new Mobile("010", "4250", "4296");
+    public static final Address ADDRESS = new Address("11111", "seoul", "601");
 
     @Autowired private MockMvc mockMvc;
 
+    @MockBean private MemberService memberService;
+
     @Autowired ObjectMapper objectMapper;
 
-    private Long getMember(String name, String loginId, String password, String email, String birthDate, GenderCode genderCode) {
-        Member member = Member.createMemberBuilder()
+    private Member getMember(String name, String loginId, String password, String email, String birthDate, AuthorCode authorCode, GenderCode genderCode, Mobile mobile, Address address) {
+        return Member.createMemberBuilder()
                 .name(name)
                 .loginId(loginId)
                 .password(password)
                 .email(email)
                 .birthDate(birthDate)
+                .authorCode(authorCode)
                 .genderCode(genderCode)
-                .mobile(new Mobile("010", "4250", "4296"))
-                .address(new Address("11111", "seoul", "601"))
+                .mobile(mobile)
+                .address(address)
                 .build();
-        em.persist(member);
-        return member.getId();
-    }
-
-    private void getMembers() {
-        for (int i = 0; i < 30; i++) {
-            em.persist(Member.createMemberBuilder()
-                    .name("test_name" + i)
-                    .loginId("test_loginId" + i)
-                    .password("test_password" + i)
-                    .email("test_email" + i + "@mail.com")
-                    .birthDate("19901009")
-                    .genderCode(GenderCode.M)
-                    .mobile(new Mobile("010", "4250", "4296"))
-                    .address(new Address("11111", "seoul", "601"))
-                    .build()
-            );
-        }
     }
 
     @Test
     @DisplayName(value = "멤버 목록 조회")
     void findMembersTest() throws Exception {
         //given
-        getMembers();
+        Page<Member> content = Mockito.mock(Page.class);
+        ArrayList<Member> members = new ArrayList<>();
+        for (int i = 0; i <30; i++) {
+            content.getContent().add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS));
+        }
+
+        given(memberService.findMembers(any(), any())).willReturn(content);
 
         MemberSearchCondition condition = new MemberSearchCondition();
         condition.setSearchCondition(SearchCondition.NAME);
@@ -87,16 +97,11 @@ class ApiMemberControllerTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/members")
-                        .param("page", String.valueOf(pageRequest.getOffset()))
-                        .param("size", String.valueOf(pageRequest.getPageSize()))
-                        .param("searchCondition", condition.getSearchCondition().toString())
-                        .param("searchKeyword", condition.getSearchKeyword())
+        mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBERS)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.length()", Matchers.is(10)))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -104,15 +109,22 @@ class ApiMemberControllerTest {
     @DisplayName(value = "멤버 단건 조회")
     void findMemberTest() throws Exception {
         //given
-        Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email", "19901009", GenderCode.M);
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS);
+        given(memberService.findMember(any())).willReturn(member);
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/members/{memberId}", savedMemberId)
+        mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBER, 0L)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.memberName").value("test_name"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.memberName").value(NAME))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value(EMAIL))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.birthDate").value(BIRTH_DATE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.author").value(AuthorCode.ROLE_USER.getCodeName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.gender").value(GenderCode.F.getCodeName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value(MOBILE.fullPhoneNumber()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.address").value(ADDRESS.fullAddress()))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -121,79 +133,91 @@ class ApiMemberControllerTest {
     void saveMemberTest() throws Exception {
         //given
         CreateMemberRequest request = new CreateMemberRequest();
-        request.setMemberName("test_name");
-        request.setLoginId("test_loginId");
-        request.setPassword("test_password");
-        request.setEmail("test_email@mail.com");
-        request.setBirthDate("19901009");
-        request.setGender("M");
-        request.setPhoneNumber("01042504296");
-        request.setZipcode("11111");
-        request.setAddress("seoul");
-        request.setDetailAddress("101");
+        request.setMemberName(NAME);
+        request.setLoginId(LOGIN_ID);
+        request.setPassword(PASSWORD);
+        request.setEmail(EMAIL);
+        request.setBirthDate(BIRTH_DATE);
+        request.setAuthorCode(AUTHOR_CODE);
+        request.setGender(GENDER_CODE.name());
+        request.setPhoneNumber(MOBILE.getMobileNumberFirst() + MOBILE.getMobileNumberMiddle() + MOBILE.getMobileNumberLast());
+        request.setZipcode(ADDRESS.getZipcode());
+        request.setAddress(ADDRESS.getAddress());
+        request.setDetailAddress(ADDRESS.getDetailAddress());
+
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        given(memberService.saveMember(member)).willReturn(member.getId());
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/members")
+        mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNumber())
                 .andDo(MockMvcResultHandlers.print());
+
+        //then
+
     }
 
     @Test
     @DisplayName(value = "멤버 수정")
     void updateMemberTest() throws Exception {
-        Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email@mail.com", "19901009", GenderCode.M);
+        //given
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
 
         UpdateMemberRequest request = new UpdateMemberRequest();
         request.setMemberName("update_name");
-        request.setEmail("");
+        request.setEmail(EMAIL);
         request.setBirthDate("20001009");
-        request.setGender("F");
-        request.setPhoneNumber("01122223333");
+        request.setAuthorCode(AUTHOR_CODE);
+        request.setGender(GENDER_CODE.name());
+        request.setPhoneNumber("01064884296");
+        request.setZipcode(ADDRESS.getZipcode());
+        request.setAddress(ADDRESS.getAddress());
+        request.setDetailAddress(ADDRESS.getDetailAddress());
+
+        given(memberService.findMember(any())).willReturn(member);
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/members/{memberId}", savedMemberId)
+        mockMvc.perform(MockMvcRequestBuilders.put(API_UPDATE_MEMBER, 0L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.updatedMemberId").isNumber())
                 .andDo(MockMvcResultHandlers.print());
 
         //then
-        Member findMember = em.find(Member.class, savedMemberId);
-        assertThat(findMember.getName()).isEqualTo("update_name");
-        assertThat(findMember.getLoginId()).isEqualTo("test_loginId");
-        assertThat(findMember.getPassword()).isEqualTo("test_password");
-        assertThat(findMember.getEmail()).isEqualTo("test_email@mail.com");
-        assertThat(findMember.getBirthDate()).isEqualTo("20001009");
-        assertThat(findMember.getGenderCode()).isEqualTo(GenderCode.F);
-        assertThat(findMember.getMobile().getMobileNumberFirst()).isEqualTo("011");
-        assertThat(findMember.getMobile().getMobileNumberMiddle()).isEqualTo("2222");
-        assertThat(findMember.getMobile().getMobileNumberLast()).isEqualTo("3333");
-        assertThat(findMember.getAddress().getZipcode()).isEqualTo("11111");
-        assertThat(findMember.getAddress().getAddress()).isEqualTo("seoul");
-        assertThat(findMember.getAddress().getDetailAddress()).isEqualTo("601");
+
+
+        //verify
+        verify(memberService).updateMember(any(), any());
+        verify(memberService, times(1)).updateMember(any(), any());
     }
 
     @Test
     @DisplayName(value = "멤버 삭제")
     void deleteMemberTest() throws Exception {
         //given
-        Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email@mail.com", "19901009", GenderCode.M);
+        //Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/{memberId}", savedMemberId)
+        mockMvc.perform(MockMvcRequestBuilders.delete(API_DELETE_MEMBER, 0L)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+
+        //then
+
+        //verify
+        verify(memberService).deleteMember(any());
+        verify(memberService, times(1)).deleteMember(any());
     }
 }

@@ -5,7 +5,6 @@ import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.api.member.response.UpdateMemberResponse;
 import com.heech.hellcoding.core.common.json.JsonResult;
-import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.dto.MemberDto;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
@@ -35,16 +34,20 @@ public class ApiMemberController {
     @GetMapping
     public JsonResult findMembers(MemberSearchCondition condition, Pageable pageable) {
         Page<Member> content = memberService.findMembers(condition, pageable);
-        List<MemberDto> collect = content.getContent().stream()
-                .map(member -> new MemberDto(
-                        member.getName(),
-                        member.getEmail(),
-                        member.getBirthDate(),
-                        member.getGenderCode() == GenderCode.M ? "남자" : "여자",
-                        member.getMobile().fullPhoneNumber(),
-                        member.getAddress().fullAddress()))
+        List<MemberDto> members = content.getContent().stream()
+                .map(member -> MemberDto.builder()
+                        .memberId(member.getId())
+                        .memberName(member.getName())
+                        .email(member.getEmail())
+                        .birthDate(member.getBirthDate())
+                        .author(member.getAuthorCode().getCodeName())
+                        .gender(member.getGenderCode().getCodeName())
+                        .phoneNumber(member.getMobile().fullPhoneNumber())
+                        .address(member.getAddress().fullAddress())
+                        .build()
+                )
                 .collect(Collectors.toList());
-        return JsonResult.OK(collect);
+        return JsonResult.OK(members);
     }
 
     /**
@@ -53,13 +56,16 @@ public class ApiMemberController {
     @GetMapping(value = "/{memberId}")
     public JsonResult findMember(@PathVariable("memberId") Long memberId) {
         Member findMember = memberService.findMember(memberId);
-        MemberDto member = new MemberDto(
-                findMember.getName(),
-                findMember.getEmail(),
-                findMember.getBirthDate(),
-                findMember.getGenderCode().equals(GenderCode.M) ? "남자" : "여자",
-                findMember.getMobile().fullPhoneNumber(),
-                findMember.getAddress().fullAddress());
+        MemberDto member = MemberDto.builder()
+                .memberId(findMember.getId())
+                .memberName(findMember.getName())
+                .email(findMember.getEmail())
+                .birthDate(findMember.getBirthDate())
+                .author(findMember.getAuthorCode().getCodeName())
+                .gender(findMember.getGenderCode().getCodeName())
+                .phoneNumber(findMember.getMobile().fullPhoneNumber())
+                .address(findMember.getAddress().fullAddress())
+                .build();
         return JsonResult.OK(member);
     }
 

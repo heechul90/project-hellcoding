@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -29,7 +30,7 @@ public class CreateMemberRequest {
     @NotEmpty
     @Size(min = 8, max = 8)
     private String birthDate;
-    @NotEmpty
+    @NotNull
     private AuthorCode authorCode;
     @NotEmpty
     private String gender;
