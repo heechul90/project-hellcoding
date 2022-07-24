@@ -6,6 +6,7 @@ import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.domain.Mobile;
@@ -13,6 +14,7 @@ import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
 import com.heech.hellcoding.core.member.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,8 +41,6 @@ class ApiMemberControllerTest {
     @PersistenceContext EntityManager em;
 
     @Autowired private MockMvc mockMvc;
-
-    @Autowired private MemberService memberService;
 
     @Autowired ObjectMapper objectMapper;
 
@@ -180,6 +180,16 @@ class ApiMemberControllerTest {
     }
 
     @Test
-    void deleteMemberTest() {
+    @DisplayName(value = "멤버 삭제")
+    void deleteMemberTest() throws Exception {
+        //given
+        Long savedMemberId = getMember("test_name", "test_loginId", "test_password", "test_email@mail.com", "19901009", GenderCode.M);
+
+        //expected
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/members/{memberId}", savedMemberId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
 }
