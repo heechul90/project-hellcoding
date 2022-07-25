@@ -1,7 +1,8 @@
 package com.heech.hellcoding.core.member.service;
 
-import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
+import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -22,10 +23,12 @@ import org.springframework.data.domain.PageRequest;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTempTest {
@@ -40,6 +43,10 @@ class MemberServiceTempTest {
     public static final GenderCode GENDER_CODE = GenderCode.F;
     public static final Mobile MOBILE = new Mobile("010", "4250", "4296");
     public static final Address ADDRESS = new Address("11111", "seoul", "601");
+
+    //VALIDATION_MESSAGE
+    public static final String HAS_MESSAGE_STARTING_WITH = "조회에";
+    public static final String HAS_MESSAGE_ENDING_WITH = "실패했습니다.";
 
     @InjectMocks MemberService memberService;
 
@@ -68,15 +75,25 @@ class MemberServiceTempTest {
         for (int i = 0; i <10; i++) {
             members.add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS));
         }
-        given(memberQueryRepository.findMembers(any(), any())).willReturn(new PageImpl(members));
+        given(memberQueryRepository.findMembers(any(MemberSearchCondition.class), any())).willReturn(new PageImpl(members));
 
         //when
-        Page<Member> content = memberService.findMembers(any(MemberSearchCondition.class), any(PageRequest.class));
+
+        //TODO 검색 작동 안함.
+        MemberSearchCondition condition = new MemberSearchCondition();
+        condition.setSearchCondition(SearchCondition.NAME);
+        condition.setSearchKeyword(NAME + 1);
+        PageRequest pageRequest = PageRequest.of(0, 5);
+        Page<Member> content = memberService.findMembers(condition, pageRequest);
 
         //then
         assertThat(content.getTotalElements()).isEqualTo(10);
         assertThat(content.getContent().size()).isEqualTo(10);
         assertThat(content.getContent()).extracting("name").contains(NAME + 1, NAME + 9);
+
+        //verify
+        verify(memberQueryRepository).findMembers(any(), any());
+        verify(memberQueryRepository, times(1)).findMembers(any(), any());
     }
 
     @Test
@@ -98,6 +115,10 @@ class MemberServiceTempTest {
         assertThat(findMember.getGenderCode()).isEqualTo(GENDER_CODE);
         assertThat(findMember.getMobile()).isEqualTo(MOBILE);
         assertThat(findMember.getAddress()).isEqualTo(ADDRESS);
+
+        //verify
+        verify(memberRepository).findById(any(Long.class));
+        verify(memberRepository, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -109,6 +130,14 @@ class MemberServiceTempTest {
         //when
 
         //then
+        assertThatThrownBy(() -> memberService.findMember(any(Long.class)))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
+                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+
+        //verify
+        verify(memberRepository).findById(any(Long.class));
+        verify(memberRepository, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -133,13 +162,11 @@ class MemberServiceTempTest {
     }
 
     @Test
-    public void updateMemberTest() throws Exception{
+    void updateMemberTest() throws Exception{
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(member));
-        Member findMember = memberService.findMember(any(Long.class));
 
-        //when
         UpdateMemberParam param = UpdateMemberParam.builder()
                 .name("update" + NAME)
                 .email("update" + EMAIL)
@@ -149,8 +176,47 @@ class MemberServiceTempTest {
                 .mobile(MOBILE)
                 .address(ADDRESS)
                 .build();
-        memberService.updateMember(any(), param);
+
+        //when
+        memberService.updateMember(any(Long.class), param);
 
         //then
+        assertThatThrownBy(() -> memberService.updateMember(any(), param))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
+                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+        assertThat(member.getName()).isEqualTo("update" + NAME);
+        assertThat(member.getEmail()).isEqualTo("update" + EMAIL);
+        assertThat(member.getBirthDate()).isEqualTo(BIRTH_DATE);
+        assertThat(member.getAuthorCode()).isEqualTo(AUTHOR_CODE);
+        assertThat(member.getGenderCode()).isEqualTo(GENDER_CODE);
+        assertThat(member.getMobile().fullPhoneNumber()).isEqualTo(MOBILE.fullPhoneNumber());
+        assertThat(member.getAddress().fullAddress()).isEqualTo(ADDRESS.fullAddress());
+
+        //verify
+        verify(memberRepository).findById(any(Long.class));
+        verify(memberRepository, times(1)).findById(any(Long.class));
+    }
+
+    @Test
+    void deleteMemberTest() {
+        //given
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        given(memberRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(member));
+
+        //when
+        memberService.deleteMember(any(Long.class));
+
+        //then
+        assertThatThrownBy(() -> memberService.findMember(member.getId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
+                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+
+        //verify
+        verify(memberRepository).findById(any(Long.class));
+        verify(memberRepository, times(1)).findById(any(Long.class));
+        verify(memberRepository).delete(any(Member.class));
+        verify(memberRepository, times(1)).delete(any(Member.class));
     }
 }
