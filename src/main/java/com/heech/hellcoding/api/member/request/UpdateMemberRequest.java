@@ -8,7 +8,6 @@ import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.Email;
 
