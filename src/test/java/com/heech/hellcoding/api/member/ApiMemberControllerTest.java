@@ -81,7 +81,7 @@ class ApiMemberControllerTest {
         //given
         ArrayList<Member> members = new ArrayList<>();
         for (int i = 0; i <10; i++) {
-            members.add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS));
+            members.add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS));
         }
 
         given(memberService.findMembers(any(MemberSearchCondition.class), any(PageRequest.class))).willReturn(new PageImpl(members));
@@ -116,7 +116,7 @@ class ApiMemberControllerTest {
     @DisplayName(value = "멤버 단건 조회")
     void findMemberTest() throws Exception {
         //given
-        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AuthorCode.ROLE_USER, GenderCode.F, MOBILE, ADDRESS);
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
         given(memberService.findMember(any())).willReturn(member);
 
         //when
@@ -159,7 +159,7 @@ class ApiMemberControllerTest {
         request.setDetailAddress(ADDRESS.getDetailAddress());
 
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
-        given(memberService.saveMember(member)).willReturn(member.getId());
+        given(memberService.saveMember(member)).willReturn(member);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)

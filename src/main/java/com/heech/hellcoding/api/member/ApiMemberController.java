@@ -79,8 +79,8 @@ public class ApiMemberController {
             return JsonResult.ERROR(bindingResult.getAllErrors());
         }
 
-        Long savedMemberId = memberService.saveMember(request.toEntity());
-        return JsonResult.OK(new CreateMemberResponse(savedMemberId));
+        Member savedMember = memberService.saveMember(request.toEntity());
+        return JsonResult.OK(new CreateMemberResponse(savedMember.getId()));
     }
 
     /**

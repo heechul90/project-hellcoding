@@ -12,12 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.util.StringUtils.*;
 
 @Slf4j
 @Service
@@ -39,15 +33,16 @@ public class MemberService {
      * 회원 조회 By Id
      */
     public Member findMember(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 멤버입니다."));
+        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
     }
 
     /**
      * 회원 저장
+     * @return
      */
     @Transactional
-    public Long saveMember(Member member) {
-        return memberRepository.save(member).getId();
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
     }
 
     /**

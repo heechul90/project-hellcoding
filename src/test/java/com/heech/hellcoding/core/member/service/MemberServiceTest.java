@@ -34,7 +34,7 @@ class MemberServiceTest {
     @Test
     void findMembersTest() {
         //given
-        Long savedMemberId = memberService.saveMember(
+        Member savedMember = memberService.saveMember(
                 Member.createMemberBuilder()
                         .name("test")
                         .loginId("test")
@@ -65,10 +65,10 @@ class MemberServiceTest {
                 .build();
 
         //when
-        Long savedMemberId = memberService.saveMember(member);
+        Member savedMember = memberService.saveMember(member);
 
         //then
-        Member findMember = em.find(Member.class, savedMemberId);
+        Member findMember = em.find(Member.class, savedMember.getId());
         assertThat(findMember).isEqualTo(member);
         assertThat(findMember.getLoginId()).isEqualTo("test");
         assertThat(findMember.getName()).isEqualTo("test");
@@ -84,7 +84,7 @@ class MemberServiceTest {
                 .password("test")
                 .email("email@mail.com")
                 .build();
-        Long savedMemberId = memberService.saveMember(member);
+        Member savedMember = memberService.saveMember(member);
 
         //when
         UpdateMemberParam param = UpdateMemberParam.builder()
@@ -95,10 +95,10 @@ class MemberServiceTest {
                 .mobile(new Mobile("010", "4250", "4296"))
                 .address(new Address("11112", "세종시", "601호"))
                 .build();
-        memberService.updateMember(savedMemberId, param);
+        memberService.updateMember(savedMember.getId(), param);
 
         //then
-        Member findMember = em.find(Member.class, savedMemberId);
+        Member findMember = em.find(Member.class, savedMember.getId());
         assertThat(findMember.getName()).isEqualTo("update_name");
         assertThat(findMember.getLoginId()).isEqualTo("loginId");
         assertThat(findMember.getEmail()).isEqualTo("update_email@mail.com");
@@ -117,15 +117,15 @@ class MemberServiceTest {
                 .password("test")
                 .email("test")
                 .build();
-        Long savedMemberId = memberService.saveMember(member);
+        Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
 
         //when
-        memberService.deleteMember(savedMemberId);
+        memberService.deleteMember(savedMember.getId());
 
         //then
-        Member findMember = em.find(Member.class, savedMemberId);
+        Member findMember = em.find(Member.class, savedMember.getId());
         assertThat(findMember).isNull();
     }
 
@@ -138,12 +138,12 @@ class MemberServiceTest {
                 .password("test")
                 .email("test")
                 .build();
-        Long savedMemberId = memberService.saveMember(member);
+        Member savedMember = memberService.saveMember(member);
         em.flush();
         em.clear();
 
         //when
-        Member findMember = memberService.findMember(savedMemberId);
+        Member findMember = memberService.findMember(savedMember.getId());
 
         //then
         assertThat(findMember.getLoginId()).isEqualTo("test");
