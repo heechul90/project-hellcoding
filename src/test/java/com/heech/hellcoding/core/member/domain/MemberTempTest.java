@@ -4,6 +4,7 @@ import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.dto.UpdateMemberParam;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -30,7 +31,7 @@ class MemberTempTest {
     public static final Mobile MOBILE = new Mobile("010", "4250", "4296");
     public static final Address ADDRESS = new Address("11111", "seoul", "601");
 
-    @Mock EntityManager em;
+    @InjectMocks EntityManager em;
 
     private Member getMember(String name, String loginId, String password, String email, String birthDate, AuthorCode authorCode, GenderCode genderCode, Mobile mobile, Address address) {
         return Member.createMemberBuilder()
