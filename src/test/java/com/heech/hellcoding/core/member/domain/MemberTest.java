@@ -29,9 +29,9 @@ class MemberTest {
     public static final Address ADDRESS = new Address("11111", "seoul", "601");
 
     //UPDATE_MEMBER_DATA
-    public static final String UPDATE_NAME = "update" + NAME;
-    public static final String UPDATE_EMAIL = "update" + EMAIL;
-    public static final String UPDATE_PASSWORD = "update" + PASSWORD;
+    public static final String UPDATE_NAME = "update_" + NAME;
+    public static final String UPDATE_EMAIL = "update_" + EMAIL;
+    public static final String UPDATE_PASSWORD = "update_" + PASSWORD;
 
     @PersistenceContext
     EntityManager em;

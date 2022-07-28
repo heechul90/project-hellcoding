@@ -3,6 +3,7 @@ package com.heech.hellcoding.api.member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
+import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
@@ -14,6 +15,7 @@ import com.heech.hellcoding.core.member.service.MemberService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,6 +36,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+/**
+ * apiMemberController 단위 테스트
+ */
 @WebMvcTest(ApiMemberController.class)
 class ApiMemberControllerTest {
 
@@ -54,6 +59,12 @@ class ApiMemberControllerTest {
     public static final GenderCode GENDER_CODE = GenderCode.F;
     public static final Mobile MOBILE = new Mobile("010", "4250", "4296");
     public static final Address ADDRESS = new Address("11111", "seoul", "601");
+
+    //UPDATE_MEMBER
+    public static final String UPDATE_NAME = "update_" + NAME;
+    public static final String UPDATE_EMAIL = "update_" + EMAIL;
+    public static final String UPDATE_BIRTH_DATE = "20001009";
+    public static final String UPDATE_PHONE_NUMBER = "01064884296";
 
     @Autowired private MockMvc mockMvc;
 
@@ -145,6 +156,11 @@ class ApiMemberControllerTest {
     @DisplayName(value = "멤버 저장")
     void saveMemberTest() throws Exception {
         //given
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        given(memberService.saveMember(member)).willReturn(member);
+        CreateMemberResponse response = new CreateMemberResponse(any());
+        given(new CreateMemberResponse(any())).willReturn(response);
+
         CreateMemberRequest request = new CreateMemberRequest();
         request.setMemberName(NAME);
         request.setLoginId(LOGIN_ID);
@@ -157,9 +173,6 @@ class ApiMemberControllerTest {
         request.setZipcode(ADDRESS.getZipcode());
         request.setAddress(ADDRESS.getAddress());
         request.setDetailAddress(ADDRESS.getDetailAddress());
-
-        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
-        given(memberService.saveMember(member)).willReturn(member);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
@@ -185,19 +198,19 @@ class ApiMemberControllerTest {
     void updateMemberTest() throws Exception {
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        given(memberService.findMember(any())).willReturn(member);
 
         UpdateMemberRequest request = new UpdateMemberRequest();
-        request.setMemberName("update_name");
-        request.setEmail(EMAIL);
-        request.setBirthDate("20001009");
+        request.setMemberName(UPDATE_NAME);
+        request.setEmail(UPDATE_EMAIL);
+        request.setBirthDate(UPDATE_BIRTH_DATE);
         request.setAuthorCode(AUTHOR_CODE);
         request.setGender(GENDER_CODE.name());
-        request.setPhoneNumber("01064884296");
+        request.setPhoneNumber(UPDATE_PHONE_NUMBER);
         request.setZipcode(ADDRESS.getZipcode());
         request.setAddress(ADDRESS.getAddress());
         request.setDetailAddress(ADDRESS.getDetailAddress());
 
-        given(memberService.findMember(any())).willReturn(member);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.put(API_UPDATE_MEMBER, 0L)

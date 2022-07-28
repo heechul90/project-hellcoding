@@ -80,7 +80,10 @@ public class ApiMemberController {
         }
 
         Member savedMember = memberService.saveMember(request.toEntity());
-        return JsonResult.OK(new CreateMemberResponse(savedMember.getId()));
+        CreateMemberResponse response = CreateMemberResponse.builder()
+                .savedMemberId(savedMember.getId())
+                .build();
+        return JsonResult.OK(response);
     }
 
     /**

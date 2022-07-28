@@ -3,7 +3,7 @@ package com.heech.hellcoding.api.member.response;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UpdateMemberResponse {
 
     private Long updatedMemberId;

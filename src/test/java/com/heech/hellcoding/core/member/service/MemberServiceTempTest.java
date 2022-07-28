@@ -44,6 +44,10 @@ class MemberServiceTempTest {
     public static final Mobile MOBILE = new Mobile("010", "4250", "4296");
     public static final Address ADDRESS = new Address("11111", "seoul", "601");
 
+    //UPDATE_MEMBER_DATA
+    public static final String UPDATE_NAME = "update_" + NAME;
+    public static final String UPDATE_EMAIL = "update_" + EMAIL;
+
     //VALIDATION_MESSAGE
     public static final String HAS_MESSAGE_STARTING_WITH = "조회에";
     public static final String HAS_MESSAGE_ENDING_WITH = "실패했습니다.";
@@ -168,8 +172,8 @@ class MemberServiceTempTest {
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(member));
 
         UpdateMemberParam param = UpdateMemberParam.builder()
-                .name("update" + NAME)
-                .email("update" + EMAIL)
+                .name(UPDATE_NAME)
+                .email(UPDATE_EMAIL)
                 .birthDate(BIRTH_DATE)
                 .authorCode(AUTHOR_CODE)
                 .genderCode(GENDER_CODE)
@@ -185,8 +189,8 @@ class MemberServiceTempTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
                 .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
-        assertThat(member.getName()).isEqualTo("update" + NAME);
-        assertThat(member.getEmail()).isEqualTo("update" + EMAIL);
+        assertThat(member.getName()).isEqualTo(UPDATE_NAME);
+        assertThat(member.getEmail()).isEqualTo(UPDATE_EMAIL);
         assertThat(member.getBirthDate()).isEqualTo(BIRTH_DATE);
         assertThat(member.getAuthorCode()).isEqualTo(AUTHOR_CODE);
         assertThat(member.getGenderCode()).isEqualTo(GENDER_CODE);
