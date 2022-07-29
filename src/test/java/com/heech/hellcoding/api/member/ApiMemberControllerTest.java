@@ -6,6 +6,7 @@ import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
 import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -158,8 +159,7 @@ class ApiMemberControllerTest {
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
         given(memberService.saveMember(member)).willReturn(member);
-        CreateMemberResponse response = new CreateMemberResponse(any());
-        given(new CreateMemberResponse(any())).willReturn(response);
+
 
         CreateMemberRequest request = new CreateMemberRequest();
         request.setMemberName(NAME);
