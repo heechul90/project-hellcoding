@@ -3,10 +3,8 @@ package com.heech.hellcoding.api.member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heech.hellcoding.api.member.request.CreateMemberRequest;
 import com.heech.hellcoding.api.member.request.UpdateMemberRequest;
-import com.heech.hellcoding.api.member.response.CreateMemberResponse;
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
-import com.heech.hellcoding.core.common.json.JsonResult;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -16,7 +14,6 @@ import com.heech.hellcoding.core.member.service.MemberService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -120,7 +117,6 @@ class ApiMemberControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
         //verify
-        verify(memberService).findMembers(any(), any());
         verify(memberService, times(1)).findMembers(any(), any());
     }
 
@@ -149,7 +145,6 @@ class ApiMemberControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
         //verify
-        verify(memberService).findMember(any());
         verify(memberService, times(1)).findMember(any());
     }
 
@@ -158,8 +153,7 @@ class ApiMemberControllerTest {
     void saveMemberTest() throws Exception {
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
-        given(memberService.saveMember(member)).willReturn(member);
-
+        given(memberService.saveMember(any())).willReturn(member);
 
         CreateMemberRequest request = new CreateMemberRequest();
         request.setMemberName(NAME);
@@ -184,12 +178,21 @@ class ApiMemberControllerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").hasJsonPath())
                 .andDo(MockMvcResultHandlers.print());
 
+        /*Member savedMember = memberService.saveMember(any());
+        assertThat(savedMember.getName()).isEqualTo(NAME);
+        assertThat(savedMember.getLoginId()).isEqualTo(LOGIN_ID);
+        assertThat(savedMember.getPassword()).isEqualTo(PASSWORD);
+        assertThat(savedMember.getEmail()).isEqualTo(EMAIL);
+        assertThat(savedMember.getBirthDate()).isEqualTo(BIRTH_DATE);
+        assertThat(savedMember.getAuthorCode()).isEqualTo(AUTHOR_CODE);
+        assertThat(savedMember.getGenderCode()).isEqualTo(GENDER_CODE);
+        assertThat(savedMember.getMobile().fullPhoneNumber()).isEqualTo(MOBILE.fullPhoneNumber());
+        assertThat(savedMember.getAddress().fullAddress()).isEqualTo(ADDRESS.fullAddress());*/
+
         //verify
-        verify(memberService).saveMember(any());
         verify(memberService, times(1)).saveMember(any());
     }
 
@@ -225,9 +228,7 @@ class ApiMemberControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
         //verify
-        verify(memberService).updateMember(any(), any());
         verify(memberService, times(1)).updateMember(any(), any());
-        verify(memberService).findMember(any());
         verify(memberService, times(1)).findMember(any());
     }
 
@@ -235,7 +236,7 @@ class ApiMemberControllerTest {
     @DisplayName(value = "멤버 삭제")
     void deleteMemberTest() throws Exception {
         //given
-        //Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete(API_DELETE_MEMBER, 0L)
@@ -247,7 +248,6 @@ class ApiMemberControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
         //verify
-        verify(memberService).deleteMember(any());
         verify(memberService, times(1)).deleteMember(any());
     }
 }
