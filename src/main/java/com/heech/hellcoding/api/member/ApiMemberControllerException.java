@@ -28,7 +28,7 @@ public class ApiMemberControllerException {
                 ).collect(Collectors.toList());
 
         ResponseEntity<JsonResult> response = ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(JsonResult.ERROR2(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.", errors));
+                .body(JsonResult.ERROR(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.", errors));
 
         return response;
     }
@@ -37,7 +37,7 @@ public class ApiMemberControllerException {
     @ResponseBody
     public ResponseEntity<JsonResult> ApiMemberException(CommonException e) {
         ResponseEntity<JsonResult> response = ResponseEntity.status(e.status())
-                .body(JsonResult.ERROR2(e.status(), e.getMessage(), e.getErrors()));
+                .body(JsonResult.ERROR(e.status(), e.getMessage(), e.getErrors()));
         return response;
     }
 }

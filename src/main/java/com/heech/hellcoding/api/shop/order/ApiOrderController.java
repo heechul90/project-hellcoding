@@ -101,9 +101,9 @@ public class ApiOrderController {
             }
         }
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         Long savedId = orderService.saveOrder(request.getMemberId(), request.getItemInfos());
 

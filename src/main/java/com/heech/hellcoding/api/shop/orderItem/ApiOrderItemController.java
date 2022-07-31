@@ -69,10 +69,10 @@ public class ApiOrderItemController {
     public JsonResult addOrderItem(@PathVariable("orderId") Long orderId,
                                    @Validated @RequestBody CreateOrderItemRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
         Long addedId = orderItemService.addOrderItem(orderId, request.getItemId(), request.getCount());
         return JsonResult.OK(new CreateOrderItemResponse(addedId));
     }
@@ -84,10 +84,10 @@ public class ApiOrderItemController {
     public JsonResult updateOrderItem(@PathVariable("orderItemId") Long orderItemId,
                                       @Validated @RequestBody UpdateOrderItemRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         orderItemService.updateOrderItem(orderItemId, request.getOrderPrice(), request.getOrderCount());
         OrderItem findOrderItem = orderItemService.findOrderItem(orderItemId);

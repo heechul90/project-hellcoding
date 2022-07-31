@@ -33,9 +33,9 @@ public class ApiQuestionnaireResultController {
         }
 
         //설문 응답했는지 안했는지 체크
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         List<CreateQuestionnaireResultDto> questionnaireResults = request.getQuestionnaireResults().stream()
                 .map(result -> new CreateQuestionnaireResultDto(

@@ -35,9 +35,9 @@ public class ApiCategoryController {
     public JsonResult findCategories(@Validated CategorySearchCondition condition, BindingResult bindingResult,
                                      Pageable Pageable) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         Page<Category> content = categoryService.findCategories(condition, Pageable);
         List<CategoryDto> categories = content.getContent().stream()
@@ -135,9 +135,9 @@ public class ApiCategoryController {
     public JsonResult saveCategory(@RequestBody @Validated CreateCategoryRequest request, BindingResult bindingResult) {
 
         //TODO validation check
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         Category category = Category.createCategoryBuilder()
                 .parent(categoryService.findCategory(request.getUpperCategoryId()))
@@ -159,9 +159,9 @@ public class ApiCategoryController {
                                      @RequestBody @Validated UpdateCategoryRequest request, BindingResult bindingResult) {
 
         //TODO validation check
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         categoryService.updateCategory(
                 categoryId,

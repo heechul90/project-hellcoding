@@ -92,9 +92,9 @@ public class ApiMemberController {
     public JsonResult updateMember(@PathVariable("memberId") Long memberId,
                                    @RequestBody @Validated UpdateMemberRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         memberService.updateMember(memberId, request.toUpdateMemberParam());
         Member findMember = memberService.findMember(memberId);

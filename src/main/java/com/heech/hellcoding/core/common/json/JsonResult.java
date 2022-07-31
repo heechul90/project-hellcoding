@@ -18,7 +18,6 @@ public class JsonResult<T> {
     private HttpStatus status;
     private String message = "";
 
-    private List<ObjectError> allErrors;
     private List<Error> errors;
     private T data;
 
@@ -37,16 +36,7 @@ public class JsonResult<T> {
                 .build();
     }
 
-    public static <T> JsonResult<T> ERROR(List<ObjectError> allErrors) {
-        return (JsonResult<T>) JsonResult.builder()
-                .transaction_time(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST)
-                .allErrors(allErrors)
-                .build();
-    }
-
-    @Builder(builderClassName = "errorBuilder", builderMethodName = "errorBuilder")
-    public static <T> JsonResult<T> ERROR2(HttpStatus status, String message, List<Error> errors) {
+    public static <T> JsonResult<T> ERROR(HttpStatus status, String message, List<Error> errors) {
         return (JsonResult<T>) JsonResult.builder()
                 .transaction_time(LocalDateTime.now())
                 .status(status)

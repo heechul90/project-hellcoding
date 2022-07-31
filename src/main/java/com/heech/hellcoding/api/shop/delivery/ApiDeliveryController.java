@@ -65,10 +65,10 @@ public class ApiDeliveryController {
     public JsonResult updateDelivery(@PathVariable("deliveryId") Long deliveryId,
                                      @Validated @RequestBody UpdateDeliveryRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         deliveryService.updateDelivery(deliveryId, new Address(request.getZipcode(), request.getAddress(), request.getDetailAddress()));
         Delivery findDelivery = deliveryService.findDelivery(deliveryId);

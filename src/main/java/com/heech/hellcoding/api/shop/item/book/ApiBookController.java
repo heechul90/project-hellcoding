@@ -77,9 +77,9 @@ public class ApiBookController {
     public JsonResult saveBook(@RequestBody @Validated CreateBookRequest request, BindingResult bindingResult) {
 
         //TODO validation check
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         Book book = Book.createBookBuilder()
                 .name(request.getItemName())
@@ -102,9 +102,9 @@ public class ApiBookController {
     public JsonResult updateBook(@PathVariable("id") Long id,
                                  @RequestBody @Validated UpdateBookRequest request, BindingResult bindingResult) {
         //TODO validation check
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         bookService.updateBook(id,
                 request.getItemName(),

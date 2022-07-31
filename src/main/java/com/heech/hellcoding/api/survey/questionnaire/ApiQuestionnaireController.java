@@ -96,9 +96,9 @@ public class ApiQuestionnaireController {
     @PostMapping
     public JsonResult saveQuestionnaire(@RequestBody @Validated CreateQuestionnaireRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         Questionnaire questionnaire = Questionnaire.createQuestionnaireBuilder()
                 .title(request.getQuestionnaireTitle())
@@ -139,9 +139,9 @@ public class ApiQuestionnaireController {
     public JsonResult updateQuestionnaire(@PathVariable("id") Long questionnaireId,
                                           @RequestBody @Validated UpdateQuestionnaireRequest request, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
+        /*if (bindingResult.hasErrors()) {
             return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+        }*/
 
         UpdateQuestionnaireParam questionnaireParam = new UpdateQuestionnaireParam(
                 request.getQuestionnaireTitle(),
