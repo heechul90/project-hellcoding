@@ -1,6 +1,8 @@
 package com.heech.hellcoding.api.member.request;
 
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.JsonInvalidRequest;
+import com.heech.hellcoding.core.common.json.Error;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -10,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -39,6 +42,20 @@ public class CreateMemberRequest {
     private String address;
     @NotEmpty
     private String detailAddress;
+
+    public void validate() {
+        ArrayList<Error> errors = new ArrayList<>();
+        if (this.memberName.startsWith("이")) {
+            errors.add(new Error(memberName.toString(), "이씨는 회원가입을 할 수 없습니다."));
+        }
+        if (this.loginId.startsWith("a")) {
+            errors.add(new Error(loginId.toString(), "로그인 아이디는 a로 시작할 수 없습니다."));
+        }
+
+        if (errors.size() > 0) {
+            throw new JsonInvalidRequest(errors);
+        }
+    }
 
     public Member toEntity() {
         return Member.createMemberBuilder()

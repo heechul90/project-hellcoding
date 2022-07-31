@@ -1,5 +1,6 @@
 package com.heech.hellcoding.api.member;
 
+import com.heech.hellcoding.core.common.exception.CommonException;
 import com.heech.hellcoding.core.common.json.Error;
 import com.heech.hellcoding.core.common.json.JsonResult;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,14 @@ public class ApiMemberControllerException {
         ResponseEntity<JsonResult> response = ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(JsonResult.ERROR2(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.", errors));
 
+        return response;
+    }
+
+    @ExceptionHandler(CommonException.class)
+    @ResponseBody
+    public ResponseEntity<JsonResult> ApiMemberException(CommonException e) {
+        ResponseEntity<JsonResult> response = ResponseEntity.status(e.status())
+                .body(JsonResult.ERROR2(e.status(), e.getMessage(), e.getErrors()));
         return response;
     }
 }

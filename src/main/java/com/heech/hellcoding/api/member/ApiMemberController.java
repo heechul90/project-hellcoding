@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,8 @@ public class ApiMemberController {
      */
     @PostMapping
     public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
+        //validation
+        request.validate();
 
         Member savedMember = memberService.saveMember(request.toEntity());
         CreateMemberResponse response = CreateMemberResponse.builder()
