@@ -73,11 +73,7 @@ public class ApiMemberController {
      * 회원 저장
      */
     @PostMapping
-    public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return JsonResult.ERROR(bindingResult.getAllErrors());
-        }
+    public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
 
         Member savedMember = memberService.saveMember(request.toEntity());
         CreateMemberResponse response = CreateMemberResponse.builder()

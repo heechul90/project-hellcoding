@@ -129,7 +129,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName(value = "멤버 단건 조회시 오류 확인")
+    @DisplayName(value = "멤버 단건_예외발생")
     void findMemberTest_validation() {
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
