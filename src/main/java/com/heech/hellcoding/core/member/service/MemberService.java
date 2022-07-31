@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.member.service;
 
+import com.heech.hellcoding.core.common.exception.EntityNotFound;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.Member;
 import com.heech.hellcoding.core.member.dto.MemberSearchCondition;
@@ -33,7 +34,8 @@ public class MemberService {
      * 회원 조회 By Id
      */
     public Member findMember(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("Post", id));
     }
 
     /**
@@ -50,7 +52,8 @@ public class MemberService {
      */
     @Transactional
     public void updateMember(Long id, UpdateMemberParam param) {
-        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("Post", id));
         findMember.updateMemberBuilder()
                 .param(param)
                 .build();
@@ -61,7 +64,8 @@ public class MemberService {
      */
     @Transactional
     public void deleteMember(Long id) {
-        Member findMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("조회에 실패했습니다."));
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("Post", id));
         memberRepository.delete(findMember);
     }
 

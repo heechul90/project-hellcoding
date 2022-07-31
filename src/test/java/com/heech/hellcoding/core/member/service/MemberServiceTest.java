@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.member.service;
 
 import com.heech.hellcoding.core.common.dto.SearchCondition;
 import com.heech.hellcoding.core.common.entity.Address;
+import com.heech.hellcoding.core.common.exception.EntityNotFound;
 import com.heech.hellcoding.core.common.exception.NoSuchElementException;
 import com.heech.hellcoding.core.member.domain.AuthorCode;
 import com.heech.hellcoding.core.member.domain.GenderCode;
@@ -50,8 +51,7 @@ class MemberServiceTest {
     public static final String UPDATE_EMAIL = "update_" + EMAIL;
 
     //VALIDATION_MESSAGE
-    public static final String HAS_MESSAGE_STARTING_WITH = "조회에";
-    public static final String HAS_MESSAGE_ENDING_WITH = "실패했습니다.";
+    public static final String HAS_MESSAGE_STARTING_WITH = "존재하지 않는 Post";
 
     @InjectMocks MemberService memberService;
 
@@ -129,19 +129,17 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName(value = "멤버 단건_예외발생")
+    @DisplayName(value = "멤버 단건 조회_예외 발생")
     void findMemberTest_validation() {
         //given
         Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
         //given(memberRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(member));
 
-        //when
-
-        //then
-        assertThatThrownBy(() -> memberService.findMember(any(Long.class)))
-                .isInstanceOf(NoSuchElementException.class)
+        //expected
+        assertThatThrownBy(() -> memberService.findMember(0L))
+                .isInstanceOf(EntityNotFound.class)
                 .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
-                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+                .hasMessageEndingWith("id = " + 0);
 
         //verify
         verify(memberRepository).findById(any(Long.class));
@@ -191,10 +189,10 @@ class MemberServiceTest {
         memberService.updateMember(any(Long.class), param);
 
         //then
-        assertThatThrownBy(() -> memberService.updateMember(any(), param))
-                .isInstanceOf(NoSuchElementException.class)
+        assertThatThrownBy(() -> memberService.updateMember(member.getId(), param))
+                .isInstanceOf(EntityNotFound.class)
                 .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
-                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+                .hasMessageContaining("id = " + member.getId());
         assertThat(member.getName()).isEqualTo(UPDATE_NAME);
         assertThat(member.getEmail()).isEqualTo(UPDATE_EMAIL);
         assertThat(member.getBirthDate()).isEqualTo(BIRTH_DATE);
@@ -220,9 +218,9 @@ class MemberServiceTest {
 
         //then
         assertThatThrownBy(() -> memberService.findMember(member.getId()))
-                .isInstanceOf(NoSuchElementException.class)
+                .isInstanceOf(EntityNotFound.class)
                 .hasMessageStartingWith(HAS_MESSAGE_STARTING_WITH)
-                .hasMessageEndingWith(HAS_MESSAGE_ENDING_WITH);
+                .hasMessageEndingWith("id = " + member.getId());
 
         //verify
         verify(memberRepository).findById(any(Long.class));

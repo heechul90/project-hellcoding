@@ -152,6 +152,23 @@ public class ApiMemberControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName(value = "멤버 단건 조회_예외 발생")
+    void findMemberTest_validation() throws Exception {
+        //given
+        Member member = getMember(NAME, LOGIN_ID, PASSWORD, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS);
+        Member savedMember = memberService.saveMember(member);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(API_FIND_MEMBER, savedMember.getId() + 1L)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.NOT_FOUND.name()))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     @DisplayName(value = "멤버 저장")
     void saveMemberTest() throws Exception {
         //given
