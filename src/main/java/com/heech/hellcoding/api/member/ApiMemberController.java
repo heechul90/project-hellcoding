@@ -75,7 +75,8 @@ public class ApiMemberController {
      */
     @PostMapping
     public JsonResult saveMember(@RequestBody @Validated CreateMemberRequest request) {
-        //validation
+
+        //validation check
         request.validate();
 
         Member savedMember = memberService.saveMember(request.toEntity());
@@ -90,11 +91,10 @@ public class ApiMemberController {
      */
     @PutMapping(value = "/{memberId}")
     public JsonResult updateMember(@PathVariable("memberId") Long memberId,
-                                   @RequestBody @Validated UpdateMemberRequest request, BindingResult bindingResult) {
+                                   @RequestBody @Validated UpdateMemberRequest request) {
 
-        /*if (bindingResult.hasErrors()) {
-            return JsonResult.ERROR(bindingResult.getAllErrors());
-        }*/
+        //validation check
+        request.validate();
 
         memberService.updateMember(memberId, request.toUpdateMemberParam());
         Member findMember = memberService.findMember(memberId);

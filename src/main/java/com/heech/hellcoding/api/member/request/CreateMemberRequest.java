@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,20 +44,6 @@ public class CreateMemberRequest {
     @NotEmpty
     private String detailAddress;
 
-    public void validate() {
-        ArrayList<Error> errors = new ArrayList<>();
-        if (this.memberName.startsWith("이")) {
-            errors.add(new Error(memberName.toString(), "이씨는 회원가입을 할 수 없습니다."));
-        }
-        if (this.loginId.startsWith("a")) {
-            errors.add(new Error(loginId.toString(), "로그인 아이디는 a로 시작할 수 없습니다."));
-        }
-
-        if (errors.size() > 0) {
-            throw new JsonInvalidRequest(errors);
-        }
-    }
-
     public Member toEntity() {
         return Member.createMemberBuilder()
                 .name(this.memberName)
@@ -69,5 +56,16 @@ public class CreateMemberRequest {
                 .mobile(new Mobile(this.phoneNumber.substring(0, 3), this.phoneNumber.substring(3, 7), this.phoneNumber.substring(7, 11)))
                 .address(new Address(this.zipcode, this.address, this.detailAddress))
                 .build();
+    }
+
+    //validate check
+    public void validate() {
+        List<Error> errors = new ArrayList<>();
+        if (this.memberName.startsWith("이")) errors.add(new Error(memberName.toString(), "이씨는 회원가입을 할 수 없습니다."));
+        if (this.loginId.startsWith("a")) errors.add(new Error(loginId.toString(), "로그인 아이디는 a로 시작할 수 없습니다."));
+
+        if (errors.size() > 0) {
+            throw new JsonInvalidRequest(errors);
+        }
     }
 }

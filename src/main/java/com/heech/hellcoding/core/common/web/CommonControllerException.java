@@ -1,4 +1,4 @@
-package com.heech.hellcoding.api.member;
+package com.heech.hellcoding.core.common.web;
 
 import com.heech.hellcoding.core.common.exception.CommonException;
 import com.heech.hellcoding.core.common.json.Error;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @ControllerAdvice
-public class ApiMemberControllerException {
+public class CommonControllerException {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
