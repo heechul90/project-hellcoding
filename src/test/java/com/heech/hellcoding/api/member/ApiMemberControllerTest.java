@@ -64,6 +64,9 @@ class ApiMemberControllerTest {
     public static final String UPDATE_BIRTH_DATE = "20001009";
     public static final String UPDATE_PHONE_NUMBER = "01064884296";
 
+    //ERROR_MESSAGE
+    public static final String BAD_REQUEST_MESSAGE = "잘못된 요청입니다.";
+
     @Autowired private MockMvc mockMvc;
 
     @MockBean private MemberService memberService;
@@ -181,19 +184,70 @@ class ApiMemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.savedMemberId").hasJsonPath())
                 .andDo(MockMvcResultHandlers.print());
 
-        /*Member savedMember = memberService.saveMember(any());
-        assertThat(savedMember.getName()).isEqualTo(NAME);
-        assertThat(savedMember.getLoginId()).isEqualTo(LOGIN_ID);
-        assertThat(savedMember.getPassword()).isEqualTo(PASSWORD);
-        assertThat(savedMember.getEmail()).isEqualTo(EMAIL);
-        assertThat(savedMember.getBirthDate()).isEqualTo(BIRTH_DATE);
-        assertThat(savedMember.getAuthorCode()).isEqualTo(AUTHOR_CODE);
-        assertThat(savedMember.getGenderCode()).isEqualTo(GENDER_CODE);
-        assertThat(savedMember.getMobile().fullPhoneNumber()).isEqualTo(MOBILE.fullPhoneNumber());
-        assertThat(savedMember.getAddress().fullAddress()).isEqualTo(ADDRESS.fullAddress());*/
-
         //verify
         verify(memberService, times(1)).saveMember(any());
+    }
+
+    @Test
+    @DisplayName(value = "멤버 저장_예외 발생_field")
+    void saveMemberTest_validation_field() throws Exception {
+        //given
+        CreateMemberRequest request = new CreateMemberRequest();
+        request.setMemberName("");
+        request.setLoginId("");
+        request.setPassword("");
+        request.setEmail("");
+        request.setBirthDate(BIRTH_DATE);
+        request.setAuthorCode(AUTHOR_CODE);
+        request.setGender(GENDER_CODE.name());
+        request.setPhoneNumber(MOBILE.getMobileNumberFirst() + MOBILE.getMobileNumberMiddle() + MOBILE.getMobileNumberLast());
+        request.setZipcode(ADDRESS.getZipcode());
+        request.setAddress(ADDRESS.getAddress());
+        request.setDetailAddress(ADDRESS.getDetailAddress());
+
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(BAD_REQUEST_MESSAGE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors.length()", Matchers.is(4)))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName(value = "멤버 저장_예외 발생_object")
+    void saveMemberTest_validation_object() throws Exception {
+        //given
+        CreateMemberRequest request = new CreateMemberRequest();
+        request.setMemberName("이" + NAME);
+        request.setLoginId("a" + LOGIN_ID);
+        request.setPassword(PASSWORD);
+        request.setEmail(EMAIL);
+        request.setBirthDate(BIRTH_DATE);
+        request.setAuthorCode(AUTHOR_CODE);
+        request.setGender(GENDER_CODE.name());
+        request.setPhoneNumber(MOBILE.getMobileNumberFirst() + MOBILE.getMobileNumberMiddle() + MOBILE.getMobileNumberLast());
+        request.setZipcode(ADDRESS.getZipcode());
+        request.setAddress(ADDRESS.getAddress());
+        request.setDetailAddress(ADDRESS.getDetailAddress());
+
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(API_SAVE_MEMBER)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(BAD_REQUEST_MESSAGE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors.length()", Matchers.is(2)))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test

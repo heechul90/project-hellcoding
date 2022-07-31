@@ -19,29 +19,29 @@ import java.util.List;
 @Setter
 public class CreateMemberRequest {
 
-    @NotBlank
+    @NotBlank(message = "이름을 입력하세요.")
     private String memberName;
-    @NotEmpty
+    @NotBlank(message = "아이디를 입력하세요.")
     private String loginId;
-    @NotEmpty
+    @NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
-    @NotEmpty
+    @NotBlank(message = "이메일을 입력하세요.")
     @Email
     private String email;
-    @NotEmpty
+
     @Size(min = 8, max = 8)
     private String birthDate;
-    @NotNull
+
     private AuthorCode authorCode;
-    @NotEmpty
+
     private String gender;
     @Length(min = 11, max = 11)
     private String phoneNumber;
     @Size(min = 5, max = 5)
     private String zipcode;
-    @NotEmpty
+
     private String address;
-    @NotEmpty
+
     private String detailAddress;
 
     public Member toEntity() {
@@ -61,8 +61,8 @@ public class CreateMemberRequest {
     //validate check
     public void validate() {
         List<Error> errors = new ArrayList<>();
-        if (this.memberName.startsWith("이")) errors.add(new Error(memberName.toString(), "이씨는 회원가입을 할 수 없습니다."));
-        if (this.loginId.startsWith("a")) errors.add(new Error(loginId.toString(), "로그인 아이디는 a로 시작할 수 없습니다."));
+        if (this.memberName.startsWith("이")) errors.add(new Error("memberName", "이씨는 회원가입을 할 수 없습니다."));
+        if (this.loginId.startsWith("a")) errors.add(new Error("loginId", "로그인 아이디는 a로 시작할 수 없습니다."));
 
         if (errors.size() > 0) {
             throw new JsonInvalidRequest(errors);

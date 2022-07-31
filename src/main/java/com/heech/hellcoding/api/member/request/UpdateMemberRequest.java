@@ -51,7 +51,7 @@ public class UpdateMemberRequest {
     //validate check
     public void validate() {
         List<Error> errors = new ArrayList<>();
-        if (!this.birthDate.startsWith("1") && !this.birthDate.startsWith("2")) errors.add(new Error(birthDate.toString(), "생년월일을 확인하세요."));
+        if (!this.birthDate.startsWith("1") && !this.birthDate.startsWith("2")) errors.add(new Error("birthDate", "생년월일을 확인하세요."));
 
         if (errors.size() > 0) {
             throw new JsonInvalidRequest(errors);
