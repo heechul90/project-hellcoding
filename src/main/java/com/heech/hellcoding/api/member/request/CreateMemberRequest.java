@@ -61,6 +61,7 @@ public class CreateMemberRequest {
     //validate check
     public void validate() {
         List<Error> errors = new ArrayList<>();
+
         if (this.memberName.startsWith("이")) errors.add(new Error("memberName", "이씨는 회원가입을 할 수 없습니다."));
         if (this.loginId.startsWith("a")) errors.add(new Error("loginId", "로그인 아이디는 a로 시작할 수 없습니다."));
 
