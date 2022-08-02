@@ -1,5 +1,6 @@
 package com.heech.hellcoding.core.education.lesson.domain;
 
+import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.heech.hellcoding.core.education.catetory.domain.EducationCategory;
 import com.heech.hellcoding.core.member.domain.Member;
@@ -23,8 +24,8 @@ public class Lesson extends BaseEntity {
     private LessonType lessonType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "education_category_id")
-    private EducationCategory category;
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     private boolean isCourse;
 
@@ -65,7 +66,5 @@ public class Lesson extends BaseEntity {
 
     private boolean isOpen;
     private boolean isDelete;
-
-
 
 }
