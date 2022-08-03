@@ -2,7 +2,6 @@ package com.heech.hellcoding.core.education.lesson.domain;
 
 import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.entity.BaseEntity;
-import com.heech.hellcoding.core.education.catetory.domain.EducationCategory;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
