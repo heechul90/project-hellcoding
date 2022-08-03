@@ -22,6 +22,7 @@ public class Video extends Content {
     private int videoDuration;
     private VideoUploadType videoUploadType;
     private String videoUrl;
+    private int learningTime;
 
     private String imageAttachFileId;
     private String videoAttachFileId;
