@@ -179,4 +179,12 @@ public class ApiQuestionnaireController {
         questionnaireService.deleteQuestionnaire(questionnaireId);
         return JsonResult.OK();
     }
+
+    /**
+     * 설문 통계
+     */
+    @GetMapping(value = "/{id}/statistic")
+    public JsonResult statisticQuestionnaire(@PathVariable("id") Long questionnaireId) {
+        return JsonResult.OK();
+    }
 }
