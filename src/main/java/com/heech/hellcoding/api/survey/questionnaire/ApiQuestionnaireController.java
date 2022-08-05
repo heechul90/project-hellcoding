@@ -166,7 +166,6 @@ public class ApiQuestionnaireController {
                         .collect(Collectors.toList())
         );
         questionnaireService.updateQuestionnaire(questionnaireId, questionnaireParam);
-
         Questionnaire questionnaire = questionnaireService.findQuestionnaire(questionnaireId);
         return JsonResult.OK(new UpdateQuestionnaireResponse(questionnaire.getId()));
     }
