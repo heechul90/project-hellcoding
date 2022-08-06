@@ -166,7 +166,6 @@ public class ApiQuestionnaireController {
                         .collect(Collectors.toList())
         );
         questionnaireService.updateQuestionnaire(questionnaireId, questionnaireParam);
-
         Questionnaire questionnaire = questionnaireService.findQuestionnaire(questionnaireId);
         return JsonResult.OK(new UpdateQuestionnaireResponse(questionnaire.getId()));
     }
@@ -177,6 +176,14 @@ public class ApiQuestionnaireController {
     @DeleteMapping(value = "/{id}")
     public JsonResult deleteQuestionnaire(@PathVariable("id") Long questionnaireId) {
         questionnaireService.deleteQuestionnaire(questionnaireId);
+        return JsonResult.OK();
+    }
+
+    /**
+     * 설문 통계
+     */
+    @GetMapping(value = "/{id}/statistic")
+    public JsonResult statisticQuestionnaire(@PathVariable("id") Long questionnaireId) {
         return JsonResult.OK();
     }
 }

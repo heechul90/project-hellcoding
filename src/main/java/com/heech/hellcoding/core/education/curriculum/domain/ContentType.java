@@ -1,4 +1,4 @@
-package com.heech.hellcoding.core.education.content.domain;
+package com.heech.hellcoding.core.education.curriculum.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
