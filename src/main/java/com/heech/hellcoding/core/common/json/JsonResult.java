@@ -15,7 +15,6 @@ import java.util.List;
 public class JsonResult<T> {
 
     private LocalDateTime transaction_time;
-
     private HttpStatus status;
     private String message = "";
 
