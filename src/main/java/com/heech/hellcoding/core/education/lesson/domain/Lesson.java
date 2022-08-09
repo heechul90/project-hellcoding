@@ -4,6 +4,7 @@ import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.entity.BaseEntity;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -55,15 +56,44 @@ public class Lesson extends BaseEntity {
     private Member teacher;
     private String teacherIntroduction;
 
-    private String copyright;
+    private boolean isCopyright;
+    @Enumerated(EnumType.STRING)
+    private CopyRight copyRight;
 
-    private String copyrightAttachFileId;
     private String imageAttachFileId;
-    private String attachFileId;
+    private String documentAttachFileId;
 
     private int inquiryCount;
 
     private boolean isOpen;
     private boolean isDelete;
 
+    @Builder(builderClassName = "createLessonBuilder", builderMethodName = "createLessonBuilder")
+    public Lesson(LessonType lessonType, Category category, boolean isCourse, String title, boolean isEditor, String lessonIntroduction, String lessonGoal, String lessonTarget, String thumbnailUrl, boolean isMaterial, String materialIntroduction, String materialLink, AgeCode ageCode, int minAge, int maxAge, Level level, Member teacher, String teacherIntroduction, boolean isCopyright, CopyRight copyRight, String imageAttachFileId, String documentAttachFileId, int inquiryCount, boolean isOpen, boolean isDelete) {
+        this.lessonType = lessonType;
+        this.category = category;
+        this.isCourse = isCourse;
+        this.title = title;
+        this.isEditor = isEditor;
+        this.lessonIntroduction = lessonIntroduction;
+        this.lessonGoal = lessonGoal;
+        this.lessonTarget = lessonTarget;
+        this.thumbnailUrl = thumbnailUrl;
+        this.isMaterial = isMaterial;
+        this.materialIntroduction = materialIntroduction;
+        this.materialLink = materialLink;
+        this.ageCode = ageCode;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.level = level;
+        this.teacher = teacher;
+        this.teacherIntroduction = teacherIntroduction;
+        this.isCopyright = isCopyright;
+        this.copyRight = copyRight;
+        this.imageAttachFileId = imageAttachFileId;
+        this.documentAttachFileId = documentAttachFileId;
+        this.inquiryCount = inquiryCount;
+        this.isOpen = isOpen;
+        this.isDelete = isDelete;
+    }
 }
