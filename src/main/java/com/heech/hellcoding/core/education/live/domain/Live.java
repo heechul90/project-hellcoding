@@ -23,4 +23,6 @@ public class Live extends Curriculum {
     @Column(name = "liveContent")
     private String content;
 
+    @Column(name = "liveTitle")
+    private String title;
 }
