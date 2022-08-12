@@ -18,11 +18,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Live extends Curriculum {
 
-    private LocalDateTime liveBeginDate;
-
     @Column(name = "liveContent")
     private String content;
 
-    @Column(name = "liveTitle")
-    private String title;
+    private LocalDateTime liveBeginDate;
+    private LocalDateTime liveEndDate;
+
 }
