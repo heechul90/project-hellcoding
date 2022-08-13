@@ -24,4 +24,6 @@ public class Live extends Curriculum {
     private LocalDateTime liveBeginDate;
     private LocalDateTime liveEndDate;
 
+    private Meeting meeting;
+
 }
