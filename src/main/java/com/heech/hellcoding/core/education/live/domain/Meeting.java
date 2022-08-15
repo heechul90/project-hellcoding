@@ -1,5 +1,14 @@
 package com.heech.hellcoding.core.education.live.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Meeting {
 
     private String serviceId;

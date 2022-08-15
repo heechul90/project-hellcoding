@@ -1,21 +1,22 @@
 package com.heech.hellcoding.core.education.video.domain;
 
+import com.heech.hellcoding.core.common.entity.BaseTimeEntity;
 import com.heech.hellcoding.core.education.curriculum.domain.Curriculum;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "education_video")
-@DiscriminatorValue(value = "VIDEO")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Video extends Curriculum {
+public class Video extends BaseTimeEntity {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "education_video_id")
+    private Long id;
 
     @Column(name = "video_content")
     private String content;
