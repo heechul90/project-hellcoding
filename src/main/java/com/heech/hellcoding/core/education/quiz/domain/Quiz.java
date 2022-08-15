@@ -18,6 +18,7 @@ public class Quiz extends BaseTimeEntity {
     @Column(name = "education_quiz_id")
     private Long id;
 
-    private String explanation;
+    @Column(name = "quiz_content")
+    private String content;
 
 }

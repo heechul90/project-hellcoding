@@ -20,7 +20,7 @@ public class Live extends BaseTimeEntity {
     @Column(name = "education_live_id")
     private Long id;
 
-    @Column(name = "liveContent")
+    @Column(name = "live_content")
     private String content;
 
     private LocalDateTime liveBeginDate;
