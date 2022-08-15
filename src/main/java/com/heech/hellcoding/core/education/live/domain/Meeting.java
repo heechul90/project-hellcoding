@@ -4,12 +4,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Embeddable
+@Entity
+@Table(name = "education_live_whaleon")
+@DiscriminatorValue(value = "WHALEON")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Meeting {
+public class Meeting extends Live {
 
     private String serviceId;
     private String contentId;

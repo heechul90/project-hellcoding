@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "education_live")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "live_type")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Live extends BaseTimeEntity {
@@ -23,8 +25,5 @@ public class Live extends BaseTimeEntity {
 
     private LocalDateTime liveBeginDate;
     private LocalDateTime liveEndDate;
-
-    @Embedded
-    private Meeting meeting;
 
 }
