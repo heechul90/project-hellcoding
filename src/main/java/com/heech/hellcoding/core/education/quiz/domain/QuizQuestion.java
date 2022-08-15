@@ -19,4 +19,7 @@ public class QuizQuestion {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education_quiz_id")
     private Quiz quiz;
+
+    @Column(name = "question_content")
+    private String content;
 }
