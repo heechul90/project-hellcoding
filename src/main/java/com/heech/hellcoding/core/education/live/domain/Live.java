@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.education.live.domain;
 
 import com.heech.hellcoding.core.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,10 @@ public class Live extends BaseTimeEntity {
     private LocalDateTime liveBeginDate;
     private LocalDateTime liveEndDate;
 
+    @Builder
+    public Live(String content, LocalDateTime liveBeginDate, LocalDateTime liveEndDate) {
+        this.content = content;
+        this.liveBeginDate = liveBeginDate;
+        this.liveEndDate = liveEndDate;
+    }
 }
