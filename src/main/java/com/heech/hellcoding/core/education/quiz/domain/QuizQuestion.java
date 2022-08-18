@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "education_quiz_question")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "question_type")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuizQuestion {
