@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "OBJECTIVE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Objective extends QuizQuestion {
+public class QuestionObjective extends QuizQuestion {
 
     private boolean enableMultiChoise;
     private boolean enableMixOption;

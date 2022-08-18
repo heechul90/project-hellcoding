@@ -4,14 +4,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "SBJECTIVE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Subjective extends QuizQuestion {
+public class OptionObjective extends QuizQuestionOption {
 
-    private SubjectiveType subjectiveType;
+    private boolean isExplanation;
+    private String explanation;
+    private boolean isCorrect;
+
 }
