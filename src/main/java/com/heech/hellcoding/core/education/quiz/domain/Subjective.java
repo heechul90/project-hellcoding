@@ -8,7 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "OBJECTIVE")
+@DiscriminatorValue(value = "SBJECTIVE")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Subjective extends QuizQuestion {
