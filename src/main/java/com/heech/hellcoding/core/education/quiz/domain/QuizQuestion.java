@@ -24,4 +24,9 @@ public class QuizQuestion {
 
     @Column(name = "question_content")
     private String content;
+
+    private int sortNumber;
+    private String enableEssential;
+    private String imageUrl;
+    private String score;
 }
