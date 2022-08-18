@@ -2,6 +2,7 @@ package com.heech.hellcoding.core.education.lesson.domain;
 
 import com.heech.hellcoding.core.category.domain.Category;
 import com.heech.hellcoding.core.common.entity.BaseEntity;
+import com.heech.hellcoding.core.education.lesson.dto.UpdateLessonParam;
 import com.heech.hellcoding.core.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -95,5 +96,14 @@ public class Lesson extends BaseEntity {
         this.inquiryCount = inquiryCount;
         this.isOpen = isOpen;
         this.isDelete = isDelete;
+    }
+
+    @Builder(builderMethodName = "updateLessonBuilder", builderClassName = "updateLessonBuilder")
+    public void updateLesson(UpdateLessonParam param) {
+
+    }
+
+    public void deleteLesson() {
+        this.isDelete = true;
     }
 }
