@@ -6,7 +6,7 @@
 ```text
 project : gradle project
 language : java
-spring boot : 2.7.0
+spring boot : 2.7.3
 packaging : jar
 java : 11
 ```
