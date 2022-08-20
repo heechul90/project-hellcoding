@@ -28,8 +28,6 @@ public class Lesson extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private boolean isCourse;
-
     @Column(name = "lesson_title")
     private String title;
 
@@ -38,16 +36,14 @@ public class Lesson extends BaseEntity {
     private String lessonGoal;
     private String lessonTarget;
 
-    private String thumbnailUrl;
-
     private boolean isMaterial;
     private String materialIntroduction;
     private String materialLink;
 
     @Enumerated(EnumType.STRING)
     private AgeCode ageCode;
-    private int minAge;
-    private int maxAge;
+    private Integer minAge;
+    private Integer maxAge;
 
     @Enumerated(EnumType.STRING)
     private Level level;
@@ -57,29 +53,23 @@ public class Lesson extends BaseEntity {
     private Member teacher;
     private String teacherIntroduction;
 
-    private boolean isCopyright;
-    @Enumerated(EnumType.STRING)
-    private CopyRight copyRight;
-
-    private String imageAttachFileId;
-    private String documentAttachFileId;
-
     private int inquiryCount;
 
-    private boolean isOpen;
     private boolean isDelete;
 
+    //===생성 메서드===//
+    /**
+     * 레슨 생성
+     */
     @Builder(builderClassName = "createLessonBuilder", builderMethodName = "createLessonBuilder")
-    public Lesson(LessonType lessonType, Category category, boolean isCourse, String title, boolean isEditor, String lessonIntroduction, String lessonGoal, String lessonTarget, String thumbnailUrl, boolean isMaterial, String materialIntroduction, String materialLink, AgeCode ageCode, int minAge, int maxAge, Level level, Member teacher, String teacherIntroduction, boolean isCopyright, CopyRight copyRight, String imageAttachFileId, String documentAttachFileId, int inquiryCount, boolean isOpen, boolean isDelete) {
+    public Lesson(LessonType lessonType, Category category, String title, boolean isEditor, String lessonIntroduction, String lessonGoal, String lessonTarget, boolean isMaterial, String materialIntroduction, String materialLink, AgeCode ageCode, Integer minAge, Integer maxAge, Level level, Member teacher, String teacherIntroduction) {
         this.lessonType = lessonType;
         this.category = category;
-        this.isCourse = isCourse;
         this.title = title;
         this.isEditor = isEditor;
         this.lessonIntroduction = lessonIntroduction;
         this.lessonGoal = lessonGoal;
         this.lessonTarget = lessonTarget;
-        this.thumbnailUrl = thumbnailUrl;
         this.isMaterial = isMaterial;
         this.materialIntroduction = materialIntroduction;
         this.materialLink = materialLink;
@@ -89,15 +79,13 @@ public class Lesson extends BaseEntity {
         this.level = level;
         this.teacher = teacher;
         this.teacherIntroduction = teacherIntroduction;
-        this.isCopyright = isCopyright;
-        this.copyRight = copyRight;
-        this.imageAttachFileId = imageAttachFileId;
-        this.documentAttachFileId = documentAttachFileId;
-        this.inquiryCount = inquiryCount;
-        this.isOpen = isOpen;
-        this.isDelete = isDelete;
+        this.inquiryCount = 0;
+        this.isDelete = false;
     }
 
+    /**
+     * 레슨 수정
+     */
     @Builder(builderMethodName = "updateLessonBuilder", builderClassName = "updateLessonBuilder")
     public void updateLesson(UpdateLessonParam param) {
 
