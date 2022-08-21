@@ -35,7 +35,7 @@ public class CommonControllerException {
 
     @ExceptionHandler(CommonException.class)
     @ResponseBody
-    public ResponseEntity<JsonResult> ApiMemberException(CommonException e) {
+    public ResponseEntity<JsonResult> ApiCommonException(CommonException e) {
         ResponseEntity<JsonResult> response = ResponseEntity.status(e.status())
                 .body(JsonResult.ERROR(e.status(), e.getMessage(), e.getErrors()));
         return response;
