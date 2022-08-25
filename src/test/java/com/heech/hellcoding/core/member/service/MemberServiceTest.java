@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -77,7 +78,7 @@ class MemberServiceTest {
     @DisplayName(value = "멤버 목록 조회")
     void findMembersTest() {
         //given
-        ArrayList<Member> members = new ArrayList<>();
+        List<Member> members = new ArrayList<>();
         for (int i = 0; i <10; i++) {
             members.add(getMember(NAME + i, LOGIN_ID + i, PASSWORD + i, EMAIL, BIRTH_DATE, AUTHOR_CODE, GENDER_CODE, MOBILE, ADDRESS));
         }

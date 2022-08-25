@@ -5,16 +5,30 @@ import com.heech.hellcoding.core.education.lesson.domain.AgeCode;
 import com.heech.hellcoding.core.education.lesson.domain.Lesson;
 import com.heech.hellcoding.core.education.lesson.domain.LessonType;
 import com.heech.hellcoding.core.education.lesson.domain.Level;
+import com.heech.hellcoding.core.education.lesson.dto.LessonSearchCondition;
 import com.heech.hellcoding.core.education.lesson.repository.LessonQueryRepository;
 import com.heech.hellcoding.core.education.lesson.repository.LessonRepository;
 import com.heech.hellcoding.core.member.domain.Member;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class LessonServiceTest {
@@ -67,7 +81,31 @@ class LessonServiceTest {
     }
 
     @Test
+    @DisplayName(value = "lesson 목록 조회")
     void findLessonsTest() {
+        //given
+        List<Lesson> lessons = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            lessons.add(getLesson(LESSON_TYPE, CATEGORY, TITLE + i, IS_EDITOR, LESSON_INTRODUCTION, LESSON_GOAL, LESSON_TARGET, IS_MATERIAL, MATERIAL_INTRODUCTION, MATERIAL_LINK,
+                    AGE_CODE, MIN_AGE, MAX_AGE, LEVEL, TEACHER, TEACHER_INTRODUCTION));
+        }
+        given(lessonService.findLessons(any(LessonSearchCondition.class), any(PageRequest.class))).willReturn(new PageImpl(lessons));
+
+        //TODO 검색 작동 안함.
+        LessonSearchCondition condition = new LessonSearchCondition();
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        //when
+        Page<Lesson> content = lessonService.findLessons(condition, pageRequest);
+
+        //then
+        assertThat(content.getTotalElements()).isEqualTo(10);
+        assertThat(content.getContent().size()).isEqualTo(10);
+        assertThat(content.getContent()).extracting("title").contains(TITLE + 0, TITLE + 9);
+
+        
+        //verify
+        verify(lessonQueryRepository, times(1)).findLessons(any(), any());
     }
 
     @Test
