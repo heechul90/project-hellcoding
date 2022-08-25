@@ -1,4 +1,4 @@
-# project-hellcoding
+# hellcoding-server
 
 ## 1. 프로젝트 설정
 
