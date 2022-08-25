@@ -33,7 +33,7 @@ public class LessonService {
     /**
      * 강의 단건 조회
      */
-    public Lesson findLessons(Long lessonId) {
+    public Lesson findLesson(Long lessonId) {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFound(ENTITY_NAME, lessonId));
     }
