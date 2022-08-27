@@ -102,7 +102,6 @@ class LessonServiceTest {
         assertThat(content.getTotalElements()).isEqualTo(10);
         assertThat(content.getContent().size()).isEqualTo(10);
         assertThat(content.getContent()).extracting("title").contains(TITLE + 0, TITLE + 9);
-
         
         //verify
         verify(lessonQueryRepository, times(1)).findLessons(any(), any());
