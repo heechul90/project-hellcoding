@@ -16,7 +16,7 @@ public class JsonResult<T> {
 
     private LocalDateTime transaction_time;
     private HttpStatus status;
-    private String message = "";
+    private String message;
 
     private List<Error> errors;
     private T data;

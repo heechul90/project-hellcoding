@@ -3,9 +3,9 @@ spring:
     active: local
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/hellcoding_db?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mariadb://localhost:3307/hellcoding_db?allowPublicKeyRetrieval=true&useSSL=false
     username: hellcoding_user
-    password: hellcoding_pass1!
+    password: hellcoding_pass
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
